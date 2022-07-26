@@ -1,7 +1,14 @@
 library playx;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
+import 'package:flutter/cupertino.dart';
+
+import 'utils/prefs.dart';
+
+export 'exports.dart';
+
+Future<void> bootPlayX({
+  required Widget app,
+}) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Prefs.init();
 }
