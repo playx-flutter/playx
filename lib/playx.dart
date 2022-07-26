@@ -9,7 +9,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 export 'exports.dart';
 
-Future<void> bootPlayX({
+Future<void> runPlayX({
   required Widget app,
   required PlayXAppConfig appConfig,
 }) async {
