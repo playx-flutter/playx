@@ -1,7 +1,6 @@
 library playx;
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:playx/config/playx.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
