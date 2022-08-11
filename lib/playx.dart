@@ -3,6 +3,7 @@ library playx;
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:playx/config/playx.dart';
 import 'package:playx_theme/playx_theme.dart';
 import 'package:playx_core/playx_core.dart';
