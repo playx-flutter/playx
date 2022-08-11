@@ -9,13 +9,16 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.2
+  equatable: ^2.0.3
   flutter:
     sdk: flutter
   flutter_readable: ^0.0.5
   get: ^4.6.5
+  playx_core: ^0.0.1
+  playx_theme: ^0.0.1
   queen_validators: ^1.0.0
   sentry_flutter: ^6.8.0
-  shared_preferences: ^2.0.15
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

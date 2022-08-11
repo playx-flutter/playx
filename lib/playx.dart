@@ -1,31 +1,49 @@
 library playx;
 
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:playx/config/playx.dart';
-import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:playx_theme/playx_theme.dart';
+import 'package:playx_core/playx_core.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 export 'exports.dart';
 
-Future<void> runPlayX({
-  required Widget app,
-  required PlayXAppConfig appConfig,
-}) async {
-  WidgetsFlutterBinding.ensureInitialized();
+abstract class Playx {
+  static Future<void> runPlayX({
+    required Widget app,
+    required PlayXAppConfig appConfig,
+    XThemeConfig themeConfig = const XDefualtThemeConfig(),
+  }) async {
+    /// * boot the core
+    await PlayXCore.bootCore();
 
-  /// inject SharedPreferences
-  final prefs = await SharedPreferences.getInstance();
-  Get.put<SharedPreferences>(prefs, permanent: true);
+    /// * boot the theme
+    await AppTheme.boot(config: themeConfig);
 
-  Get.put<PlayXAppConfig>(appConfig, permanent: true);
-  await SentryFlutter.init(
-    (options) {
-      if (appConfig.enableSentryReport) {
-        options.dsn = appConfig.sentryKey;
-      }
-    },
-    appRunner: () => runApp(app),
-  );
+    /// * inject the theme
+    Get.put<PlayXAppConfig>(appConfig, permanent: true);
+
+    runZonedGuarded(
+      () async {
+        await SentryFlutter.init((opt) => opt.dsn = appConfig.sentryKey);
+        runApp(app);
+      },
+      (e, st) async {
+        if (kDebugMode) {
+          print(e);
+          print(st);
+        }
+        await Sentry.captureException(e, stackTrace: st);
+      },
+    );
+  }
+
+  @visibleForTesting
+  static Future<void> disbose() async {
+    // ignore: invalid_use_of_visible_for_testing_member
+    await PlayXCore.disbose();
+  }
 }
