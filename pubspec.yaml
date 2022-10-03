@@ -1,6 +1,6 @@
 name: playx
 description: playx project
-version: 0.0.2
+version: 0.0.3
 homepage: https://sourcya.com/
 
 environment:
@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
   flutter_readable: ^0.0.5
   get: ^4.6.5
-  playx_core: ^0.0.1
+  playx_core: ^0.0.2
   playx_theme: ^0.0.1
   queen_validators: ^1.0.0
   sentry_flutter: ^6.8.0

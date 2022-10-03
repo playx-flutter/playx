@@ -42,8 +42,8 @@ abstract class Playx {
   }
 
   @visibleForTesting
-  static Future<void> disbose() async {
+  static Future<void> dispose() async {
     // ignore: invalid_use_of_visible_for_testing_member
-    await PlayXCore.disbose();
+    await PlayXCore.dispose();
   }
 }
