@@ -5,5 +5,5 @@ abstract class PlayXAppConfig {
 
   String get sentryKey;
 
-  bool get enableSentryReport => !kDebugMode;
+  bool get enableSentryReport => sentryKey.isNotEmpty && kReleaseMode;
 }

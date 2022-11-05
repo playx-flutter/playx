@@ -2,10 +2,14 @@ import 'package:example/config.dart';
 import 'package:flutter/material.dart';
 import 'package:playx/playx.dart';
 
-void main() => Playx.runPlayX(
-      app: const MyApp(),
-      appConfig: AppConfig(),
-    );
+void main() async {
+  final config = AppConfig();
+  await Playx.boot(appConfig: config);
+  await Playx.runPlayX(
+    app: const MyApp(),
+    appConfig: config,
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

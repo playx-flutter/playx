@@ -1,6 +1,7 @@
 library playx;
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -12,23 +13,34 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 export 'exports.dart';
 
 abstract class Playx {
-  static Future<void> runPlayX({
-    required Widget app,
+  static Future<void> boot({
     required PlayXAppConfig appConfig,
-    XThemeConfig themeConfig = const XDefualtThemeConfig(),
+    XThemeConfig themeConfig = const XDefaultThemeConfig(),
   }) async {
     /// * boot the core
     await PlayXCore.bootCore();
+    log('[playx] core booted ✔');
 
     /// * boot the theme
     await AppTheme.boot(config: themeConfig);
+    log('[playx] theme booted ✔');
 
     /// * inject the theme
     Get.put<PlayXAppConfig>(appConfig, permanent: true);
+  }
 
+  static Future<void> runPlayX({
+    required Widget app,
+    required PlayXAppConfig appConfig,
+  }) async {
     runZonedGuarded(
       () async {
-        await SentryFlutter.init((opt) => opt.dsn = appConfig.sentryKey);
+        if (appConfig.enableSentryReport) {
+          await SentryFlutter.init((opt) => opt.dsn = appConfig.sentryKey);
+          log('[playx] sentry booted ✔');
+        } else {
+          log('[playx] sentry is not enabled');
+        }
         runApp(app);
       },
       (e, st) async {
@@ -43,7 +55,6 @@ abstract class Playx {
 
   @visibleForTesting
   static Future<void> dispose() async {
-    // ignore: invalid_use_of_visible_for_testing_member
     await PlayXCore.dispose();
   }
 }

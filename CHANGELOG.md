@@ -1,3 +1,9 @@
+## 0.0.4
+
+- add `Playx.boot()`
+- update `playx_theme`
+- typos
+
 ## 0.0.3
 
 - update `playx_core` to 0.0.2
