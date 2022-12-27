@@ -1,3 +1,5 @@
+## 0.0.5
+- remove `sentry`
 ## 0.0.4
 
 - add `Playx.boot()`
