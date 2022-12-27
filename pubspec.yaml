@@ -17,7 +17,6 @@ dependencies:
   playx_core: ^0.0.2
   playx_theme: ^0.0.1+1
   queen_validators: ^1.0.0
-  sentry_flutter: ^6.8.0
 
 dev_dependencies:
   flutter_test:
