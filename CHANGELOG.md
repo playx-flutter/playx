@@ -1,3 +1,7 @@
+## 0.0.6
+- add `AppConfing.boot()` to initialize default configuration
+- update packages
+
 ## 0.0.5
 - remove `sentry`
 ## 0.0.4
