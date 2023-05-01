@@ -1,4 +1,4 @@
-import 'package:playx/config/playx.dart';
+import 'package:playx/config/playx_app_config.dart';
 
 class AppConfig extends PlayXAppConfig {
   @override

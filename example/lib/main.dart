@@ -4,8 +4,7 @@ import 'package:playx/playx.dart';
 
 void main() async {
   final config = AppConfig();
-  await Playx.boot(appConfig: config);
-  runApp(const MyApp());
+  Playx.runPlayx(appConfig: config, app: const MyApp());
 }
 
 class MyApp extends StatelessWidget {

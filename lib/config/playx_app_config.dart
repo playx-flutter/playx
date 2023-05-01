@@ -1,3 +1,5 @@
+/// PlayXAppConfig: used to add any configuration for the application.
+/// and installing any dependencies needed before running the application
 abstract class PlayXAppConfig {
   String get appTitle;
 
