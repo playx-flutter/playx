@@ -2,12 +2,14 @@
   Helps with redundant features , less code , more productivity , better organizing.  
   
 ## Features  
-
  - `Prefs` facade  :  Key value pair storage powered by `SharedPreferences`.
  - `PlayX.runPlayX` function  : wraps`runApp` to inject , init ..etc what ever is necessary for using this package.
 - ``PlayXAppConfig`` : install and setup any dependencies that are required by the app.               
 - ``AppTheme``  : easily create and mange app theme with the ability to easily change app theme.  
-- ``exports``  : packages like `get` , `queen_validators`, `readable` ,`playx_theme`.
+-  `playx_widget` :Contains custom utility widgets to make development faster like `OptimizedScrollView`
+    , `ImageViewer`, `AppVersion` and more.
+- ``exports``  : packages like `get` , `queen_validators`, `readable` ,`playx_theme`, `package_info_plus`
+   , `flutter_svg` and `cached_network_image`.
   
   
 ## Installation  
@@ -78,3 +80,5 @@ void main() async {
  [playx_core](https://pub.dev/packages/playx_core) : core pakage of playx.
  
 [Playx_theme](https://pub.dev/packages/playx_theme) :multi theme features for flutter apps from playx eco system
+
+[Playx_widget](https://pub.dev/packages/playx_widget) : Contains custom utility widgets to make development faster.
