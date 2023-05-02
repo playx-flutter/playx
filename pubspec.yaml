@@ -13,8 +13,9 @@ dependencies:
     sdk: flutter
   flutter_readable: ^0.0.6
   get: ^4.6.5
-  playx_core: ^0.0.3
-  playx_theme: ^0.0.2
+  playx_core: ^0.0.4
+  playx_theme: ^0.0.3
+  playx_widget: ^0.0.1
   queen_validators: ^1.0.1
 
 dev_dependencies:

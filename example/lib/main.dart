@@ -21,8 +21,25 @@ class MyApp extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Playx Example'),
             ),
-            body: Center(
-              child: Text(AppTheme.xTheme.nameBuilder()),
+            body: OptimizedScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Center(
+                    child: Text(AppTheme.xTheme.nameBuilder()),
+                  ),
+                  const AppVersion(),
+                  ImageViewer.network(
+                    'https://avatars.githubusercontent.com/u/35397170?s=200&v=4',
+                    height: 100,
+                  ),
+                  CachedNetworkImage(
+                    imageUrl:
+                        'https://avatars.githubusercontent.com/u/35397170?s=200&v=4',
+                    height: 100,
+                  )
+                ],
+              ),
             ),
             floatingActionButton: const FloatingActionButton(
               onPressed: AppTheme.next,

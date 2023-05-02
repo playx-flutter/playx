@@ -1,4 +1,7 @@
-## 0.0.6
+## 0.0.8
+- add `playx_widget` package which contains custom utility widgets to make development faster.
+
+## 0.0.6 - 0.0.7
 - add `AppConfing.boot()` to initialize default configuration
 - update packages
 
