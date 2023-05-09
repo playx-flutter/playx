@@ -1,3 +1,7 @@
+## 0.0.9
+- hide `RContextMediaQuery` from `flutter_readable` package to avoid conflicts with `Getx` package.
+- update exports.
+
 ## 0.0.8
 - add `playx_widget` package which contains custom utility widgets to make development faster.
 

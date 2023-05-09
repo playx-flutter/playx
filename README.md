@@ -17,7 +17,7 @@
 in `pubspec.yaml` add these lines to `dependencies`  
   
 ```yaml  
-playx: ^0.0.8  
+playx: ^0.0.9  
 ```  
   
 ## Usage  
@@ -77,7 +77,7 @@ void main() async {
 }
 ```
 ## See Also:
- [playx_core](https://pub.dev/packages/playx_core) : core pakage of playx.
+ [playx_core](https://pub.dev/packages/playx_core) : core package of playx.
  
 [Playx_theme](https://pub.dev/packages/playx_theme) :multi theme features for flutter apps from playx eco system
 
