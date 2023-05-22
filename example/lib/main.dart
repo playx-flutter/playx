@@ -1,10 +1,22 @@
-import 'package:example/config.dart';
 import 'package:flutter/material.dart';
 import 'package:playx/playx.dart';
+import 'package:playx_example/colors/base_color_scheme.dart';
+import 'package:playx_example/config/theme_config.dart';
+
+import 'config/app_config.dart';
 
 void main() async {
   final config = AppConfig();
-  Playx.runPlayx(appConfig: config, app: const MyApp());
+
+  Playx.runPlayx(
+    appConfig: config,
+    themeConfig: const AppThemeConfig(),
+    app: const MyApp(),
+    //not necessary
+    sentryOptions: (options) {
+      options.dsn = AppConfig.sentryKey;
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -25,8 +37,14 @@ class MyApp extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Center(
-                    child: Text(AppTheme.xTheme.nameBuilder()),
+                  Container(
+                    width: context.width * .5,
+                    color: colorScheme.onBackground,
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      AppTheme.name,
+                      style: TextStyle(color: colorScheme.background),
+                    ),
                   ),
                   const AppVersion(),
                   ImageViewer.network(
@@ -37,6 +55,15 @@ class MyApp extends StatelessWidget {
                     imageUrl:
                         'https://avatars.githubusercontent.com/u/35397170?s=200&v=4',
                     height: 100,
+                  ),
+                  SizedBox(
+                    height: 300,
+                    child: AutoAnimatedList(
+                      items: ['Ahmed', 'Mohamed'],
+                      itemBuilder: (c, item, index) {
+                        return Text(item);
+                      },
+                    ),
                   )
                 ],
               ),

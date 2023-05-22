@@ -1,15 +1,11 @@
+export 'package:async/async.dart';
+export 'package:fimber/fimber.dart';
 export 'package:flutter_readable/flutter_readable.dart' hide RContextMediaQuery;
-export 'package:get/get.dart' hide Translations, ContextExtensionss;
 export 'package:playx/src/config/playx_app_config.dart';
 export 'package:playx/src/playx.dart';
-export 'package:playx_core/exports.dart';
-export 'package:playx_core/playx_core.dart';
+export 'package:playx_core/playx_core.dart' hide NumDurationExtensions;
 export 'package:playx_theme/playx_theme.dart';
-export 'package:playx_widget/exports.dart';
-export 'package:playx_widget/widgets/app_version.dart';
-export 'package:playx_widget/widgets/center_loading.dart';
-export 'package:playx_widget/widgets/icon_viewer.dart';
-export 'package:playx_widget/widgets/image_viewer.dart';
-export 'package:playx_widget/widgets/keep_alive_wrapper.dart';
-export 'package:playx_widget/widgets/optimized_scroll_view.dart';
+export 'package:playx_widget/playx_widget.dart';
 export 'package:queen_validators/queen_validators.dart';
+export 'package:sentry_flutter/sentry_flutter.dart'
+    hide HttpSanitizer, UrlDetails;
