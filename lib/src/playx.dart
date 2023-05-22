@@ -4,12 +4,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
-import 'package:playx_core/playx_core.dart';
-import 'package:playx_theme/playx_theme.dart';
-
-import 'config/playx_app_config.dart';
-
-export '../playx.dart';
+import 'package:playx/playx.dart';
 
 ///helps with redundant features , less code by providing many futures like:
 /// [Prefs] : easily save/ get key-value pairs from shared preferences.
@@ -21,10 +16,6 @@ abstract class Playx {
     XThemeConfig themeConfig = const XDefaultThemeConfig(),
   }) async {
     WidgetsFlutterBinding.ensureInitialized();
-
-    /// * boot the core
-    await PlayXCore.bootCore();
-    log('[playx] core booted ✔');
 
     /// * boot the theme
     await AppTheme.boot(config: themeConfig);
@@ -44,16 +35,28 @@ abstract class Playx {
     log('[playx] disposed ✔');
   }
 
-  /// wraps`runApp` to inject , init ..etc what ever is necessary for using this package
+  ///Wraps`runApp` to inject , init ..etc and setup playx packages.
   static Future<void> runPlayx({
     required PlayXAppConfig appConfig,
     required Widget app,
     XThemeConfig themeConfig = const XDefaultThemeConfig(),
+
+    /// Options used to initialize sentry to send crash reports to it.
+    /// If sentry dsn not provided it will ignore sentry.
+    FlutterOptionsConfiguration? sentryOptions,
   }) async {
     ///Boots playx dependencies.
     await boot(appConfig: appConfig, themeConfig: themeConfig);
 
-    /// run the app.
-    runApp(app);
+    if (sentryOptions != null) {
+      await SentryFlutter.init(
+        sentryOptions,
+
+        /// run the app.
+        appRunner: () => runApp(app),
+      );
+    } else {
+      runApp(app);
+    }
   }
 }

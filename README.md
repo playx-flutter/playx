@@ -2,22 +2,24 @@
   Helps with redundant features , less code , more productivity , better organizing.  
   
 ## Features  
- - `Prefs` facade  :  Key value pair storage powered by `SharedPreferences`.
- - `PlayX.runPlayX` function  : wraps`runApp` to inject , init ..etc what ever is necessary for using this package.
-- ``PlayXAppConfig`` : install and setup any dependencies that are required by the app.               
-- ``AppTheme``  : easily create and mange app theme with the ability to easily change app theme.  
+ - `Prefs`  :  Key value pair storage powered by `SharedPreferences`.
+ - `PlayX.runPlayX`  : Wraps`runApp` to inject , init ..etc what ever is necessary for using this package.
+- ``PlayXAppConfig`` : Install and setup any dependencies that are required by the app.               
+- ``AppTheme``  : Easily create and mange app theme with the ability to easily change app theme.  
 -  `playx_widget` :Contains custom utility widgets to make development faster like `OptimizedScrollView`
     , `ImageViewer`, `AppVersion` and more.
 - ``exports``  : packages like `get` , `queen_validators`, `readable` ,`playx_theme`, `package_info_plus`
-   , `flutter_svg` and `cached_network_image`.
+   , `flutter_svg` and `cached_network_image`, `lottie` , `async` and `sentry`
+  to make it easy to update packages from one place.
+  If you have many projects that depend on these packages you will need to update only `playx` package.
   
   
 ## Installation  
   
-in `pubspec.yaml` add these lines to `dependencies`  
+In `pubspec.yaml` add these lines to `dependencies`  
   
 ```yaml  
-playx: ^0.0.9  
+playx: ^0.1.0 
 ```  
   
 ## Usage  
@@ -46,15 +48,19 @@ class XDefaultThemeConfig extends XThemeConfig {
           id: 'dark',
           nameBuilder: () => 'Dark',
           theme: ThemeData.dark(),
+          colorScheme:LightColorScheme(),
         ),
         XTheme(
           id: 'light',
           nameBuilder: () => 'Light',
           theme: ThemeData.light(),
+          colorScheme:DarkColorScheme(),
         ),
       ];
 }
 ```
+
+For more information about how to customize app theme check out `playx_theme`
 
 3. in `main` method call `PlayX.runPlayX` instead of `runApp` 
 It will setup any dependencies in app config, initialize app theme and run the app. 
@@ -64,6 +70,10 @@ void main() async {
   Playx.runPlayx(
     appConfig: AppConfig(),
     themeConfig: ThemeConfig(),
+    //If sentry is needed in the project.
+    sentryOptions: (options) {
+      options.dsn = AppConfig.sentryKey;
+    },
     app:PlayXThemeBuilder(
       builder: (xTheme) {
         return GetMaterialApp(
