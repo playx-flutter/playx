@@ -10,12 +10,12 @@ class AppThemeConfig extends XThemeConfig {
   List<XTheme> get themes => [
         XTheme(
             id: 'light',
-            nameBuilder: () => 'Light',
+            name: 'Light',
             theme: ThemeData.light(),
             colorScheme: LightColorScheme()),
         XTheme(
             id: 'dark',
-            nameBuilder: () => 'Dark',
+            name: 'Dark',
             theme: ThemeData.dark(),
             colorScheme: DarkColorScheme()),
       ];

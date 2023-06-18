@@ -1,3 +1,7 @@
+## 0.1.1
+- updated packages
+
+
 ## 0.1.0
 - Add support for Dart 3.0.0 and Flutter 3.10
 - Add new `XColorScheme` in `playx_theme` which is a new way to configure custom colors for each themes.
