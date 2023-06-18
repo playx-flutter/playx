@@ -2,8 +2,6 @@ name: test
 on:
   push:
     branches: [main , qa]
-  pull_request:
-    branches: [main , qa]
 jobs:
   test:
     defaults:

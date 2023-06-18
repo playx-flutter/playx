@@ -1,6 +1,7 @@
+
 # Playx  
-  Helps with redundant features , less code , more productivity , better organizing.  
-  
+ Playx eco system helps with redundant features as it provides many utilities for themes, widgets and more.
+
 ## Features  
  - `Prefs`  :  Key value pair storage powered by `SharedPreferences`.
  - `PlayX.runPlayX`  : Wraps`runApp` to inject , init ..etc what ever is necessary for using this package.
@@ -8,7 +9,7 @@
 - ``AppTheme``  : Easily create and mange app theme with the ability to easily change app theme.  
 -  `playx_widget` :Contains custom utility widgets to make development faster like `OptimizedScrollView`
     , `ImageViewer`, `AppVersion` and more.
-- ``exports``  : packages like `get` , `queen_validators`, `readable` ,`playx_theme`, `package_info_plus`
+- ``exports``  : packages like `Get` , `queen_validators`, `readable` ,`playx_theme`, `package_info_plus`
    , `flutter_svg` and `cached_network_image`, `lottie` , `async` and `sentry`
   to make it easy to update packages from one place.
   If you have many projects that depend on these packages you will need to update only `playx` package.
@@ -60,7 +61,7 @@ class XDefaultThemeConfig extends XThemeConfig {
 }
 ```
 
-For more information about how to customize app theme check out `playx_theme`
+For more information about how to customize app theme check out [`playx_theme`](https://github.com/playx-flutter/playx_theme)
 
 3. in `main` method call `PlayX.runPlayX` instead of `runApp` 
 It will setup any dependencies in app config, initialize app theme and run the app. 
