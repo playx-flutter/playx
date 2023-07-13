@@ -56,15 +56,9 @@ class MyApp extends StatelessWidget {
                         'https://avatars.githubusercontent.com/u/35397170?s=200&v=4',
                     height: 100,
                   ),
-                  SizedBox(
-                    height: 300,
-                    child: AutoAnimatedList(
-                      items: ['Ahmed', 'Mohamed'],
-                      itemBuilder: (c, item, index) {
-                        return Text(item);
-                      },
-                    ),
-                  )
+                  OptimizedButton.elevated(child: Text('Click Me'), onPressed: (){
+                  })
+
                 ],
               ),
             ),

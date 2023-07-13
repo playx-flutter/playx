@@ -1,6 +1,8 @@
 
 # Playx  
  Playx eco system helps with redundant features as it provides many utilities for themes, widgets and more.
+ [![pub package](https://img.shields.io/pub/v/playx.svg)](https://pub.dev/packages/playx)
+
 
 ## Features  
  - `Prefs`  :  Key value pair storage powered by `SharedPreferences`.
@@ -20,7 +22,7 @@
 In `pubspec.yaml` add these lines to `dependencies`  
   
 ```yaml  
-playx: ^0.1.1
+playx: ^0.1.2
 ```  
   
 ## Usage  
