@@ -14,11 +14,13 @@ abstract class Playx {
   static Future<void> boot({
     required PlayXAppConfig appConfig,
     XThemeConfig themeConfig = const XDefaultThemeConfig(),
+    SecurePrefsSettings? securePrefsSettings,
   }) async {
     WidgetsFlutterBinding.ensureInitialized();
 
     /// * boot the theme
-    await AppTheme.boot(config: themeConfig);
+    await AppTheme.boot(
+        config: themeConfig, securePrefsSettings: securePrefsSettings);
     log('[playx] theme booted ✔');
 
     /// * boot app config.
@@ -31,7 +33,7 @@ abstract class Playx {
 
   @visibleForTesting
   static Future<void> dispose() async {
-    await PlayXCore.dispose();
+    await AppTheme.dispose();
     log('[playx] disposed ✔');
   }
 
