@@ -23,7 +23,7 @@
 In `pubspec.yaml` add these lines to `dependencies`  
   
 ```yaml  
-playx: ^0.1.4
+playx: ^0.1.5
 ```  
   
 ## Usage  
