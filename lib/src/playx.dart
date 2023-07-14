@@ -42,13 +42,14 @@ abstract class Playx {
     required PlayXAppConfig appConfig,
     required Widget app,
     XThemeConfig themeConfig = const XDefaultThemeConfig(),
+    SecurePrefsSettings securePrefsSettings= const SecurePrefsSettings(),
 
     /// Options used to initialize sentry to send crash reports to it.
     /// If sentry dsn not provided it will ignore sentry.
     FlutterOptionsConfiguration? sentryOptions,
   }) async {
     ///Boots playx dependencies.
-    await boot(appConfig: appConfig, themeConfig: themeConfig);
+    await boot(appConfig: appConfig, themeConfig: themeConfig,securePrefsSettings: securePrefsSettings);
 
     if (sentryOptions != null) {
       await SentryFlutter.init(

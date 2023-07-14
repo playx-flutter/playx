@@ -1,3 +1,7 @@
+## 0.1.5
+- add `SecurePrefsSettings` tp Playx.runPlayx function to be able to customize secure storage settings.
+
+
 ## 0.1.4
 - updated packages
 
