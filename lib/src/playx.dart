@@ -14,7 +14,7 @@ abstract class Playx {
   static Future<void> boot({
     required PlayXAppConfig appConfig,
     XThemeConfig themeConfig = const XDefaultThemeConfig(),
-    SecurePrefsSettings? securePrefsSettings,
+    SecurePrefsSettings securePrefsSettings= const SecurePrefsSettings(),
   }) async {
     WidgetsFlutterBinding.ensureInitialized();
 
