@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
   async: ^2.11.0
   flutter_readable: ^0.0.6
-  playx_theme: ^0.0.8
+  playx_theme: ^0.0.9
   playx_widget: ^0.0.6
   playx_network: ^0.0.1
   queen_validators: ^1.0.1

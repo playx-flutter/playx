@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:playx_theme/playx_theme.dart';
 import 'package:playx_widget/playx_widget.dart';
-import 'package:get/get.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 ///PlayxMaterialApp : A widget that wraps [GetMaterialApp] with [PlayXThemeBuilder] to update the app with current theme  and [ScreenUtilInit] that initializes [ScreenUtil]
