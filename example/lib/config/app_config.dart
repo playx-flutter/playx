@@ -12,8 +12,17 @@ class AppConfig extends PlayXAppConfig {
     // like Get.put<ApiClient>(client);
     //nice logging client
     Fimber.plantTree(DebugTree());
-    final duration = 300.seconds;
-    Fimber.d(
-        'It takes ${duration.toSeconds()} to buy ${3000000.toFormattedCurrencyNumber()} SAR worth of items.');
+
+    final apiClient =  PlayxNetworkClient(
+      dio: Dio(
+        BaseOptions(
+          baseUrl: 'https://api.open-meteo.com/v1/',
+          connectTimeout: const Duration(seconds: 20),
+          sendTimeout: const Duration(seconds: 20),
+        ),
+      ),
+    );
+    Get.put<PlayxNetworkClient>(apiClient);
+
   }
 }

@@ -12,6 +12,7 @@
 - ``AppTheme``  : Easily create and mange app theme with the ability to easily change app theme.  
 -  `playx_widget` :Contains custom utility widgets to make development faster like `OptimizedScrollView`
     , `ImageViewer`, `AppVersion` and more.
+- `playx_network` : Wrapper around Dio that can perform API requests with better error handling and easily get the result of any API request.
 - ``exports``  : packages like `Get` , `queen_validators`, `readable` ,`playx_theme`, `package_info_plus`
    , `flutter_svg` and `cached_network_image`, `lottie` , `async` and `sentry`
   to make it easy to update packages from one place.
@@ -23,7 +24,7 @@
 In `pubspec.yaml` add these lines to `dependencies`  
   
 ```yaml  
-playx: ^0.1.5
+playx: ^0.1.6
 ```  
   
 ## Usage  
@@ -67,7 +68,8 @@ class XDefaultThemeConfig extends XThemeConfig {
 For more information about how to customize app theme check out [`playx_theme`](https://github.com/playx-flutter/playx_theme)
 
 3. in `main` method call `PlayX.runPlayX` instead of `runApp` 
-It will setup any dependencies in app config, initialize app theme and run the app. 
+It will setup any dependencies in app config, initialize app theme and run the app.
+use `PlayxMaterialApp` to configure orientation, theme , screen util and get material app settings.
 ```dart
 void main() async {
 
@@ -78,14 +80,10 @@ void main() async {
     sentryOptions: (options) {
       options.dsn = AppConfig.sentryKey;
     },
-    app:PlayXThemeBuilder(
-      builder: (xTheme) {
-        return GetMaterialApp(
+    app:PlayxMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: xTheme.theme,
           title: 'playx',
-        );
-      },
     ), 
   );
 }

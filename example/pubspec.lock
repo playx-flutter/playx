@@ -105,6 +105,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  dio:
+    dependency: transitive
+    description:
+      name: dio
+      sha256: "3866d67f93523161b643187af65f5ac08bc991a5bcdaf41a2d587fe4ccb49993"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.3.0"
   email_validator:
     dependency: transitive
     description:
@@ -190,6 +198,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.6"
+  flutter_screenutil:
+    dependency: transitive
+    description:
+      name: flutter_screenutil
+      sha256: "1b61f8c4cbf965104b6ca7160880ff1af6755aad7fec70b58444245132453745"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.8.4"
   flutter_secure_storage:
     dependency: transitive
     description:
@@ -308,10 +324,10 @@ packages:
     dependency: transitive
     description:
       name: lottie
-      sha256: f461105d3a35887b27089abf9c292334478dd292f7b47ecdccb6ae5c37a22c80
+      sha256: "0793a5866062e5cc8a8b24892fa94c3095953ea914a7fdf790f550dd7537fe60"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.0"
+    version: "2.5.0"
   matcher:
     dependency: transitive
     description:
@@ -454,7 +470,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.1.3"
+    version: "0.1.5"
   playx_core:
     dependency: transitive
     description:
@@ -463,6 +479,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.0"
+  playx_network:
+    dependency: transitive
+    description:
+      name: playx_network
+      sha256: "4c9c1dc61b72ab58b104e5c40086c6fc9e06004e549a1ec8971878c8eb31a071"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   playx_theme:
     dependency: transitive
     description:
@@ -475,10 +499,10 @@ packages:
     dependency: transitive
     description:
       name: playx_widget
-      sha256: "6bfbaba0507bbe34714ec2d9b35ab87fdb90d85fef0c87ff040a163ab7c1c808"
+      sha256: ca2526761ea7b6dabfafe4b6c50fbc65d691cac5712c2cc3734cdf6554b4cd7a
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.5"
+    version: "0.0.6"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -495,6 +519,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.7.3"
+  pretty_dio_logger:
+    dependency: transitive
+    description:
+      name: pretty_dio_logger
+      sha256: "00b80053063935cf9a6190da344c5373b9d0e92da4c944c878ff2fbef0ef6dc2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
   process:
     dependency: transitive
     description:

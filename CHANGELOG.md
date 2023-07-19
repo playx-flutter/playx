@@ -1,5 +1,12 @@
+## 0.2.0
+- Add new `PlayxMaterialApp` which is a widget that wraps [GetMaterialApp] with [PlayXThemeBuilder] to update the app with current theme  and [ScreenUtilInit] that initializes [ScreenUtil]
+with the ability to set app orientation and more.
+- Add new playx package `playx_network` which is a wrapper around Dio that can perform API requests with better error handling and easily get the result of any API request.
+- updated packages
+
+
 ## 0.1.5
-- add `SecurePrefsSettings` tp Playx.runPlayx function to be able to customize secure storage settings.
+- add `SecurePrefsSettings` to Playx.runPlayx function to be able to customize secure storage settings.
 
 
 ## 0.1.4
