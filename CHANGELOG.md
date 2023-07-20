@@ -1,3 +1,7 @@
+## 0.2.1
+- updated packages
+
+
 ## 0.2.0
 - Add new `PlayxMaterialApp` which is a widget that wraps [GetMaterialApp] with [PlayXThemeBuilder] to update the app with current theme  and [ScreenUtilInit] that initializes [ScreenUtil]
 with the ability to set app orientation and more.
