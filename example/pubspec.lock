@@ -470,31 +470,31 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.1.5"
+    version: "0.2.1"
   playx_core:
     dependency: transitive
     description:
       name: playx_core
-      sha256: "69752839a6f37c23ac1e2df292225b6301c3b3e69b47d9d0c9721eb3025bfdb1"
+      sha256: "876863066779da8e89040469745cd13b97bcc97900b6fc818e148fda5194c3f9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.1"
   playx_network:
     dependency: transitive
     description:
       name: playx_network
-      sha256: "4c9c1dc61b72ab58b104e5c40086c6fc9e06004e549a1ec8971878c8eb31a071"
+      sha256: "9be78f2d87701e381d0760ccb1da465bb596a8bf5ee4be3f8cf73b1e6ddbbbad"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.1"
+    version: "0.0.2"
   playx_theme:
     dependency: transitive
     description:
       name: playx_theme
-      sha256: "60891030bed6da4f852f2596c930485f5f46bdc7090c8d85f638ebf86e16a3fa"
+      sha256: "71eed0ca067166979382563eaed67cacf40a17c64cac5a4c3489c39be0cfcdf5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.8"
+    version: "0.0.9"
   playx_widget:
     dependency: transitive
     description:
