@@ -10,3 +10,4 @@ export 'package:sentry_flutter/sentry_flutter.dart'
     hide HttpSanitizer, UrlDetails, HttpHeaderUtils;
 export 'package:playx_network/playx_network.dart';
 export 'package:playx/src/widgets/playx_material_app.dart';
+export 'package:playx_localization/playx_localization.dart' hide FormData, Response, MultipartFile;

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:playx/playx.dart';
 import 'package:playx_example/config/theme_config.dart';
 import 'package:playx_example/home.dart';
+import 'package:playx_example/translation/app_locale_config.dart';
+import 'package:playx_example/translation/app_trans.dart';
 
 import 'config/app_config.dart';
 
@@ -16,17 +18,18 @@ void main() async {
     sentryOptions: (options) {
       options.dsn = AppConfig.sentryKey;
     },
+    localeConfig: AppLocaleConfig(),
   );
 }
 
 class MyApp extends StatelessWidget {
-   const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const PlayxMaterialApp(
-          title: 'Flutter Demo',
-          home: Home(),
-        );
+    return  PlayxMaterialApp(
+      title: AppTrans.appName.tr,
+      home: const Home(),
+    );
   }
 }

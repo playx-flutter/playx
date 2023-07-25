@@ -13,6 +13,7 @@ import 'package:playx/playx.dart';
 abstract class Playx {
   static Future<void> boot({
     required PlayXAppConfig appConfig,
+    required XLocaleConfig localeConfig,
     XThemeConfig themeConfig = const XDefaultThemeConfig(),
     SecurePrefsSettings securePrefsSettings= const SecurePrefsSettings(),
   }) async {
@@ -21,14 +22,17 @@ abstract class Playx {
     /// * boot the theme
     await AppTheme.boot(
         config: themeConfig, securePrefsSettings: securePrefsSettings);
-    log('[playx] theme booted ✔');
+    EasyLocalization.logger.name = "Playx";
+    EasyLocalization.logger('Theme booted ✔');
 
     /// * boot app config.
     await appConfig.boot();
-    log('[playx] appConfig booted ✔');
+    EasyLocalization.logger('appConfig booted ✔');
 
     /// * inject the theme
     Get.put<PlayXAppConfig>(appConfig, permanent: true);
+
+    return PlayxLocalization.boot(config: localeConfig);
   }
 
   @visibleForTesting
@@ -41,6 +45,7 @@ abstract class Playx {
   static Future<void> runPlayx({
     required PlayXAppConfig appConfig,
     required Widget app,
+    required XLocaleConfig localeConfig,
     XThemeConfig themeConfig = const XDefaultThemeConfig(),
     SecurePrefsSettings securePrefsSettings= const SecurePrefsSettings(),
 
@@ -49,7 +54,7 @@ abstract class Playx {
     FlutterOptionsConfiguration? sentryOptions,
   }) async {
     ///Boots playx dependencies.
-    await boot(appConfig: appConfig, themeConfig: themeConfig,securePrefsSettings: securePrefsSettings);
+    await boot(appConfig: appConfig, themeConfig: themeConfig,securePrefsSettings: securePrefsSettings, localeConfig:localeConfig);
 
     if (sentryOptions != null) {
       await SentryFlutter.init(
