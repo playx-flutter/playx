@@ -1,3 +1,11 @@
+## 0.2.3 
+- Integrate `Playx_localization` package into this package.
+- `Playx.boot` and `Playx.runPlayx` functions now require `XLocaleConfig` to define app localization. Check the example for more information.
+- `Playx.boot` and `Playx.runPlayx` functions now boots also `Playx_localization` package so you don't need to worry about it.
+- `PlayxMaterialApp` doesn't take any parameters that is about localization as localization is now done with `Playx_localization` package.
+
+
+
 ## 0.2.1 -0.2.2
 - updated packages
 
