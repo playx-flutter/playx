@@ -1,3 +1,8 @@
+## 0.2.4
+- Update packages.
+- Integrate `Playx_theme` updates into the app.
+
+
 ## 0.2.3 
 - Integrate `Playx_localization` package into this package.
 - `Playx.boot` and `Playx.runPlayx` functions now require `XLocaleConfig` to define app localization. Check the example for more information.

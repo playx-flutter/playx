@@ -1,28 +1,35 @@
 library playx;
 
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:playx/playx.dart';
 
 ///helps with redundant features , less code by providing many futures like:
 /// [Prefs] : easily save/ get key-value pairs from shared preferences.
 /// [PlayXAppConfig] : install and setup any dependencies that are required by the app.
-/// [AppTheme] : easily create and mange app theme with the ability to easily change app theme.
+/// [PlayxTheme] : easily create and mange app theme with the ability to easily change app theme.
 abstract class Playx {
+
+
+  ///Boots playx package
+  ///Used to setup app dependencies, localization, theme and preferences.
+  ///Must be called to initialize dependencies.
   static Future<void> boot({
     required PlayXAppConfig appConfig,
     required XLocaleConfig localeConfig,
     XThemeConfig themeConfig = const XDefaultThemeConfig(),
     SecurePrefsSettings securePrefsSettings= const SecurePrefsSettings(),
   }) async {
+    EasyLocalization.logger.name = "Playx";
+
     WidgetsFlutterBinding.ensureInitialized();
 
+    await PlayXCore.bootCore(securePrefsSettings: securePrefsSettings);
+    EasyLocalization.logger('Core booted ✔');
+
+   await PlayxLocalization.boot(config: localeConfig);
     /// * boot the theme
-    await AppTheme.boot(
-        config: themeConfig, securePrefsSettings: securePrefsSettings);
-    EasyLocalization.logger.name = "Playx";
+    await PlayxTheme.boot(config: themeConfig);
     EasyLocalization.logger('Theme booted ✔');
 
     /// * boot app config.
@@ -32,13 +39,15 @@ abstract class Playx {
     /// * inject the theme
     Get.put<PlayXAppConfig>(appConfig, permanent: true);
 
-    return PlayxLocalization.boot(config: localeConfig);
   }
 
+  ///Dispose playx package
+  ///Used to clean up and free up resources.
   @visibleForTesting
   static Future<void> dispose() async {
-    await AppTheme.dispose();
-    log('[playx] disposed ✔');
+    await PlayxTheme.dispose();
+    await PlayXCore.dispose();
+    EasyLocalization.logger('disposed ✔');
   }
 
   ///Wraps`runApp` to inject , init ..etc and setup playx packages.
