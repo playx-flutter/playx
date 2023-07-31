@@ -19,4 +19,4 @@ abstract class BaseColorScheme extends XColorScheme {
   static const Color blue = Colors.blue;
 }
 
-BaseColorScheme get colorScheme => AppTheme.colorScheme as BaseColorScheme;
+BaseColorScheme get colorScheme => PlayxTheme.colorScheme as BaseColorScheme;

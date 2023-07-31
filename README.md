@@ -23,7 +23,7 @@ Playx eco system helps with redundant features as it provides many utilities for
 ## Installation
 In `pubspec.yaml` add these lines to `dependencies`
  ```yaml
-  playx: ^0.2.3 
+  playx: ^0.2.4 
 ```    
 ## Usage
 ###  🔥  Create App configuration:
@@ -50,15 +50,18 @@ class XDefaultThemeConfig extends XThemeConfig {
   List<XTheme> get themes => [  
         XTheme(  
           id: 'dark',  
-          nameBuilder: () => 'Dark',  
-          theme: ThemeData.dark(),  
-          colorScheme:LightColorScheme(),  
+          name: 'Dark',  
+          theme:  (locale) => ThemeData.dark(),  
+          colorScheme:DarkColorScheme(),  
         ),  
         XTheme(  
           id: 'light',  
           nameBuilder: () => 'Light',  
-          theme: ThemeData.light(),  
-          colorScheme:DarkColorScheme(),  
+            theme: (locale) => ThemeData(
+                  brightness: Brightness.light,
+                  fontFamily: locale.isArabic ? 'Segoe UI' : 'Roboto',
+                ),
+          colorScheme:LightColorScheme(),  
         ),  
       ];  
 }  

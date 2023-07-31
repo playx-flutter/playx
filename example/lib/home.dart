@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
               color: colorScheme.onBackground,
               padding: const EdgeInsets.all(8),
               child: Text(
-                AppTheme.name,
+                PlayxTheme.name,
                 style: TextStyle(color: colorScheme.background),
               ),
             ),
@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: AppTheme.next,
+        onPressed: PlayxTheme.next,
         label: Text(AppTrans.changeTheme.tr),
         icon: const Icon(Icons.style),
       ),

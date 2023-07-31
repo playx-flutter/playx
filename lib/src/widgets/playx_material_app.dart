@@ -151,7 +151,7 @@ class PlayxMaterialApp extends StatelessWidget {
                 return PlayxLocalizationBuilder(
                   builder: (locale) {
                     return GetMaterialApp(
-                      theme: theme ?? xTheme.theme,
+                      theme: theme ?? xTheme.theme(locale.locale),
                       debugShowCheckedModeBanner: debugShowCheckedModeBanner,
                       navigatorObservers: navigatorObservers ?? [
                         if(includeSentryNavigationObserver) SentryNavigatorObserver(),
