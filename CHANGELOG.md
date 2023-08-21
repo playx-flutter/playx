@@ -1,3 +1,6 @@
+## 0.2.5
+- Update packages.
+
 ## 0.2.4
 - Update packages.
 - Integrate `Playx_theme` updates into the app.

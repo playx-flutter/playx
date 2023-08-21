@@ -23,7 +23,7 @@ Playx eco system helps with redundant features as it provides many utilities for
 ## Installation
 In `pubspec.yaml` add these lines to `dependencies`
  ```yaml
-  playx: ^0.2.4 
+  playx: ^0.2.5 
 ```    
 ## Usage
 ###  🔥  Create App configuration:
