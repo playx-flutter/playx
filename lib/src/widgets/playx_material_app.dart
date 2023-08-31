@@ -9,7 +9,6 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 ///PlayxMaterialApp : A widget that wraps [GetMaterialApp] with [PlayXThemeBuilder] to update the app with current theme  and [ScreenUtilInit] that initializes [ScreenUtil]
 /// With the ability to set app orientation and more.
 class PlayxMaterialApp extends StatelessWidget {
-
   //orientation
   /// Sets your preferred orientations of the Material app.
   final List<DeviceOrientation> preferredOrientations;
@@ -19,8 +18,10 @@ class PlayxMaterialApp extends StatelessWidget {
   final bool splitScreenMode;
   final bool minTextAdapt;
   final bool useInheritedMediaQuery;
-  final bool scaleByHeight;
   final RebuildFactor rebuildFactor;
+  final bool? ensureScreenSize;
+  final FontSizeResolver fontSizeResolver;
+  final Iterable<String>? responsiveWidgets;
 
   //Get material app parameters
   final GlobalKey<NavigatorState>? navigatorKey;
@@ -69,27 +70,28 @@ class PlayxMaterialApp extends StatelessWidget {
   final bool? defaultGlobalState;
   final List<GetPage>? getPages;
   final GetPage? unknownRoute;
+
   ///Whether should include sentry navigator observer or not..
   final bool includeSentryNavigationObserver;
+
   ///Callback that is called when the theme is updated.
   final Function(XTheme)? onThemeChanged;
 
-
-  const PlayxMaterialApp({super.key, this.preferredOrientations = const[
-    DeviceOrientation.portraitUp,
-  ],
+  const PlayxMaterialApp({
+    super.key,
+    this.preferredOrientations = const [
+      DeviceOrientation.portraitUp,
+    ],
     this.onThemeChanged,
     this.splitScreenMode = true,
     this.minTextAdapt = true,
     this.useInheritedMediaQuery = false,
-    this.scaleByHeight = false,
     this.rebuildFactor = RebuildFactors.size,
     this.designSize = const Size(360, 690),
     this.navigatorKey,
     this.scaffoldMessengerKey,
     this.home,
-    this.routes =
-    const <String, WidgetBuilder>{},
+    this.routes = const <String, WidgetBuilder>{},
     this.initialRoute,
     this.onGenerateRoute,
     this.onGenerateInitialRoutes,
@@ -132,81 +134,82 @@ class PlayxMaterialApp extends StatelessWidget {
     this.highContrastDarkTheme,
     this.actions,
     this.includeSentryNavigationObserver = true,
+    this.fontSizeResolver = FontSizeResolvers.width,
+    this.responsiveWidgets, this.ensureScreenSize,
   });
 
   @override
   Widget build(BuildContext context) {
-    return PlayXThemeBuilder(
-        builder: (xTheme) {
-          onThemeChanged?.call(xTheme);
-          SystemChrome.setPreferredOrientations(preferredOrientations);
-          return ScreenUtilInit(
-              designSize: designSize,
-              minTextAdapt: minTextAdapt,
-              splitScreenMode: splitScreenMode,
-              useInheritedMediaQuery: useInheritedMediaQuery,
-              scaleByHeight: scaleByHeight,
-              rebuildFactor: rebuildFactor,
-              builder: (context, child) {
-                return PlayxLocalizationBuilder(
-                  builder: (locale) {
-                    return GetMaterialApp(
-                      theme: theme ?? xTheme.theme(locale.locale),
-                      debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-                      navigatorObservers: navigatorObservers ?? [
-                        if(includeSentryNavigationObserver) SentryNavigatorObserver(),
-                      ],
-                      navigatorKey: navigatorKey,
-                      scaffoldMessengerKey: scaffoldMessengerKey,
-                      home: home,
-                      routes: routes,
-                      initialRoute: initialRoute,
-                      onGenerateRoute: onGenerateRoute,
-                      onGenerateInitialRoutes: onGenerateInitialRoutes,
-                      onUnknownRoute: onUnknownRoute,
-                      builder: builder,
-                      textDirection: textDirection,
-                      title: title,
-                      onGenerateTitle: onGenerateTitle,
-                      color: color,
-                      darkTheme: darkTheme,
-                      themeMode: themeMode,
-                      supportedLocales: PlayxLocalization.supportedLocales,
-                      localizationsDelegates: PlayxLocalization
-                          .localizationDelegates,
-                      locale: PlayxLocalization.currentLocale,
-                      debugShowMaterialGrid: debugShowMaterialGrid,
-                      showPerformanceOverlay: showPerformanceOverlay,
-                      checkerboardRasterCacheImages: checkerboardRasterCacheImages,
-                      checkerboardOffscreenLayers: checkerboardOffscreenLayers,
-                      showSemanticsDebugger: showSemanticsDebugger,
-                      shortcuts: shortcuts,
-                      scrollBehavior: scrollBehavior,
-                      customTransition: customTransition,
-                      translationsKeys: translationsKeys,
-                      onInit: onInit,
-                      onReady: onReady,
-                      onDispose: onDispose,
-                      routingCallback: routingCallback,
-                      defaultTransition: defaultTransition,
-                      getPages: getPages,
-                      opaqueRoute: opaqueRoute,
-                      enableLog: enableLog,
-                      logWriterCallback: logWriterCallback,
-                      popGesture: popGesture,
-                      transitionDuration: transitionDuration,
-                      defaultGlobalState: defaultGlobalState,
-                      smartManagement: smartManagement,
-                      initialBinding: initialBinding,
-                      unknownRoute: unknownRoute,
-                      highContrastTheme: highContrastTheme,
-                      highContrastDarkTheme: highContrastDarkTheme,
-                      actions: actions,
-                    );
-                  }
-                );
-              });
-        });
+    return PlayXThemeBuilder(builder: (xTheme) {
+      onThemeChanged?.call(xTheme);
+      SystemChrome.setPreferredOrientations(preferredOrientations);
+      return ScreenUtilInit(
+          designSize: designSize,
+          minTextAdapt: minTextAdapt,
+          splitScreenMode: splitScreenMode,
+          useInheritedMediaQuery: useInheritedMediaQuery,
+          rebuildFactor: rebuildFactor,
+          fontSizeResolver: fontSizeResolver,
+          responsiveWidgets: responsiveWidgets,
+          ensureScreenSize: ensureScreenSize,
+          builder: (context, child) {
+            return PlayxLocalizationBuilder(builder: (locale) {
+              return GetMaterialApp(
+                theme: theme ?? xTheme.theme(locale.locale),
+                debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+                navigatorObservers: navigatorObservers ??
+                    [
+                      if (includeSentryNavigationObserver)
+                        SentryNavigatorObserver(),
+                    ],
+                navigatorKey: navigatorKey,
+                scaffoldMessengerKey: scaffoldMessengerKey,
+                home: home,
+                routes: routes,
+                initialRoute: initialRoute,
+                onGenerateRoute: onGenerateRoute,
+                onGenerateInitialRoutes: onGenerateInitialRoutes,
+                onUnknownRoute: onUnknownRoute,
+                builder: builder,
+                textDirection: textDirection,
+                title: title,
+                onGenerateTitle: onGenerateTitle,
+                color: color,
+                darkTheme: darkTheme,
+                themeMode: themeMode,
+                supportedLocales: PlayxLocalization.supportedLocales,
+                localizationsDelegates: PlayxLocalization.localizationDelegates,
+                locale: PlayxLocalization.currentLocale,
+                debugShowMaterialGrid: debugShowMaterialGrid,
+                showPerformanceOverlay: showPerformanceOverlay,
+                checkerboardRasterCacheImages: checkerboardRasterCacheImages,
+                checkerboardOffscreenLayers: checkerboardOffscreenLayers,
+                showSemanticsDebugger: showSemanticsDebugger,
+                shortcuts: shortcuts,
+                scrollBehavior: scrollBehavior,
+                customTransition: customTransition,
+                translationsKeys: translationsKeys,
+                onInit: onInit,
+                onReady: onReady,
+                onDispose: onDispose,
+                routingCallback: routingCallback,
+                defaultTransition: defaultTransition,
+                getPages: getPages,
+                opaqueRoute: opaqueRoute,
+                enableLog: enableLog,
+                logWriterCallback: logWriterCallback,
+                popGesture: popGesture,
+                transitionDuration: transitionDuration,
+                defaultGlobalState: defaultGlobalState,
+                smartManagement: smartManagement,
+                initialBinding: initialBinding,
+                unknownRoute: unknownRoute,
+                highContrastTheme: highContrastTheme,
+                highContrastDarkTheme: highContrastDarkTheme,
+                actions: actions,
+              );
+            });
+          });
+    });
   }
 }
-
