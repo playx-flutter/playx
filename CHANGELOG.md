@@ -1,3 +1,7 @@
+## 0.2.6
+- Update packages.
+- Update `PlayxMaterialApp` to include latest `ScreenUtil` parameters.
+
 ## 0.2.5
 - Update packages.
 

@@ -223,10 +223,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_screenutil
-      sha256: "1b61f8c4cbf965104b6ca7160880ff1af6755aad7fec70b58444245132453745"
+      sha256: "8cf100b8e4973dc570b6415a2090b0bfaa8756ad333db46939efc3e774ee100d"
       url: "https://pub.dev"
     source: hosted
-    version: "5.8.4"
+    version: "5.9.0"
   flutter_secure_storage:
     dependency: transitive
     description:
@@ -345,10 +345,10 @@ packages:
     dependency: transitive
     description:
       name: lottie
-      sha256: "0793a5866062e5cc8a8b24892fa94c3095953ea914a7fdf790f550dd7537fe60"
+      sha256: b8bdd54b488c54068c57d41ae85d02808da09e2bee8b8dd1f59f441e7efa60cd
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.0"
   matcher:
     dependency: transitive
     description:
@@ -385,10 +385,10 @@ packages:
     dependency: transitive
     description:
       name: package_info_plus
-      sha256: ceb027f6bc6a60674a233b4a90a7658af1aebdea833da0b5b53c1e9821a78c7b
+      sha256: "6ff267fcd9d48cb61c8df74a82680e8b82e940231bb5f68356672fde0397334a"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.2"
+    version: "4.1.0"
   package_info_plus_platform_interface:
     dependency: transitive
     description:
@@ -491,7 +491,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.2.3"
+    version: "0.2.6"
   playx_core:
     dependency: transitive
     description:
@@ -528,10 +528,10 @@ packages:
     dependency: transitive
     description:
       name: playx_widget
-      sha256: ca2526761ea7b6dabfafe4b6c50fbc65d691cac5712c2cc3734cdf6554b4cd7a
+      sha256: "096c45d9774bb9253c5012ba3adc8344f30109897f937f172bda3baf66fe680d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.6"
+    version: "0.0.8"
   plugin_platform_interface:
     dependency: transitive
     description:
