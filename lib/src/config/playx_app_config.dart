@@ -5,4 +5,11 @@ abstract class PlayXAppConfig {
 
   ///you can put here any dependencies that need to be installed with playx boot
   Future<void> boot();
+
+
+  ///you can put here any dependencies that need to be installed with playx boot which are long running tasks that will be executed asynchronously.
+  Future<void> asyncBoot() async {
+
+  }
+
 }

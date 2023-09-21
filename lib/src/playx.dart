@@ -36,6 +36,8 @@ abstract class Playx {
     await appConfig.boot();
     EasyLocalization.logger('appConfig booted ✔');
 
+    //boot long running tasks asynchronously.
+    appConfig.asyncBoot();
     /// * inject the theme
     Get.put<PlayXAppConfig>(appConfig, permanent: true);
 

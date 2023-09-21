@@ -11,12 +11,25 @@ import 'package:playx/playx.dart';
 ///  final primary = colorScheme.primary;
 ///  ```
 ///  Now you can access each theme color.
-abstract class BaseColorScheme extends XColorScheme {
+abstract class BaseColorScheme extends XColors {
   ///Colors that needs to implemented for each theme.
   Color get containerBackgroundColor;
 
   ///Colors that needs to is used for each theme.
   static const Color blue = Colors.blue;
+
+  Color get primary;
+  Color get secondary;
+  Color get background;
+  Color get surface;
+  Color get error;
+
+  Color get onPrimary;
+  Color get onSecondary;
+  Color get onBackground;
+  Color get onSurface;
+  Color get onError;
+
 }
 
-BaseColorScheme get colorScheme => PlayxTheme.colorScheme as BaseColorScheme;
+BaseColorScheme get colorScheme => PlayxTheme.colors as BaseColorScheme;

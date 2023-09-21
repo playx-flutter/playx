@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  PlayxMaterialApp(
+    return  PlayxPlatformApp(
       title: AppTrans.appName.tr,
       home: const Home(),
     );

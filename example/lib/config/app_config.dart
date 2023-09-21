@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:playx/playx.dart';
 
 class AppConfig extends PlayXAppConfig {
@@ -8,10 +9,9 @@ class AppConfig extends PlayXAppConfig {
 
   @override
   Future<void> boot() async {
-    // put anything here
-    // like Get.put<ApiClient>(client);
-    //nice logging client
-    Fimber.plantTree(DebugTree());
+    if(kDebugMode){
+      Fimber.plantTree(DebugTree());
+    }
 
     final apiClient =  PlayxNetworkClient(
       dio: Dio(
@@ -23,6 +23,11 @@ class AppConfig extends PlayXAppConfig {
       ),
     );
     Get.put<PlayxNetworkClient>(apiClient);
+
+  }
+
+  @override
+  Future<void> asyncBoot() async {
 
   }
 }

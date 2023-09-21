@@ -15,11 +15,11 @@ class AppThemeConfig extends XThemeConfig {
                   brightness: Brightness.light,
                   fontFamily: locale.isArabic ? 'Segoe UI' : 'Roboto',
                 ),
-            colorScheme: LightColorScheme()),
+            colors: LightColorScheme()),
         XTheme(
             id: 'dark',
             name: 'Dark',
             theme: (locale) => ThemeData.dark(),
-            colorScheme: DarkColorScheme()),
+            colors: DarkColorScheme()),
       ];
 }
