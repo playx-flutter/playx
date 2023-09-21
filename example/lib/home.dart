@@ -26,8 +26,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
         title: Text(AppTrans.title.tr),
       ),
       body: OptimizedScrollView(
@@ -109,11 +109,13 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: PlayxTheme.next,
-        label: Text(AppTrans.changeTheme.tr),
-        icon: const Icon(Icons.style),
-      ),
+      material: (ctx,_) => MaterialScaffoldData(
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: PlayxTheme.next,
+          label: Text(AppTrans.changeTheme.tr),
+          icon: const Icon(Icons.style),
+        ),
+      ) ,
     );
   }
 

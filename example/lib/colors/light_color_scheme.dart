@@ -6,35 +6,35 @@ import 'base_color_scheme.dart';
 
 class LightColorScheme extends BaseColorScheme {
   @override
-  Color get containerBackgroundColor => XColorScheme.white;
+  Color get containerBackgroundColor => XColors.white;
 
   @override
-  Color get background => XColorScheme.white;
+  Color get background => XColors.white;
 
   @override
-  Color get error => XColorScheme.red;
+  Color get error => XColors.red;
 
   @override
-  Color get onBackground => XColorScheme.black;
+  Color get onBackground => XColors.black;
 
   @override
-  Color get onError => XColorScheme.white;
+  Color get onError => XColors.white;
 
   @override
-  Color get onPrimary => XColorScheme.white;
+  Color get onPrimary => XColors.white;
 
   @override
-  Color get onSecondary => XColorScheme.white;
+  Color get onSecondary => XColors.white;
 
   @override
-  Color get onSurface => XColorScheme.black;
+  Color get onSurface => XColors.black;
 
   @override
-  Color get primary => XColorScheme.blueMain;
+  Color get primary => XColors.blueMain;
 
   @override
-  Color get secondary => XColorScheme.purpleMain;
+  Color get secondary => XColors.purpleMain;
 
   @override
-  Color get surface => XColorScheme.white;
+  Color get surface => XColors.white;
 }

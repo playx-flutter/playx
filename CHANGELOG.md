@@ -1,3 +1,30 @@
+## 0.3.0-beta.1
+
+> Note: This release has breaking changes.
+### New features
+
+- Update packages.
+- Added `PlayxPlatformApp` : A widget that wraps [GetMaterialApp] or [ GetCupertinoApp] based on the platform with support to `screen_util`, `playx_theme` and `playx_localization`.
+- Added `asyncBoot` method that can be implemented by [PlayXAppConfig] to boot long running tasks asynchronously when launching the application.
+
+## playx_widget
+- include `flutter_platform_widgets` into the package to include platform specific widgets.
+- fix errorMaxLines on `OptimizedTextField` not working correctly.
+
+## playx_theme
+- PlayxTheme now has `isDeviceInDarkMode` to indicate whether the user device is in dark mode or not.
+  - XThemeConfig now has `defaultThemeIndex` to specify the default theme index that will be used first time as default theme.
+  - new `ImageTheme` widget which is a widget that is themed by image content by providing image provider to be used with Material3 themes.
+  - new utilities to be used like `getBlendedColorScheme` which blends two color schemes together and returns a new color scheme to be used with Material3 themes.
+   - Included [`flex_seed_scheme`](https://pub.dev/packages/flex_seed_scheme) package which is more flexible and powerful version of Flutter's ColorScheme.fromSeed and uses multiple seed colors, custom chroma and tone mapping to enahce creating a color scheme for Material3.
+
+### BREAKING Changes
+  - `XColorScheme` was renamed to `XColors`.
+  - a Removed abstract colors like primary, secondary, background,surface, error ,onPrimary, Color get onSecondary, onBackground, onSurface, onError from `XColors`.
+  - `XTheme` colors property now have default value which is `DefaultColors`.
+
+
+
 ## 0.2.6
 - Update packages.
 - Update `PlayxMaterialApp` to include latest `ScreenUtil` parameters.
