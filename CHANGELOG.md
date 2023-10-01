@@ -1,3 +1,8 @@
+## 0.3.0-beta.2
+- Update packages.
+- Added platformSettings to `PlayxPlatformApp` that controls current platform settings.
+
+
 ## 0.3.0-beta.1
 
 > Note: This release has breaking changes.

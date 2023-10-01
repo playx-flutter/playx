@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
               'https://avatars.githubusercontent.com/u/35397170?s=200&v=4',
               height: 100.w,
             ),
-            OptimizedButton.elevated(
+            ElevatedButton(
                 child: Text(AppTrans.changeLanguageTitle.tr),
               onPressed: () {
                 Get.dialog(
@@ -99,12 +99,6 @@ class _HomeState extends State<Home> {
                 );
               },
             ),
-            OptimizedButton.elevated(
-                child: Text(AppTrans.refreshWeather.tr),
-                onPressed: () {
-                  getWeatherFromApi();
-                }),
-
             SizedBox(height: 25.h,)
           ],
         ),
