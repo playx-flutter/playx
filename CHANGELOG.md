@@ -1,3 +1,11 @@
+## 0.3.0-beta.3
+> Note: This release has breaking changes.
+- Update packages.
+- `PlayxAppConfig` now requires `asyncBoot` to be overridden.
+- We can check whether `PlayxAppConfig` `asyncBoot` function is completed by calling `Playx.isAsyncBootCompleted` . 
+- We can wait for  `PlayxAppConfig` `asyncBoot` function to complete by calling `Playx.asyncBootFuture`.
+
+
 ## 0.3.0-beta.2
 - Update packages.
 - Added platformSettings to `PlayxPlatformApp` that controls current platform settings.
