@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:playx/playx.dart';
 
+
+/// A widget that represents [GetMaterialApp] for android or material platforms and [GetCupertinoApp] for iOS devices or cupertino platforms.
 class GetPlatformApp
     extends PlatformWidgetBase<GetCupertinoApp, GetMaterialApp> {
   final GlobalKey<NavigatorState>? navigatorKey;

@@ -491,7 +491,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.3.0-beta.1"
+    version: "0.3.0-beta.3"
   playx_core:
     dependency: transitive
     description:
@@ -520,10 +520,10 @@ packages:
     dependency: transitive
     description:
       name: playx_theme
-      sha256: "529c6be86995686682fa85d67bb7322204a39d3654bfe3c5db0c785c6226a48f"
+      sha256: ca9cc1d405459c2086210af53cc3a8898c9267b5d5e68e425274bf8de52a451a
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1"
+    version: "0.2.2"
   playx_widget:
     dependency: transitive
     description:

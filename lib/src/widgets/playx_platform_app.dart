@@ -9,7 +9,7 @@ import 'package:playx_widget/playx_widget.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 
-///PlayxMaterialApp : A widget that wraps [GetMaterialApp] or [ GetCupertinoApp] based on the platform
+///PlayxPlatformApp : A widget that wraps [GetMaterialApp] or [ GetCupertinoApp] based on the platform
 ///with [PlayXThemeBuilder] to update the app with current theme
 ///and [ScreenUtilInit] that initializes [ScreenUtil]
 /// With the ability to set app orientation and more.

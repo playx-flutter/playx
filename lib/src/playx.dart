@@ -11,6 +11,8 @@ import 'package:playx/playx.dart';
 abstract class Playx {
 
 
+  static final _asyncCompleter = Completer();
+
   ///Boots playx package
   ///Used to setup app dependencies, localization, theme and preferences.
   ///Must be called to initialize dependencies.
@@ -35,13 +37,51 @@ abstract class Playx {
     /// * boot app config.
     await appConfig.boot();
     EasyLocalization.logger('appConfig booted ✔');
-
-    //boot long running tasks asynchronously.
-    appConfig.asyncBoot();
-    /// * inject the theme
     Get.put<PlayXAppConfig>(appConfig, permanent: true);
 
+    //boot long running tasks asynchronously.
+    _asyncCompleter.complete(appConfig.asyncBoot());
+    /// * inject the theme
+
   }
+
+
+  ///Wraps`runApp` to inject , init and setup playx packages.
+  ///[sentryOptions] : are used to initialize sentry to send crash reports to it.
+  /// If sentry dsn not provided it will ignore sentry.
+  static Future<void> runPlayx({
+    required PlayXAppConfig appConfig,
+    required Widget app,
+    required XLocaleConfig localeConfig,
+    XThemeConfig themeConfig = const XDefaultThemeConfig(),
+    SecurePrefsSettings securePrefsSettings= const SecurePrefsSettings(),
+    FlutterOptionsConfiguration? sentryOptions,
+  }) async {
+    ///Boots playx dependencies.
+    await boot(appConfig: appConfig, themeConfig: themeConfig,securePrefsSettings: securePrefsSettings, localeConfig:localeConfig);
+
+    if (sentryOptions != null) {
+      await SentryFlutter.init(
+        sentryOptions,
+        /// run the app.
+        appRunner: () => runApp(app),
+      );
+    } else {
+      runApp(app);
+    }
+  }
+
+  ///Checks whether the application finished performing the async boot operation successfully.
+  static bool isAsyncBootCompleted(){
+    return _asyncCompleter.isCompleted;
+  }
+
+  ///Returns the future of performing the async boot operation.
+  ///Can be used to wait for the async boot operation to complete.
+  static Future<void> asyncBootFuture(){
+    return _asyncCompleter.future;
+  }
+
 
   ///Dispose playx package
   ///Used to clean up and free up resources.
@@ -52,30 +92,6 @@ abstract class Playx {
     EasyLocalization.logger('disposed ✔');
   }
 
-  ///Wraps`runApp` to inject , init ..etc and setup playx packages.
-  static Future<void> runPlayx({
-    required PlayXAppConfig appConfig,
-    required Widget app,
-    required XLocaleConfig localeConfig,
-    XThemeConfig themeConfig = const XDefaultThemeConfig(),
-    SecurePrefsSettings securePrefsSettings= const SecurePrefsSettings(),
 
-    /// Options used to initialize sentry to send crash reports to it.
-    /// If sentry dsn not provided it will ignore sentry.
-    FlutterOptionsConfiguration? sentryOptions,
-  }) async {
-    ///Boots playx dependencies.
-    await boot(appConfig: appConfig, themeConfig: themeConfig,securePrefsSettings: securePrefsSettings, localeConfig:localeConfig);
 
-    if (sentryOptions != null) {
-      await SentryFlutter.init(
-        sentryOptions,
-
-        /// run the app.
-        appRunner: () => runApp(app),
-      );
-    } else {
-      runApp(app);
-    }
-  }
 }
