@@ -13,7 +13,11 @@ void main() async {
   Playx.runPlayx(
     appConfig: config,
     themeConfig: const AppThemeConfig(),
+    envSettings: const PlayxEnvSettings(
+      fileName:'assets/env/keys.env',
+    ),
     app: const MyApp(),
+
     //not necessary
     sentryOptions: (options) {
       options.dsn = AppConfig.sentryKey;
@@ -27,9 +31,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  PlayxPlatformApp(
+    return  PlayxMaterialApp(
       title: AppTrans.appName.tr,
       home: const Home(),
+      appSettings: const PlayxAppSettings(
+        debugShowCheckedModeBanner: true,
+      ),
     );
   }
 }
