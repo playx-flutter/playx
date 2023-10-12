@@ -16,12 +16,14 @@ class _HomeState extends State<Home> {
 
   //Message for displaying current weather temperature from api.
   String _weatherMsg = '';
+  String _envText = '';
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
     getWeatherFromApi();
+    getTextFromEnv();
   }
 
   @override
@@ -57,6 +59,12 @@ class _HomeState extends State<Home> {
                 _weatherMsg,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
+            Text(
+              _envText,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w400),
+            ),
+
             ImageViewer.network(
               'https://avatars.githubusercontent.com/u/35397170?s=200&v=4',
               height: 100.w,
@@ -144,4 +152,16 @@ class _HomeState extends State<Home> {
       _isLoading = false;
     });
   }
+
+
+  //Shows how to get keys from environment variables.
+  Future<void> getTextFromEnv() async {
+    final apiKey = await PlayxEnv.getString('api_key');
+    final isAvailable  = await PlayxEnv.maybeGetBool('is_available');
+    setState(() {
+      _envText = 'Env Text:\n$apiKey\n\nAvailable: $isAvailable';
+    });
+  }
+
 }
+

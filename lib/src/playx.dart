@@ -10,7 +10,6 @@ import 'package:playx/playx.dart';
 /// [PlayxTheme] : easily create and mange app theme with the ability to easily change app theme.
 abstract class Playx {
 
-
   static final _asyncCompleter = Completer();
 
   ///Boots playx package
@@ -20,13 +19,14 @@ abstract class Playx {
     required PlayXAppConfig appConfig,
     required XLocaleConfig localeConfig,
     XThemeConfig themeConfig = const XDefaultThemeConfig(),
-    SecurePrefsSettings securePrefsSettings= const SecurePrefsSettings(),
+    PlayxSecurePrefsSettings securePrefsSettings= const PlayxSecurePrefsSettings(),
+    PlayxEnvSettings? envSettings,
   }) async {
     EasyLocalization.logger.name = "Playx";
 
     WidgetsFlutterBinding.ensureInitialized();
 
-    await PlayXCore.bootCore(securePrefsSettings: securePrefsSettings);
+    await PlayXCore.bootCore(securePrefsSettings: securePrefsSettings, envSettings: envSettings);
     EasyLocalization.logger('Core booted ✔');
 
    await PlayxLocalization.boot(config: localeConfig);
@@ -54,11 +54,12 @@ abstract class Playx {
     required Widget app,
     required XLocaleConfig localeConfig,
     XThemeConfig themeConfig = const XDefaultThemeConfig(),
-    SecurePrefsSettings securePrefsSettings= const SecurePrefsSettings(),
+    PlayxSecurePrefsSettings securePrefsSettings= const PlayxSecurePrefsSettings(),
+    PlayxEnvSettings? envSettings,
     FlutterOptionsConfiguration? sentryOptions,
   }) async {
     ///Boots playx dependencies.
-    await boot(appConfig: appConfig, themeConfig: themeConfig,securePrefsSettings: securePrefsSettings, localeConfig:localeConfig);
+    await boot(appConfig: appConfig, themeConfig: themeConfig,securePrefsSettings: securePrefsSettings,envSettings: envSettings, localeConfig:localeConfig);
 
     if (sentryOptions != null) {
       await SentryFlutter.init(

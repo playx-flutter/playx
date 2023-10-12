@@ -1,6 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:playx/src/widgets/models/playx_app_settings.dart';
+import 'package:playx/src/widgets/models/playx_navigation_settings.dart';
+import 'package:playx/src/widgets/models/playx_screen_settings.dart';
+import 'package:playx/src/widgets/models/playx_theme_settings.dart';
 import 'package:playx_localization/playx_localization.dart';
 import 'package:playx_theme/playx_theme.dart';
 import 'package:playx_widget/playx_widget.dart';
@@ -12,64 +15,30 @@ class PlayxMaterialApp extends StatelessWidget {
   //orientation
   /// Sets your preferred orientations of the Material app.
   final List<DeviceOrientation> preferredOrientations;
-
-  //Screen Util parameters:
-  final Size designSize;
-  final bool splitScreenMode;
-  final bool minTextAdapt;
-  final bool useInheritedMediaQuery;
-  final RebuildFactor rebuildFactor;
-  final bool? ensureScreenSize;
-  final FontSizeResolver fontSizeResolver;
-  final Iterable<String>? responsiveWidgets;
+  /// Screen util settings
+  final PlayxScreenSettings screenSettings;
+  // App theme settings
+  final PlayxThemeSettings themeSettings;
+  // App navigation settings
+  final PlayxNavigationSettings navigationSettings;
+  // App settings
+  final PlayxAppSettings appSettings;
 
   //Get material app parameters
-  final GlobalKey<NavigatorState>? navigatorKey;
-
   final GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey;
   final Widget? home;
-  final Map<String, WidgetBuilder> routes;
-  final String? initialRoute;
-  final RouteFactory? onGenerateRoute;
-  final InitialRouteListFactory? onGenerateInitialRoutes;
-  final RouteFactory? onUnknownRoute;
-  final List<NavigatorObserver>? navigatorObservers;
-  final TransitionBuilder? builder;
   final String title;
   final GenerateAppTitle? onGenerateTitle;
-  final ThemeData? theme;
-  final ThemeData? darkTheme;
-  final ThemeMode themeMode;
-  final CustomTransition? customTransition;
   final Color? color;
-  final Map<String, Map<String, String>>? translationsKeys;
   final TextDirection? textDirection;
-  final bool showPerformanceOverlay;
-  final bool checkerboardRasterCacheImages;
-  final bool checkerboardOffscreenLayers;
-  final bool showSemanticsDebugger;
-  final bool debugShowCheckedModeBanner;
   final Map<LogicalKeySet, Intent>? shortcuts;
   final ScrollBehavior? scrollBehavior;
-  final ThemeData? highContrastTheme;
-  final ThemeData? highContrastDarkTheme;
   final Map<Type, Action<Intent>>? actions;
-  final bool debugShowMaterialGrid;
-  final ValueChanged<Routing?>? routingCallback;
-  final Transition? defaultTransition;
-  final bool? opaqueRoute;
   final VoidCallback? onInit;
   final VoidCallback? onReady;
   final VoidCallback? onDispose;
-  final bool? enableLog;
   final LogWriterCallback? logWriterCallback;
   final bool? popGesture;
-  final SmartManagement smartManagement;
-  final Bindings? initialBinding;
-  final Duration? transitionDuration;
-  final bool? defaultGlobalState;
-  final List<GetPage>? getPages;
-  final GetPage? unknownRoute;
 
   ///Whether should include sentry navigator observer or not..
   final bool includeSentryNavigationObserver;
@@ -82,60 +51,26 @@ class PlayxMaterialApp extends StatelessWidget {
     this.preferredOrientations = const [
       DeviceOrientation.portraitUp,
     ],
-    this.onThemeChanged,
-    this.splitScreenMode = true,
-    this.minTextAdapt = true,
-    this.useInheritedMediaQuery = false,
-    this.rebuildFactor = RebuildFactors.size,
-    this.designSize = const Size(360, 690),
-    this.navigatorKey,
+    this.screenSettings = const PlayxScreenSettings(),
+    this.themeSettings = const PlayxThemeSettings(),
+    this.navigationSettings = const PlayxNavigationSettings(),
+    this.appSettings = const PlayxAppSettings(),
     this.scaffoldMessengerKey,
     this.home,
-    this.routes = const <String, WidgetBuilder>{},
-    this.initialRoute,
-    this.onGenerateRoute,
-    this.onGenerateInitialRoutes,
-    this.onUnknownRoute,
-    this.navigatorObservers = const <NavigatorObserver>[],
-    this.builder,
     this.textDirection,
     this.title = '',
     this.onGenerateTitle,
     this.color,
-    this.theme,
-    this.darkTheme,
-    this.themeMode = ThemeMode.system,
-    this.debugShowMaterialGrid = false,
-    this.showPerformanceOverlay = false,
-    this.checkerboardRasterCacheImages = false,
-    this.checkerboardOffscreenLayers = false,
-    this.showSemanticsDebugger = false,
-    this.debugShowCheckedModeBanner = false,
     this.shortcuts,
     this.scrollBehavior,
-    this.customTransition,
-    this.translationsKeys,
     this.onInit,
     this.onReady,
     this.onDispose,
-    this.routingCallback,
-    this.defaultTransition,
-    this.getPages,
-    this.opaqueRoute,
-    this.enableLog = kDebugMode,
     this.logWriterCallback,
     this.popGesture,
-    this.transitionDuration,
-    this.defaultGlobalState,
-    this.smartManagement = SmartManagement.full,
-    this.initialBinding,
-    this.unknownRoute,
-    this.highContrastTheme,
-    this.highContrastDarkTheme,
     this.actions,
     this.includeSentryNavigationObserver = true,
-    this.fontSizeResolver = FontSizeResolvers.width,
-    this.responsiveWidgets, this.ensureScreenSize,
+    this.onThemeChanged,
   });
 
   @override
@@ -144,68 +79,68 @@ class PlayxMaterialApp extends StatelessWidget {
       onThemeChanged?.call(xTheme);
       SystemChrome.setPreferredOrientations(preferredOrientations);
       return ScreenUtilInit(
-          designSize: designSize,
-          minTextAdapt: minTextAdapt,
-          splitScreenMode: splitScreenMode,
-          useInheritedMediaQuery: useInheritedMediaQuery,
-          rebuildFactor: rebuildFactor,
-          fontSizeResolver: fontSizeResolver,
-          responsiveWidgets: responsiveWidgets,
-          ensureScreenSize: ensureScreenSize,
+          designSize: screenSettings.designSize,
+          minTextAdapt: screenSettings.minTextAdapt,
+          splitScreenMode: screenSettings.splitScreenMode,
+          useInheritedMediaQuery: screenSettings.useInheritedMediaQuery,
+          rebuildFactor: screenSettings.rebuildFactor,
+          fontSizeResolver: screenSettings.fontSizeResolver,
+          responsiveWidgets: screenSettings.responsiveWidgets,
+          ensureScreenSize: screenSettings.ensureScreenSize,
           builder: (context, child) {
             return PlayxLocalizationBuilder(builder: (locale) {
               return GetMaterialApp(
-                theme: theme ?? xTheme.theme(locale.locale),
-                debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-                navigatorObservers: navigatorObservers ??
+                theme: themeSettings.theme ?? xTheme.theme(locale.locale),
+                debugShowCheckedModeBanner: appSettings.debugShowCheckedModeBanner,
+                navigatorObservers: navigationSettings.navigatorObservers ??
                     [
                       if (includeSentryNavigationObserver)
                         SentryNavigatorObserver(),
                     ],
-                navigatorKey: navigatorKey,
+                navigatorKey: navigationSettings.navigatorKey,
                 scaffoldMessengerKey: scaffoldMessengerKey,
                 home: home,
-                routes: routes,
-                initialRoute: initialRoute,
-                onGenerateRoute: onGenerateRoute,
-                onGenerateInitialRoutes: onGenerateInitialRoutes,
-                onUnknownRoute: onUnknownRoute,
-                builder: builder,
+                routes: navigationSettings.routes,
+                initialRoute: navigationSettings.initialRoute,
+                onGenerateRoute: navigationSettings.onGenerateRoute,
+                onGenerateInitialRoutes: navigationSettings.onGenerateInitialRoutes,
+                onUnknownRoute:navigationSettings.onUnknownRoute,
+                builder: navigationSettings.builder,
                 textDirection: textDirection,
                 title: title,
                 onGenerateTitle: onGenerateTitle,
                 color: color,
-                darkTheme: darkTheme,
-                themeMode: themeMode,
+                darkTheme: themeSettings.darkTheme,
+                themeMode: themeSettings.themeMode,
                 supportedLocales: PlayxLocalization.supportedLocales,
-                localizationsDelegates: PlayxLocalization.localizationDelegates,
+                localizationsDelegates:
+                PlayxLocalization.localizationDelegates,
                 locale: PlayxLocalization.currentLocale,
-                debugShowMaterialGrid: debugShowMaterialGrid,
-                showPerformanceOverlay: showPerformanceOverlay,
-                checkerboardRasterCacheImages: checkerboardRasterCacheImages,
-                checkerboardOffscreenLayers: checkerboardOffscreenLayers,
-                showSemanticsDebugger: showSemanticsDebugger,
+                debugShowMaterialGrid: appSettings.debugShowMaterialGrid,
+                showPerformanceOverlay: appSettings.showPerformanceOverlay,
+                checkerboardRasterCacheImages: appSettings.checkerboardRasterCacheImages,
+                checkerboardOffscreenLayers: appSettings.checkerboardOffscreenLayers,
+                showSemanticsDebugger: appSettings.showSemanticsDebugger,
                 shortcuts: shortcuts,
                 scrollBehavior: scrollBehavior,
-                customTransition: customTransition,
-                translationsKeys: translationsKeys,
+                customTransition: navigationSettings.customTransition,
                 onInit: onInit,
                 onReady: onReady,
                 onDispose: onDispose,
-                routingCallback: routingCallback,
-                defaultTransition: defaultTransition,
-                getPages: getPages,
-                opaqueRoute: opaqueRoute,
-                enableLog: enableLog,
+                routingCallback: navigationSettings.routingCallback,
+                defaultTransition: navigationSettings.defaultTransition,
+                getPages: navigationSettings.getPages,
+                opaqueRoute: navigationSettings.opaqueRoute,
+                enableLog: appSettings.enableLog,
                 logWriterCallback: logWriterCallback,
                 popGesture: popGesture,
-                transitionDuration: transitionDuration,
-                defaultGlobalState: defaultGlobalState,
-                smartManagement: smartManagement,
-                initialBinding: initialBinding,
-                unknownRoute: unknownRoute,
-                highContrastTheme: highContrastTheme,
-                highContrastDarkTheme: highContrastDarkTheme,
+                transitionDuration: navigationSettings.transitionDuration,
+                defaultGlobalState: navigationSettings.defaultGlobalState,
+                smartManagement: navigationSettings.smartManagement,
+                initialBinding: navigationSettings.initialBinding,
+                unknownRoute: navigationSettings.unknownRoute,
+                highContrastTheme: themeSettings.highContrastTheme,
+                highContrastDarkTheme: themeSettings.highContrastDarkTheme,
                 actions: actions,
               );
             });

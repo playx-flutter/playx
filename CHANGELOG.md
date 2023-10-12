@@ -1,3 +1,55 @@
+## 1.0.0-beta.1
+> Note: This release has breaking changes.
+> Bumping version from(0.3.0-beta) to version(1.0.0-beta).
+
+- Update packages.
+- Update Playx `boot` and `runPlayx` methods to take PlayxEnvSettings parameter which is used to configure flutter_dotenv and load the .env file.
+- Update example app to show example of loading keys from  .env file using `PlayxEnv`.
+- Add `flutter_animate` package to the list of exported packages.
+
+### BREAKING Changes
+- Updated`PlayxMaterialApp` to take screenSettings, themeSettings, navigationSettings, appSettings in it's constructor to make it easy to configure the app.
+
+## playx_core
+
+### BREAKING Changes
+- `Prefs` was renamed to `PlayxPrefs`.
+- `SecurePrefs` was renamed to `PlayxSecurePrefs`.
+- `SecurePrefsSettings` was renamed to `PlayxSecurePrefsSettings`.
+-  `getString`, `getInt`, `getDouble` and `getBool` methods in `PlayxPrefs` now return non nullable value of it's type with the ability to provide it with a fallback that is returned if the key not found .
+-  `getString`, `getInt`, `getDouble` and `getBool` methods in `PlayxSecurePrefsSettings` now return non nullable value of it's type with the ability to provide it with a fallback that is returned if the key not found .
+
+### New features
+- Update packages.
+- Added `PlayxEnv` : Wrapper for configure any the application with global variables using a `.env` file`.
+- Update `PlayxCore` `bootCore` method to take `PlayxEnvSettings` parameter which is used to configure `flutter_dotenv` and load the `.env` file.
+- Added new `maybeGetString`, `maybeGetInt`, `maybeGetDouble` and `maybeGetBool` methods in `PlayxPrefs` which return the value of it's type or null if the key not found or any error happened .
+- `maybeGetString`, `maybeGetInt`, `maybeGetDouble` and `maybeGetBool` methods in `PlayxSecurePrefsSettings` which return the value of it's type or null if the key not found or any error happened .
+
+## playx_widget
+
+### New Widgets
+
+- DashedLine :Creates a dashed line widget.
+- FadeIndexedStack : Creates an indexed Stack widget that paints a single child with fade animation.
+- FavoriteButton :Creates a button that shows favorite state.
+
+
+### Bug fixes and Enhancements
+
+#### OptimizedCard
+
+- Update OptimizedCard default shadowColor to not be transparent on Ios.
+- Add the onPressed callback for the card to listen to any tapping events.
+- Add borderRadius which can be used to set the border radius of the default card's rounded
+  rectangular shape.
+
+#### OptimizedTextField
+
+- Add hintStyle to the text field to customize the hint text style.
+- Enhancement to the text field in Ios when using `.adaptive` constructor.
+
+
 ## 0.3.0-beta.3
 > Note: This release has breaking changes.
 - Update packages.
