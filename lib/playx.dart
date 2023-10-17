@@ -13,7 +13,7 @@ export 'package:playx_network/playx_network.dart';
 export 'package:playx/src/widgets/playx_material_app.dart';
 export 'package:playx/src/widgets/playx_platform_app.dart';
 export 'package:playx_localization/playx_localization.dart' hide FormData, Response, MultipartFile;
-export 'package:flutter_animate/flutter_animate.dart';
+export 'package:flutter_animate/flutter_animate.dart' hide NumDurationExtensions;
 export 'src/widgets/models/playx_app_settings.dart';
 export 'src/widgets/models/playx_navigation_settings.dart';
 export 'src/widgets/models/playx_platform_settings.dart';

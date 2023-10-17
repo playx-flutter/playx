@@ -1,3 +1,7 @@
+## 1.0.0-beta.2
+- Update package exports.
+
+
 ## 1.0.0-beta.1
 > Note: This release has breaking changes.
 > Bumping version from(0.3.0-beta) to version(1.0.0-beta).
