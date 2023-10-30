@@ -19,3 +19,4 @@ export 'src/widgets/models/playx_navigation_settings.dart';
 export 'src/widgets/models/playx_platform_settings.dart';
 export 'src/widgets/models/playx_screen_settings.dart';
 export 'src/widgets/models/playx_theme_settings.dart';
+export 'src/connection_status/connection_status_controller.dart';

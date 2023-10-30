@@ -1,3 +1,6 @@
+## 1.0.1-beta.1
+- Add `ConnectionStatusController` which is used to check internet connection status by checking device connectivity and internet connection.
+
 ## 1.0.0-beta.3
 - Update packages.
 
