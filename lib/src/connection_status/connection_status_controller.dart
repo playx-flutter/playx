@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:playx/playx.dart';
 
 
@@ -15,7 +14,6 @@ enum ConnectionStatus {
 /// Connection status controller that is used to check internet connection status by checking device connectivity and internet connection.
 class ConnectionStatusController extends FullLifeCycleController with FullLifeCycleMixin {
   StreamSubscription? _sub;
-  StreamSubscription? _deviceConnectionSub;
 
   final connectionStatus = Rx<ConnectionStatus>(ConnectionStatus.connected);
 
@@ -30,23 +28,20 @@ class ConnectionStatusController extends FullLifeCycleController with FullLifeCy
   }
 
   Future<void> checkInternetConnection() async {
-    final status = await InternetConnectionChecker().connectionStatus;
+     final bool hasInternetAccess = await InternetConnection().hasInternetAccess;
 
     _handleInternetConnection(
-      isInternetConnected: status == InternetConnectionStatus.connected,
+      isInternetConnected: hasInternetAccess,
     );
   }
 
   Future<void> listenToConnectionStatus() async {
     stopListeningToConnectionStatus();
     checkInternetConnection();
-    _deviceConnectionSub = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      checkInternetConnection();
-    });
 
-    _sub = InternetConnectionChecker().onStatusChange.listen((event) async {
+    _sub = InternetConnection().onStatusChange.listen((event) async {
       _handleInternetConnection(
-        isInternetConnected: event == InternetConnectionStatus.connected,
+        isInternetConnected: event == InternetStatus.connected,
       );
     });
   }
@@ -68,8 +63,6 @@ class ConnectionStatusController extends FullLifeCycleController with FullLifeCy
   Future<void> stopListeningToConnectionStatus() async {
     _sub?.cancel();
     _sub = null;
-    _deviceConnectionSub?.cancel();
-    _deviceConnectionSub = null;
   }
 
   @override
