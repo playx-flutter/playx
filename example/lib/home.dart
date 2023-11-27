@@ -24,6 +24,7 @@ class _HomeState extends State<Home> {
     super.initState();
     getWeatherFromApi();
     getTextFromEnv();
+    Get.find<ConnectionStatusController>().listenToConnectionStatus();
   }
 
   @override
@@ -63,6 +64,16 @@ class _HomeState extends State<Home> {
               _envText,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w400),
+            ),
+
+            GetX(
+              builder: (ConnectionStatusController controller) {
+                return Text(
+                  controller.isConnectedToInternet ? 'Connected to Internet' : 'Not Connected to Internet',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w400),
+                );
+              },
             ),
 
             ImageViewer.network(
@@ -163,5 +174,11 @@ class _HomeState extends State<Home> {
     });
   }
 
+  @override
+  void dispose() {
+    Get.find<ConnectionStatusController>().stopListeningToConnectionStatus();
+    super.dispose();
+
+  }
 }
 

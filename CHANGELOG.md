@@ -1,6 +1,11 @@
-## 1.0.1-beta.1
-- Add `ConnectionStatusController` which is used to check internet connection status by checking device connectivity and internet connection.
+## 1.0.1
+- Update packages.
+- Bump dart version to 3.2.0 and flutter to 3.16.0.
+- Add web support for `ConnectionStatusController` to allow checking internet connection on web.
 
+## 1.0.1-beta.1
+``- Add `ConnectionStatusController` which is used to check internet connection status by checking device connectivity and internet connection.
+``
 ## 1.0.0-beta.3
 - Update packages.
 

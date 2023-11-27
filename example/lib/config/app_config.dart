@@ -24,6 +24,7 @@ class AppConfig extends PlayXAppConfig {
     );
     Get.put<PlayxNetworkClient>(apiClient);
 
+    Get.put(ConnectionStatusController());
   }
 
   @override

@@ -12,6 +12,7 @@ abstract class Playx {
 
   static final _asyncCompleter = Completer();
 
+
   ///Boots playx package
   ///Used to setup app dependencies, localization, theme and preferences.
   ///Must be called to initialize dependencies.
@@ -26,7 +27,7 @@ abstract class Playx {
 
     WidgetsFlutterBinding.ensureInitialized();
 
-    await PlayXCore.bootCore(securePrefsSettings: securePrefsSettings, envSettings: envSettings);
+    await PlayxCore.bootCore(securePrefsSettings: securePrefsSettings, envSettings: envSettings);
     EasyLocalization.logger('Core booted ✔');
 
    await PlayxLocalization.boot(config: localeConfig);
@@ -88,8 +89,9 @@ abstract class Playx {
   ///Used to clean up and free up resources.
   @visibleForTesting
   static Future<void> dispose() async {
+    await Get.find<PlayXAppConfig>().dispose();
     await PlayxTheme.dispose();
-    await PlayXCore.dispose();
+    await PlayxCore.dispose();
     EasyLocalization.logger('disposed ✔');
   }
 
