@@ -1,3 +1,6 @@
+## 1.0.2
+- Update `ConnectionStatusController` check time interval and timeouts.
+
 ## 1.0.1
 - Update packages.
 - Bump dart version to 3.2.0 and flutter to 3.16.0.
