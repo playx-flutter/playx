@@ -552,10 +552,10 @@ packages:
     dependency: transitive
     description:
       name: playx_core
-      sha256: "08a7780a3ee0ade1fee6d144df3e365867a0b7ec9c97bddae7ae1ffb1de8dea5"
+      sha256: "20cb2348104de901e4c9bea1a7d826c6f6ebb1b8ef05b0a055f4e935b56567d5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1"
+    version: "0.3.3"
   playx_localization:
     dependency: transitive
     description:

@@ -5,7 +5,7 @@ import 'package:playx_example/model/weather.dart';
 import 'package:playx_example/translation/app_trans.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
