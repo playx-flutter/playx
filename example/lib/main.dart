@@ -14,7 +14,7 @@ void main() async {
     appConfig: config,
     themeConfig: const AppThemeConfig(),
     envSettings: const PlayxEnvSettings(
-      fileName:'assets/env/keys.env',
+      fileName: 'assets/env/keys.env',
     ),
     app: const MyApp(),
 
@@ -27,13 +27,15 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return  PlayxMaterialApp(
+    return PlayxMaterialApp(
       title: AppTrans.appName.tr,
-      home: const Home(),
+      navigationSettings: const PlayxNavigationSettings(
+        home: Home(),
+      ),
       appSettings: const PlayxAppSettings(
         debugShowCheckedModeBanner: true,
       ),

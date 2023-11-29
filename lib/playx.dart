@@ -2,7 +2,6 @@ export 'package:async/async.dart' hide Result;
 export 'package:fimber/fimber.dart';
 export 'package:flutter_animate/flutter_animate.dart'
     hide NumDurationExtensions;
-export 'package:flutter_readable/flutter_readable.dart';
 export 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 export 'package:playx/src/config/playx_app_config.dart';
 export 'package:playx/src/playx.dart';
