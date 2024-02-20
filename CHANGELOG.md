@@ -1,3 +1,6 @@
+## 1.0.4
+- Update packages.
+
 ## 1.0.3
 - Update packages.
 - Add Support for using Router instead of Navigator in `PlayxMaterialApp` and `PlayxPlatformApp`.
