@@ -29,106 +29,119 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
-      appBar: PlatformAppBar(
-        title: Text(AppTrans.title.tr),
-      ),
-      body: OptimizedScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              width: context.width * .5,
-              color: colorScheme.onBackground,
-              padding: const EdgeInsets.all(8),
-              child: Text(
-                PlayxTheme.name,
-                style: TextStyle(color: colorScheme.background),
+    return PlayxThemeSwitchingArea(
+      child: PlatformScaffold(
+        appBar: PlatformAppBar(
+          title: Text(AppTrans.title.tr),
+        ),
+        body: OptimizedScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                width: context.width * .5,
+                color: colorScheme.onBackground,
+                padding: const EdgeInsets.all(8),
+                child: Text(
+                  PlayxTheme.name,
+                  style: TextStyle(color: colorScheme.background),
+                ),
               ),
-            ),
-            const AppVersion(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Text(
-                AppTrans.weatherTitle.tr,
+              const AppVersion(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Text(
+                  AppTrans.weatherTitle.tr,
+                ),
               ),
-            ),
-            if (_isLoading)
-              const CenterLoading()
-            else
+              if (_isLoading)
+                const CenterLoading()
+              else
+                Text(
+                  _weatherMsg,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
               Text(
-                _weatherMsg,
-                style: Theme.of(context).textTheme.headlineMedium,
+                _envText,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w400),
               ),
-            Text(
-              _envText,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w400),
-            ),
-
-            GetX(
-              builder: (ConnectionStatusController controller) {
-                return Text(
-                  controller.isConnectedToInternet ? 'Connected to Internet' : 'Not Connected to Internet',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w400),
-                );
-              },
-            ),
-
-            ImageViewer.network(
-              'https://avatars.githubusercontent.com/u/35397170?s=200&v=4',
-              height: 100.w,
-            ),
-            ElevatedButton(
+              GetX(
+                builder: (ConnectionStatusController controller) {
+                  return Text(
+                    controller.isConnectedToInternet
+                        ? 'Connected to Internet'
+                        : 'Not Connected to Internet',
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w400),
+                  );
+                },
+              ),
+              ImageViewer.network(
+                'https://avatars.githubusercontent.com/u/35397170?s=200&v=4',
+                height: 100.w,
+              ),
+              ElevatedButton(
                 child: Text(AppTrans.changeLanguageTitle.tr),
-              onPressed: () {
-                Get.dialog(
-                  Center(
-                    child: Card(
-                      margin: const EdgeInsets.all(8),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            AppTrans.changeLanguageTitle.tr,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          ...PlayxLocalization.supportedXLocales
-                              .map((e) => ListTile(
-                            onTap: () {
-                              PlayxLocalization.updateById(e.id);
-                              Get.back();
-                            },
-                            title: Text(e.name),
-                            trailing: PlayxLocalization
-                                .currentXLocale.id ==
-                                e.id
-                                ? const Icon(
-                              Icons.done,
-                              color: Colors.lightBlue,
-                            )
-                                : const SizedBox.shrink(),
-                          ))
-                              .toList(),
-                        ],
+                onPressed: () {
+                  Get.dialog(
+                    Center(
+                      child: Card(
+                        margin: const EdgeInsets.all(8),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              AppTrans.changeLanguageTitle.tr,
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                            ...PlayxLocalization.supportedXLocales
+                                .map((e) => ListTile(
+                                      onTap: () {
+                                        PlayxLocalization.updateById(e.id);
+                                        Get.back();
+                                      },
+                                      title: Text(e.name),
+                                      trailing:
+                                          PlayxLocalization.currentXLocale.id ==
+                                                  e.id
+                                              ? const Icon(
+                                                  Icons.done,
+                                                  color: Colors.lightBlue,
+                                                )
+                                              : const SizedBox.shrink(),
+                                    ))
+                                .toList(),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-            SizedBox(height: 25.h,)
-          ],
+                  );
+                },
+              ),
+              SizedBox(
+                height: 25.h,
+              )
+            ],
+          ),
+        ),
+        material: (ctx, _) => MaterialScaffoldData(
+          floatingActionButton: PlayxThemeSwitcher(
+            builder: (BuildContext context, XTheme theme) {
+              return FloatingActionButton.extended(
+                onPressed: () {
+                  PlayxTheme.next(
+                    context: context,
+                  );
+                },
+                label: Text(AppTrans.changeTheme.tr),
+                icon: const Icon(Icons.style),
+              );
+            },
+          ),
         ),
       ),
-      material: (ctx,_) => MaterialScaffoldData(
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: PlayxTheme.next,
-          label: Text(AppTrans.changeTheme.tr),
-          icon: const Icon(Icons.style),
-        ),
-      ) ,
     );
   }
 
@@ -164,11 +177,10 @@ class _HomeState extends State<Home> {
     });
   }
 
-
   //Shows how to get keys from environment variables.
   Future<void> getTextFromEnv() async {
     final apiKey = await PlayxEnv.getString('api_key');
-    final isAvailable  = await PlayxEnv.maybeGetBool('is_available');
+    final isAvailable = await PlayxEnv.maybeGetBool('is_available');
     setState(() {
       _envText = 'Env Text:\n$apiKey\n\nAvailable: $isAvailable';
     });
@@ -178,7 +190,5 @@ class _HomeState extends State<Home> {
   void dispose() {
     Get.find<ConnectionStatusController>().stopListeningToConnectionStatus();
     super.dispose();
-
   }
 }
-
