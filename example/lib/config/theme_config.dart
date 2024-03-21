@@ -4,22 +4,28 @@ import 'package:playx_example/colors/dark_color_scheme.dart';
 import 'package:playx_example/colors/light_color_scheme.dart';
 
 class AppThemeConfig extends XThemeConfig {
-  const AppThemeConfig() : super();
-
-  @override
-  List<XTheme> get themes => [
-        XTheme(
-            id: 'light',
-            name: 'Light',
-            theme: (locale) => ThemeData(
-                  brightness: Brightness.light,
-                  fontFamily: locale.isArabic ? 'Segoe UI' : 'Roboto',
-                ),
-            colors: LightColorScheme()),
-        XTheme(
-            id: 'dark',
-            name: 'Dark',
-            theme: (locale) => ThemeData.dark(),
-            colors: DarkColorScheme()),
-      ];
+  AppThemeConfig()
+      : super(
+          themes: [
+            XTheme.builder(
+              id: 'light',
+              name: 'Light',
+              initialTheme: ThemeData(
+                brightness: Brightness.light,
+                fontFamily: 'Roboto',
+              ),
+              themeBuilder: (locale) => ThemeData(
+                brightness: Brightness.light,
+                fontFamily: locale?.isArabic == true ? 'Segoe UI' : 'Roboto',
+              ),
+              colors: LightColorScheme(),
+              cupertinoThemeBuilder: null,
+            ),
+            XTheme(
+                id: 'dark',
+                name: 'Dark',
+                themeData: ThemeData.dark(),
+                colors: DarkColorScheme()),
+          ],
+        );
 }

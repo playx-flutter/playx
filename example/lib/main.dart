@@ -12,7 +12,7 @@ void main() async {
 
   Playx.runPlayx(
     appConfig: config,
-    themeConfig: const AppThemeConfig(),
+    themeConfig: AppThemeConfig(),
     envSettings: const PlayxEnvSettings(
       fileName: 'assets/env/keys.env',
     ),
