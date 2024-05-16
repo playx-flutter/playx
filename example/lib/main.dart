@@ -16,13 +16,12 @@ void main() async {
     envSettings: const PlayxEnvSettings(
       fileName: 'assets/env/keys.env',
     ),
+    localeConfig: createLocaleConfig(),
     app: const MyApp(),
-
     //not necessary
     sentryOptions: (options) {
       options.dsn = AppConfig.sentryKey;
     },
-    localeConfig: createLocaleConfig(),
   );
 }
 

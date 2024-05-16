@@ -20,11 +20,10 @@ PlayxThemeConfig createThemeConfig() {
         colors: LightColorScheme(),
         cupertinoThemeBuilder: null,
       ),
-      XTheme.builder(
+      XTheme(
         id: 'dark',
         name: 'Dark',
-        initialTheme: ThemeData.dark(),
-        themeBuilder: (locale) => ThemeData.dark(),
+        themeData: ThemeData.dark(),
         colors: DarkColorScheme(),
       ),
     ],
