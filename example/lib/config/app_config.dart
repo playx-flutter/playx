@@ -2,18 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:playx/playx.dart';
 
 class AppConfig extends PlayXAppConfig {
-  @override
-  String get appTitle => 'playx demo';
+  static String appTitle = 'playx demo';
 
   static const String sentryKey = 'https://example@sentry.io/add-your-dsn-here';
 
   @override
   Future<void> boot() async {
-    if(kDebugMode){
+    if (kDebugMode) {
       Fimber.plantTree(DebugTree());
     }
 
-    final apiClient =  PlayxNetworkClient(
+    final apiClient = PlayxNetworkClient(
       dio: Dio(
         BaseOptions(
           baseUrl: 'https://api.open-meteo.com/v1/',
@@ -28,7 +27,5 @@ class AppConfig extends PlayXAppConfig {
   }
 
   @override
-  Future<void> asyncBoot() async {
-
-  }
+  Future<void> asyncBoot() async {}
 }

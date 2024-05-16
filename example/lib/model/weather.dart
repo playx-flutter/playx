@@ -1,23 +1,14 @@
-/// latitude : 52.52
-/// longitude : 13.419998
-/// generationtime_ms : 0.5710124969482422
-/// utc_offset_seconds : 0
-/// timezone : "GMT"
-/// timezone_abbreviation : "GMT"
-/// elevation : 38.0
-/// current_weather : {"temperature":14.9,"windspeed":10.5,"winddirection":262.0,"weathercode":0,"is_day":0,"time":"2023-07-18T01:00"}
-
 class Weather {
   Weather({
-      this.latitude, 
-      this.longitude, 
-      this.generationtimeMs, 
-      this.utcOffsetSeconds, 
-      this.timezone, 
-      this.timezoneAbbreviation, 
-      this.elevation, 
-      this.currentWeather, 
-      });
+    this.latitude,
+    this.longitude,
+    this.generationtimeMs,
+    this.utcOffsetSeconds,
+    this.timezone,
+    this.timezoneAbbreviation,
+    this.elevation,
+    this.currentWeather,
+  });
 
   Weather.fromJson(dynamic json) {
     latitude = json['latitude'];
@@ -27,7 +18,9 @@ class Weather {
     timezone = json['timezone'];
     timezoneAbbreviation = json['timezone_abbreviation'];
     elevation = json['elevation'];
-    currentWeather = json['current_weather'] != null ? CurrentWeather.fromJson(json['current_weather']) : null;
+    currentWeather = json['current_weather'] != null
+        ? CurrentWeather.fromJson(json['current_weather'])
+        : null;
   }
   num? latitude;
   num? longitude;
@@ -53,9 +46,7 @@ class Weather {
 
     return map;
   }
-
 }
-
 
 /// temperature : 14.9
 /// windspeed : 10.5
@@ -66,12 +57,13 @@ class Weather {
 
 class CurrentWeather {
   CurrentWeather({
-      this.temperature, 
-      this.windspeed, 
-      this.winddirection, 
-      this.weathercode, 
-      this.isDay, 
-      this.time,});
+    this.temperature,
+    this.windspeed,
+    this.winddirection,
+    this.weathercode,
+    this.isDay,
+    this.time,
+  });
 
   CurrentWeather.fromJson(dynamic json) {
     temperature = json['temperature'];
@@ -98,5 +90,4 @@ class CurrentWeather {
     map['time'] = time;
     return map;
   }
-
 }

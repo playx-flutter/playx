@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:playx/playx.dart';
 import 'package:playx_example/colors/base_colors.dart';
-import 'package:playx_theme/playx_theme.dart';
 
 class LightColorScheme extends BaseColors {
   LightColorScheme()
