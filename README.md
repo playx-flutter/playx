@@ -170,7 +170,6 @@ To use it we need to :
         Just like that you can perform any GET, POST, PUT, and DELETE HTTP method and return it's result whether success or failure with better error handling.
 
 
-
 ## See Also:
 - [`playx_core`](https://pub.dev/packages/playx_core): Core package of Playx.
 - [`playx_theme`](https://pub.dev/packages/playx_theme): Multi-theme features for Flutter apps.
@@ -178,7 +177,3 @@ To use it we need to :
 - [`playx_localization`](https://pub.dev/packages/playx_localization): Efficient app localization management.
 - [`playx_version_update`](https://pub.dev/packages/playx_version_update): Simplified update dialogs for Android and iOS.
 - [`playx_network`](https://pub.dev/packages/playx_network): Enhanced Dio wrapper for API requests.
-
----  
-
-Feel free to adjust any sections or add more details as needed!
