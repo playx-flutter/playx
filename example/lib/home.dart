@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:playx/playx.dart';
-import 'package:playx_example/colors/base_color_scheme.dart';
+import 'package:playx_example/colors/base_colors.dart';
 import 'package:playx_example/model/weather.dart';
 import 'package:playx_example/translation/app_trans.dart';
 
@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
     return PlayxThemeSwitchingArea(
       child: PlatformScaffold(
         appBar: PlatformAppBar(
-          title: Text(AppTrans.title.tr),
+          title: Text(AppTrans.title.tr(context: context)),
         ),
         body: OptimizedScrollView(
           child: Column(
@@ -40,18 +40,18 @@ class _HomeState extends State<Home> {
             children: [
               Container(
                 width: context.width * .5,
-                color: colorScheme.onBackground,
+                color: context.colors.onBackground,
                 padding: const EdgeInsets.all(8),
                 child: Text(
                   PlayxTheme.name,
-                  style: TextStyle(color: colorScheme.background),
+                  style: TextStyle(color: context.colors.background),
                 ),
               ),
               const AppVersion(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(
-                  AppTrans.weatherTitle.tr,
+                  AppTrans.weatherTitle.tr(context: context),
                 ),
               ),
               if (_isLoading)
@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
                 height: 100.w,
               ),
               ElevatedButton(
-                child: Text(AppTrans.changeLanguageTitle.tr),
+                child: Text(AppTrans.changeLanguageTitle.tr(context: context)),
                 onPressed: () {
                   Get.dialog(
                     Center(
@@ -93,7 +93,7 @@ class _HomeState extends State<Home> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              AppTrans.changeLanguageTitle.tr,
+                              context.tr(AppTrans.changeLanguageTitle),
                               style: const TextStyle(fontSize: 20),
                             ),
                             ...PlayxLocalization.supportedXLocales
@@ -111,8 +111,7 @@ class _HomeState extends State<Home> {
                                                   color: Colors.lightBlue,
                                                 )
                                               : const SizedBox.shrink(),
-                                    ))
-                                .toList(),
+                                    )),
                           ],
                         ),
                       ),
@@ -127,18 +126,65 @@ class _HomeState extends State<Home> {
           ),
         ),
         material: (ctx, _) => MaterialScaffoldData(
-          floatingActionButton: PlayxThemeSwitcher(
-            builder: (BuildContext context, XTheme theme) {
-              return FloatingActionButton.extended(
-                onPressed: () {
-                  PlayxTheme.next(
-                    context: context,
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: true,
+                // false = user must tap button, true = tap outside dialog
+                builder: (BuildContext dialogContext) {
+                  return AlertDialog(
+                    title: const Text('title'),
+                    content: Column(
+                      children: List.generate(
+                          PlayxTheme.supportedThemes.length,
+                          (index) => Card(
+                                margin: const EdgeInsets.all(8),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  side: BorderSide(
+                                    color: PlayxTheme.id ==
+                                            PlayxTheme.supportedThemes[index].id
+                                        ? context.colors.primary
+                                        : Colors.transparent,
+                                  ),
+                                ),
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.all(32),
+                                  title: Text(
+                                      PlayxTheme.supportedThemes[index].name),
+                                  trailing: PlayxTheme.id ==
+                                          PlayxTheme.supportedThemes[index].id
+                                      ? const Icon(Icons.check)
+                                      : null,
+                                  onTap: () async {
+                                    // PlayxTheme.updateByIndex(
+                                    //   index,
+                                    // );
+                                    Navigator.of(dialogContext)
+                                        .pop(); // Dismiss alert dialog
+
+                                    PlayxTheme.updateById(
+                                        PlayxTheme.supportedThemes[index].id);
+                                  },
+                                ),
+                              )),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('close'),
+                        onPressed: () {
+                          Navigator.of(dialogContext)
+                              .pop(); // Dismiss alert dialog
+                        },
+                      ),
+                    ],
                   );
                 },
-                label: Text(AppTrans.changeTheme.tr),
-                icon: const Icon(Icons.style),
               );
             },
+            label: Text(AppTrans.changeTheme.tr(context: context)),
+            icon: const Icon(Icons.style),
           ),
         ),
       ),

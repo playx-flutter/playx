@@ -17,8 +17,8 @@ abstract class Playx {
   ///Must be called to initialize dependencies.
   static Future<void> boot({
     required PlayXAppConfig appConfig,
-    required XLocaleConfig localeConfig,
-    required XThemeConfig themeConfig,
+    required PlayxLocaleConfig localeConfig,
+    required PlayxThemeConfig themeConfig,
     PlayxSecurePrefsSettings securePrefsSettings =
         const PlayxSecurePrefsSettings(),
     PlayxEnvSettings? envSettings,
@@ -54,8 +54,8 @@ abstract class Playx {
   static Future<void> runPlayx({
     required PlayXAppConfig appConfig,
     required Widget app,
-    required XLocaleConfig localeConfig,
-    required XThemeConfig themeConfig,
+    required PlayxLocaleConfig localeConfig,
+    required PlayxThemeConfig themeConfig,
     PlayxSecurePrefsSettings securePrefsSettings =
         const PlayxSecurePrefsSettings(),
     PlayxEnvSettings? envSettings,

@@ -87,7 +87,7 @@ class PlayxMaterialApp extends StatelessWidget {
           responsiveWidgets: screenSettings.responsiveWidgets,
           ensureScreenSize: screenSettings.ensureScreenSize,
           builder: (context, child) {
-            return PlayxLocalizationBuilder(builder: (locale) {
+            return PlayxLocalizationBuilder(builder: (ctx, locale) {
               return navigationSettings.useRouter
                   ? GetMaterialApp.router(
                       theme: themeSettings.theme ??
@@ -119,7 +119,7 @@ class PlayxMaterialApp extends StatelessWidget {
                       supportedLocales: PlayxLocalization.supportedLocales,
                       localizationsDelegates:
                           PlayxLocalization.localizationDelegates,
-                      locale: PlayxLocalization.currentLocale,
+                      locale: locale.locale,
                       debugShowMaterialGrid: appSettings.debugShowMaterialGrid,
                       showPerformanceOverlay:
                           appSettings.showPerformanceOverlay,
@@ -182,7 +182,7 @@ class PlayxMaterialApp extends StatelessWidget {
                       supportedLocales: PlayxLocalization.supportedLocales,
                       localizationsDelegates:
                           PlayxLocalization.localizationDelegates,
-                      locale: PlayxLocalization.currentLocale,
+                      locale: locale.locale,
                       debugShowMaterialGrid: appSettings.debugShowMaterialGrid,
                       showPerformanceOverlay:
                           appSettings.showPerformanceOverlay,

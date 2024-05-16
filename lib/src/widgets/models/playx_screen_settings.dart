@@ -9,7 +9,7 @@ class PlayxScreenSettings {
   final bool minTextAdapt;
   final bool useInheritedMediaQuery;
   final RebuildFactor rebuildFactor;
-  final bool? ensureScreenSize;
+  final bool ensureScreenSize;
   final FontSizeResolver fontSizeResolver;
   final Iterable<String>? responsiveWidgets;
 
@@ -19,7 +19,7 @@ class PlayxScreenSettings {
     this.useInheritedMediaQuery = false,
     this.rebuildFactor = RebuildFactors.size,
     this.designSize = const Size(360, 690),
-    this.ensureScreenSize,
+    this.ensureScreenSize = false,
     this.fontSizeResolver = FontSizeResolvers.width,
     this.responsiveWidgets,
   });

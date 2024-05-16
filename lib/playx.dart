@@ -22,6 +22,7 @@ export 'package:sentry_flutter/sentry_flutter.dart'
         HttpHeaderUtils,
         SentryTraceOrigins,
         SentrySpanOperations,
+        SanitizedSentryRequest,
         getUtcDateTime,
         formatDateAsIso8601WithMillisPrecision,
         jsonSerializationFallback;

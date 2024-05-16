@@ -12,7 +12,7 @@ void main() async {
 
   Playx.runPlayx(
     appConfig: config,
-    themeConfig: AppThemeConfig(),
+    themeConfig: createThemeConfig(),
     envSettings: const PlayxEnvSettings(
       fileName: 'assets/env/keys.env',
     ),
@@ -22,7 +22,7 @@ void main() async {
     sentryOptions: (options) {
       options.dsn = AppConfig.sentryKey;
     },
-    localeConfig: AppLocaleConfig(),
+    localeConfig: createLocaleConfig(),
   );
 }
 
@@ -32,9 +32,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlayxMaterialApp(
-      title: AppTrans.appName.tr,
-      navigationSettings: const PlayxNavigationSettings(
-        home: Home(),
+      title: AppTrans.appName,
+      navigationSettings: PlayxNavigationSettings(
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const Home(),
+        },
       ),
       appSettings: const PlayxAppSettings(
         debugShowCheckedModeBanner: true,
