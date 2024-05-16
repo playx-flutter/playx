@@ -30,7 +30,6 @@ class PlayxNavigationSettings {
 
   final bool useRouter;
 
-
   const PlayxNavigationSettings({
     this.home,
     this.navigatorKey,
@@ -51,7 +50,6 @@ class PlayxNavigationSettings {
     this.smartManagement = SmartManagement.full,
     this.initialBinding,
     this.unknownRoute,
-
   })  : useRouter = false,
         routeInformationProvider = null,
         routeInformationParser = null,

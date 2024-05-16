@@ -1,3 +1,12 @@
+## 1.1.0
+> Note: This release has breaking changes.
+> Please refer to [playx_theme](https://pub.dev/packages/playx_theme) and [playx_localization](https://pub.dev/packages/playx_localization) for more information about the changes.
+
+- Update packages.
+- Renamed XLocaleConfig to `PlayxLocaleConfig`
+- Renamed XThemeConfig to `PlayxThemeConfig`
+
+
 ## 1.0.5
 - Update packages.
 

@@ -1,7 +1,7 @@
 name: playx
 description: Playx eco system helps with redundant features as it provides many utilities for themes, widgets and more.
-version: 1.0.5
-homepage: https://sourcya.com/
+version: 1.1.0
+homepage: https://sourcya.io
 repository: https://github.com/playx-flutter/playx
 issue_tracker: https://github.com/playx-flutter/playx/issues
 topics:
@@ -19,21 +19,21 @@ dependencies:
   flutter:
     sdk: flutter
   async: ^2.11.0
-  playx_core: ^0.4.1
-  playx_theme: ^0.4.3
-  playx_widget: ^0.1.2
-  playx_network: ^0.0.9
-  playx_localization: ^0.0.5
+  playx_core: ^0.4.2
+  playx_theme: ^0.5.0
+  playx_widget: ^0.1.4
+  playx_network: ^0.1.0
+  playx_localization: ^0.1.0
   queen_validators: ^1.0.1
   fimber: ^0.7.0
-  sentry_flutter: ^7.18.0
+  sentry_flutter: ^8.2.0
   flutter_animate: ^4.5.0
-  internet_connection_checker_plus: ^2.2.0
+  internet_connection_checker_plus: ^2.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^4.0.0
 
 flutter:
 

@@ -93,7 +93,7 @@ class PlayxPlatformApp extends StatelessWidget {
           responsiveWidgets: screenSettings.responsiveWidgets,
           ensureScreenSize: screenSettings.ensureScreenSize,
           builder: (context, child) {
-            return PlayxLocalizationBuilder(builder: (locale) {
+            return PlayxLocalizationBuilder(builder: (ctx, locale) {
               return Theme(
                 data: themeSettings.theme ??
                     xTheme.themeBuilder?.call(locale.locale) ??

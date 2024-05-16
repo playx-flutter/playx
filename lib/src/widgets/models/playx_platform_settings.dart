@@ -1,10 +1,9 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:playx_widget/playx_widget.dart';
 
 class PlayxPlatformSettings {
-
   final TargetPlatform? initialPlatform;
+
   /// Adds a [Material] widget to [CupertinoScaffold], [CupertinoTabScaffold] and
   /// [CupertinoAlertDialog] to allow for Material widgets to be used. This is required
   /// when using a PlatformApp since some Material widgets will expect a Material parent,
@@ -17,7 +16,6 @@ class PlayxPlatformSettings {
   /// a [PlatformAppBar]. Only affects the padding for the cupertino style and only if no padding
   /// is already defined. Will affect all [PlatformIconButton]s added to the [PlatformAppBar]
   final bool iosUseZeroPaddingForAppbarPlatformIcon;
-
 
   /// The style each platform will use. Either [PlatformStyle.Material] or
   /// [PlatformStyle.Cupertino].
