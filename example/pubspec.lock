@@ -141,10 +141,18 @@ packages:
     dependency: transitive
     description:
       name: dio
-      sha256: "11e40df547d418cc0c4900a9318b26304e665da6fa4755399a9ff9efd09034b5"
+      sha256: e17f6b3097b8c51b72c74c9f071a605c47bcc8893839bd66732457a5ebe73714
       url: "https://pub.dev"
     source: hosted
-    version: "5.4.3+1"
+    version: "5.5.0+1"
+  dio_web_adapter:
+    dependency: transitive
+    description:
+      name: dio_web_adapter
+      sha256: "36c5b2d79eb17cdae41e974b7a8284fec631651d2a6f39a8a2ff22327e90aeac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   dotted_border:
     dependency: transitive
     description:
@@ -221,10 +229,10 @@ packages:
     dependency: transitive
     description:
       name: flex_seed_scheme
-      sha256: "4cee2f1d07259f77e8b36f4ec5f35499d19e74e17c7dce5b819554914082bc01"
+      sha256: "6c595e545b0678e1fe17e8eec3d1fbca7237482da194fadc20ad8607dc7a7f3d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "3.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -327,10 +335,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_screenutil
-      sha256: b372c35a772a1dc84142a3b9c5ee89a390834bd258e5e6a450d9b975b985d1c9
+      sha256: "8239210dd68bee6b0577aa4a090890342d04a136ce1c81f98ee513fc0ce891de"
       url: "https://pub.dev"
     source: hosted
-    version: "5.9.1"
+    version: "5.9.3"
   flutter_secure_storage:
     dependency: transitive
     description:
@@ -441,10 +449,10 @@ packages:
     dependency: transitive
     description:
       name: internet_connection_checker_plus
-      sha256: "423480962bda16f10d0a79efe6c4f1b5212d80203f6b8ee921edb0a1d3c17c88"
+      sha256: "116a5473ef8b3eadc4f07257d2719885aec1626c54fb043c47e3deda659dbabb"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.5.0"
   intl:
     dependency: transitive
     description:
@@ -497,10 +505,10 @@ packages:
     dependency: transitive
     description:
       name: lottie
-      sha256: "46def1e76c4fbfd4643e823980112cfe94a2ba1d9152fe54701c0bf30be4f4cd"
+      sha256: "6a24ade5d3d918c306bb1c21a6b9a04aab0489d51a2582522eea820b4093b62b"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.1"
+    version: "3.1.2"
   matcher:
     dependency: transitive
     description:
@@ -651,7 +659,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.1.0"
+    version: "1.1.1"
   playx_core:
     dependency: transitive
     description:
@@ -664,34 +672,34 @@ packages:
     dependency: transitive
     description:
       name: playx_localization
-      sha256: aeee598aa9d8743cfdd993a06a8352eb8e18f5f5ef89d0197a61bff5083ffd4e
+      sha256: e3c9584042bdf3ec73aa8aa39595770f3136a446e2a2d7e3969617f44e3f4989
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.2"
   playx_network:
     dependency: transitive
     description:
       name: playx_network
-      sha256: "60a022cd9bfdd3d0b533b894f049d7b60604c0eb149cd37abb42677eda29a1fd"
+      sha256: "19a98a3213bb4e4eab54e832db526405c7a925d6a6850891a977bc8aeb6824e3"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.1"
   playx_theme:
     dependency: transitive
     description:
       name: playx_theme
-      sha256: e8bd27a54fb28c4ce050b7081cb9ab16fbc1d06707942fd8aabcd216392cd747
+      sha256: bbf5148c9b4fe69203a6add7d354986fbd0ca0a3a983ae67afdb966dc524d8b8
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.6.0"
   playx_widget:
     dependency: transitive
     description:
       name: playx_widget
-      sha256: "04a0252dbacf9b58c2230d228274fe1eb02538e57901f73203c97ccee68b777f"
+      sha256: c0ffb518ab7b5498e71dfb094202ec71ba0297540bde67f9725cc8ff7be549e3
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.4"
+    version: "0.1.5"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -744,18 +752,18 @@ packages:
     dependency: transitive
     description:
       name: sentry
-      sha256: fd1fbfe860c05f5c52820ec4dbf2b6473789e83ead26cfc18bca4fe80bf3f008
+      sha256: "7342ef4c18932881730ac941a07a6e4cf76fe99cd1ea3bef06e53a6a1402dec0"
       url: "https://pub.dev"
     source: hosted
-    version: "8.2.0"
+    version: "8.3.0"
   sentry_flutter:
     dependency: transitive
     description:
       name: sentry_flutter
-      sha256: c64f0aec5332bec87083b61514d1b6b29e435b9045d03ce1575861192b9a5680
+      sha256: "475cf49682e4d1eb48caa2577502721bcfdcbb63f215de57b3b246d52f4f7914"
       url: "https://pub.dev"
     source: hosted
-    version: "8.2.0"
+    version: "8.3.0"
   shared_preferences:
     dependency: transitive
     description:
@@ -981,10 +989,10 @@ packages:
     dependency: transitive
     description:
       name: wolt_modal_sheet
-      sha256: e5f08db4927bd97ec57fdf6f995d4bd6f17459c5511cbb07f4c94c82c6a2cfcd
+      sha256: c8c468314779413e0cf59dbded6a6635589c23ad01ee8bf9b1e9eaa55b64b59e
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.7.1"
   xdg_directories:
     dependency: transitive
     description:
@@ -1002,5 +1010,5 @@ packages:
     source: hosted
     version: "6.3.0"
 sdks:
-  dart: ">=3.3.1 <4.0.0"
-  flutter: ">=3.19.0"
+  dart: ">=3.4.1 <4.0.0"
+  flutter: ">=3.22.0"

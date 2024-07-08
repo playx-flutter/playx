@@ -1,3 +1,7 @@
+## 1.1.1
+- Update packages.
+- Update minimum dart version to 3.4.1 and flutter version to 3.22.0.
+
 ## 1.1.0
 > Note: This release has breaking changes.
 > Please refer to [playx_theme](https://pub.dev/packages/playx_theme) and [playx_localization](https://pub.dev/packages/playx_localization) for more information about the changes.
