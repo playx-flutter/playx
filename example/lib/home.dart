@@ -40,11 +40,11 @@ class _HomeState extends State<Home> {
             children: [
               Container(
                 width: context.width * .5,
-                color: context.colors.onBackground,
+                color: context.colors.onSurface,
                 padding: const EdgeInsets.all(8),
                 child: Text(
                   PlayxTheme.name,
-                  style: TextStyle(color: context.colors.background),
+                  style: TextStyle(color: context.colors.surface),
                 ),
               ),
               const AppVersion(),
@@ -136,6 +136,7 @@ class _HomeState extends State<Home> {
                   return AlertDialog(
                     title: const Text('title'),
                     content: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: List.generate(
                           PlayxTheme.supportedThemes.length,
                           (index) => Card(
