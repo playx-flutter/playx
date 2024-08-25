@@ -1,29 +1,40 @@
 import 'package:flutter/foundation.dart';
 import 'package:playx_widget/playx_widget.dart';
 
+/// Platform-specific settings for configuring the appearance and behavior of widgets.
+///
+/// The [PlayxPlatformSettings] class allows you to customize various platform-specific
+/// settings for both Material and Cupertino styles in a Flutter application.
+///
+/// **Note:** Adjusting these settings can impact the appearance and functionality
+/// of platform-specific widgets and their behavior in your app.
 class PlayxPlatformSettings {
+  /// The initial platform to use for the application. This can be set to control
+  /// which platform-specific widgets and styles are applied initially.
   final TargetPlatform? initialPlatform;
 
-  /// Adds a [Material] widget to [CupertinoScaffold], [CupertinoTabScaffold] and
-  /// [CupertinoAlertDialog] to allow for Material widgets to be used. This is required
-  /// when using a PlatformApp since some Material widgets will expect a Material parent,
-  /// otherwise an exception is thrown.
-  /// Note: This may affect fonts and colors and dark mode may not work in all cases.
-  /// Note: This may cause widgets to show a ripple effect where as before 1.6.0 it did not
+  /// Whether to add a [Material] widget to [CupertinoScaffold], [CupertinoTabScaffold],
+  /// and [CupertinoAlertDialog]. This is required when using a PlatformApp, as some
+  /// Material widgets expect a Material parent. Note that this may affect fonts and colors
+  /// and may not work seamlessly with dark mode in all cases.
+  ///
+  /// Note: This may also cause a ripple effect on widgets that previously did not exhibit this behavior.
   final bool iosUsesMaterialWidgets;
 
-  /// Sets any padding of the [PlatformIconButton] to [EdgeInserts.zero] when placed inside
-  /// a [PlatformAppBar]. Only affects the padding for the cupertino style and only if no padding
-  /// is already defined. Will affect all [PlatformIconButton]s added to the [PlatformAppBar]
+  /// Whether to set the padding of [PlatformIconButton] to [EdgeInsets.zero] when
+  /// placed inside a [PlatformAppBar]. This only affects padding for the Cupertino style
+  /// and only if no padding is already defined. It will affect all [PlatformIconButton]s
+  /// added to the [PlatformAppBar].
   final bool iosUseZeroPaddingForAppbarPlatformIcon;
 
-  /// The style each platform will use. Either [PlatformStyle.Material] or
-  /// [PlatformStyle.Cupertino].
+  /// The style each platform will use. This can be either [PlatformStyle.Material] or
+  /// [PlatformStyle.Cupertino], controlling the overall appearance and behavior of widgets.
   final PlatformStyleData platformStyle;
 
-  /// Add MediaQuery as a parent to any given title value for a [PlatformAppBar] for the cupertino [CupertinoNavigationBar]
-  /// This is to resolve the somewhat strange behaviour as described in https://github.com/flutter/flutter/issues/42759
-  /// Set to true (wrapped) by default which could be a breaking change. If it is then set this value to false
+  /// Whether to wrap the middle title of a [PlatformAppBar] with a [MediaQuery] for Cupertino
+  /// [CupertinoNavigationBar]. This resolves specific layout issues with titles as described in
+  /// https://github.com/flutter/flutter/issues/42759. Defaults to true, which may be a breaking change.
+  /// Set this value to false if you encounter issues.
   final bool wrapCupertinoAppBarMiddleWithMediaQuery;
 
   const PlayxPlatformSettings({

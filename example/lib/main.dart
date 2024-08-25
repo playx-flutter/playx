@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlayxMaterialApp(
-      title: AppTrans.appName,
       navigationSettings: PlayxNavigationSettings(
         initialRoute: '/',
         routes: {
@@ -40,6 +39,7 @@ class MyApp extends StatelessWidget {
       ),
       appSettings: const PlayxAppSettings(
         debugShowCheckedModeBanner: true,
+        title: AppTrans.appName,
       ),
     );
   }

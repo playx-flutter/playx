@@ -1,3 +1,40 @@
+# Changelog
+
+## 1.2.0
+> Note: This release has breaking changes.
+> Please refer to [playx_theme](https://pub.dev/packages/playx_theme), [playx_localization](https://pub.dev/packages/playx_localization) and  [playx_core](https://pub.dev/packages/playx_core)  for more information about the changes.
+
+**New Features:**
+- **Introduced `PlayxGetMaterialApp` and `PlayxGetPlatformApp`:**
+> Note: These classes might be removed in the future.
+  - These new classes are based on the old `PlayxMaterialApp` and `PlayxPlatformApp`, specifically tailored for use with `GetMaterialApp` and `GetPlatformApp`.
+  - They retain full compatibility with GetX features, including GetX-specific navigation and settings.
+
+- **Introduced ` [playx_navigation](https://pub.dev/packages/playx_navigation)`:**
+  - Added new package [playx_navigation](https://pub.dev/packages/playx_navigation) which is a wrapper around GoRouter to make navigation easier and more flexible.
+
+**Breaking Changes:**
+- **Updated `PlayxMaterialApp` and `PlayxPlatformApp`:**
+  - These classes have been refactored to remove any references to GetX.
+  - Now utilize the `PlayxNavigation` package, with the added flexibility to integrate `goRouter` via the `navigationSettings.goRouter` constructor.
+  - This transition allows for more versatile and modern navigation solutions, making these widgets more adaptable to different routing needs and state management solution
+
+- **Updated `ConnectionStatusController` to `ValueNotifier` instead of `GetxController`:**
+  - The `ConnectionStatusController` has been updated to use `ValueNotifier` instead of `GetxController`.
+  - This change allows for more flexibility and compatibility with different state management solutions.
+  - To use the `ConnectionStatusController`, users need to wrap it with `ValueListenableBuilder` to listen to changes.
+
+**Enhancements:**
+- **Moved to App Settings:**
+  - The properties `shortcuts`, `scrollBehavior`, `actions`, and `title` have been moved to the app settings, centralizing these configurations.
+
+- **Added `PlayxGetNavigationSettings`:**
+  - Introduced a new class with custom GetX navigation settings, offering extensive configurability, including `navigatorKey`, `routes`, `initialRoute`, `onGenerateRoute`, `navigatorObservers`, `customTransition`, `transitionDuration`, `getPages`, `unknownRoute`, `routingCallback`, and more.includeSentryNavigationObserver Update:
+
+- **Added `includeSentryNavigationObserver`:**
+  - The includeSentryNavigationObserver has been moved to navigation settings.
+  - It no longer works with Router or GoRouter. Users need to add the observer manually if required.
+  
 ## 1.1.1
 - Update packages.
 - Update minimum dart version to 3.4.1 and flutter version to 3.22.0.
