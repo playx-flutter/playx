@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:playx/playx.dart';
 
 /// Connection status enum

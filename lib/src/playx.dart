@@ -12,6 +12,19 @@ import 'package:playx/playx.dart';
 abstract class Playx {
   static final _asyncCompleter = Completer();
 
+  /// The current app config.
+  static PlayXAppConfig? _config;
+
+  ///Returns the current app config.
+  ///Throws an exception if the app config is not set.
+  static PlayXAppConfig get appConfig {
+    if (_config == null) {
+      throw Exception(
+          'App config not set. Please ensure you have called boot() before accessing the app config.');
+    }
+    return _config!;
+  }
+
   ///Boots playx package
   ///Used to setup app dependencies, localization, theme and preferences.
   ///Must be called to initialize dependencies.
@@ -40,12 +53,9 @@ abstract class Playx {
     /// * boot app config.
     await appConfig.boot();
     EasyLocalization.logger('appConfig booted ✔');
-    Get.put<PlayXAppConfig>(appConfig, permanent: true);
 
     //boot long running tasks asynchronously.
     _asyncCompleter.complete(appConfig.asyncBoot());
-
-    /// * inject the theme
   }
 
   ///Wraps`runApp` to inject , init and setup playx packages.
@@ -96,7 +106,7 @@ abstract class Playx {
   ///Used to clean up and free up resources.
   @visibleForTesting
   static Future<void> dispose() async {
-    await Get.find<PlayXAppConfig>().dispose();
+    await _config?.dispose();
     await PlayxTheme.dispose();
     await PlayxCore.dispose();
     EasyLocalization.logger('disposed ✔');

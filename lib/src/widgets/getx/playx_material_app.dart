@@ -1,49 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:playx/src/widgets/models/playx_app_settings.dart';
-import 'package:playx/src/widgets/models/playx_navigation_settings.dart';
 import 'package:playx/src/widgets/models/playx_screen_settings.dart';
 import 'package:playx/src/widgets/models/playx_theme_settings.dart';
 import 'package:playx_localization/playx_localization.dart';
-import 'package:playx_navigation/playx_navigation.dart';
 import 'package:playx_theme/playx_theme.dart';
 import 'package:playx_widget/playx_widget.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-///PlayxMaterialApp : A widget that wraps [MaterialApp] with [PlayXThemeBuilder] to update the app with current theme  and [ScreenUtilInit] that initializes [ScreenUtil]
+import '../models/playx_get_navigation_settings.dart';
+
+///PlayxMaterialApp : A widget that wraps [GetMaterialApp] with [PlayXThemeBuilder] to update the app with current theme  and [ScreenUtilInit] that initializes [ScreenUtil]
 /// With the ability to set app orientation and more.
-class PlayxMaterialApp extends StatelessWidget {
+class PlayxGetMaterialApp extends StatelessWidget {
   //orientation
   /// Sets your preferred orientations of the Material app.
   final List<DeviceOrientation> preferredOrientations;
 
   /// Screen util settings
   final PlayxScreenSettings screenSettings;
-
   // App theme settings
   final PlayxThemeSettings themeSettings;
-
   // App navigation settings
-  final PlayxNavigationSettings navigationSettings;
-
+  final PlayxGetNavigationSettings navigationSettings;
   // App settings
   final PlayxAppSettings appSettings;
 
-  const PlayxMaterialApp({
+  //Get material app parameters
+  final GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey;
+  final String title;
+  final GenerateAppTitle? onGenerateTitle;
+  final Color? color;
+  final TextDirection? textDirection;
+  final VoidCallback? onInit;
+  final VoidCallback? onReady;
+  final VoidCallback? onDispose;
+  final LogWriterCallback? logWriterCallback;
+  final bool? popGesture;
+
+  ///Whether should include sentry navigator observer or not..
+  final bool includeSentryNavigationObserver;
+
+  ///Callback that is called when the theme is updated.
+  final Function(XTheme)? onThemeChanged;
+
+  const PlayxGetMaterialApp({
     super.key,
     this.preferredOrientations = const [
       DeviceOrientation.portraitUp,
     ],
     this.screenSettings = const PlayxScreenSettings(),
     this.themeSettings = const PlayxThemeSettings(),
-    this.navigationSettings = const PlayxNavigationSettings(),
+    this.navigationSettings = const PlayxGetNavigationSettings(),
     this.appSettings = const PlayxAppSettings(),
+    this.scaffoldMessengerKey,
+    this.textDirection,
+    this.title = '',
+    this.onGenerateTitle,
+    this.color,
+    this.onInit,
+    this.onReady,
+    this.onDispose,
+    this.logWriterCallback,
+    this.popGesture,
+    this.includeSentryNavigationObserver = true,
+    this.onThemeChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return PlayxThemeBuilder(builder: (ctx, xTheme) {
-      themeSettings.onThemeChanged?.call(xTheme);
+      onThemeChanged?.call(xTheme);
       SystemChrome.setPreferredOrientations(preferredOrientations);
       return ScreenUtilInit(
           designSize: screenSettings.designSize,
@@ -56,27 +84,32 @@ class PlayxMaterialApp extends StatelessWidget {
           ensureScreenSize: screenSettings.ensureScreenSize,
           builder: (context, child) {
             return PlayxLocalizationBuilder(builder: (ctx, locale) {
-              final materialApp = navigationSettings.useRouter
-                  ? MaterialApp.router(
-                      title: appSettings.title,
+              return navigationSettings.useRouter
+                  ? GetMaterialApp.router(
                       theme: themeSettings.theme ??
                           xTheme.themeBuilder?.call(locale.locale) ??
                           xTheme.themeData,
                       debugShowCheckedModeBanner:
                           appSettings.debugShowCheckedModeBanner,
-                      routeInformationProvider: navigationSettings
-                              .goRouter?.routeInformationProvider ??
+                      routeInformationProvider:
                           navigationSettings.routeInformationProvider,
-                      routerDelegate:
-                          navigationSettings.goRouter?.routerDelegate ??
-                              navigationSettings.routerDelegate,
+                      routerDelegate: navigationSettings.routerDelegate,
                       routeInformationParser:
-                          navigationSettings.goRouter?.routeInformationParser ??
-                              navigationSettings.routeInformationParser,
+                          navigationSettings.routeInformationParser,
                       backButtonDispatcher:
-                          navigationSettings.goRouter?.backButtonDispatcher ??
-                              navigationSettings.backButtonDispatcher,
+                          navigationSettings.backButtonDispatcher,
+                      navigatorObservers:
+                          navigationSettings.navigatorObservers ??
+                              [
+                                if (includeSentryNavigationObserver)
+                                  SentryNavigatorObserver(),
+                              ],
+                      scaffoldMessengerKey: scaffoldMessengerKey,
                       builder: navigationSettings.builder,
+                      textDirection: textDirection,
+                      title: title,
+                      onGenerateTitle: onGenerateTitle,
+                      color: color,
                       darkTheme: themeSettings.darkTheme,
                       themeMode: themeSettings.themeMode,
                       supportedLocales: PlayxLocalization.supportedLocales,
@@ -93,13 +126,28 @@ class PlayxMaterialApp extends StatelessWidget {
                       showSemanticsDebugger: appSettings.showSemanticsDebugger,
                       shortcuts: appSettings.shortcuts,
                       scrollBehavior: appSettings.scrollBehavior,
+                      customTransition: navigationSettings.customTransition,
+                      onInit: onInit,
+                      onReady: onReady,
+                      onDispose: onDispose,
+                      routingCallback: navigationSettings.routingCallback,
+                      defaultTransition: navigationSettings.defaultTransition,
+                      getPages: navigationSettings.getPages,
+                      opaqueRoute: navigationSettings.opaqueRoute,
+                      enableLog: appSettings.enableLog,
+                      logWriterCallback: logWriterCallback,
+                      popGesture: popGesture,
+                      transitionDuration: navigationSettings.transitionDuration,
+                      defaultGlobalState: navigationSettings.defaultGlobalState,
+                      smartManagement: navigationSettings.smartManagement,
+                      initialBinding: navigationSettings.initialBinding,
+                      unknownRoute: navigationSettings.unknownRoute,
                       highContrastTheme: themeSettings.highContrastTheme,
                       highContrastDarkTheme:
                           themeSettings.highContrastDarkTheme,
                       actions: appSettings.actions,
                     )
-                  : MaterialApp(
-                      title: appSettings.title,
+                  : GetMaterialApp(
                       theme: themeSettings.theme ??
                           xTheme.themeBuilder?.call(locale.locale) ??
                           xTheme.themeData,
@@ -108,11 +156,11 @@ class PlayxMaterialApp extends StatelessWidget {
                       navigatorObservers:
                           navigationSettings.navigatorObservers ??
                               [
-                                if (navigationSettings
-                                    .includeSentryNavigationObserver)
+                                if (includeSentryNavigationObserver)
                                   SentryNavigatorObserver(),
                               ],
                       navigatorKey: navigationSettings.navigatorKey,
+                      scaffoldMessengerKey: scaffoldMessengerKey,
                       home: navigationSettings.home,
                       routes: navigationSettings.routes ?? {},
                       initialRoute: navigationSettings.initialRoute,
@@ -121,6 +169,10 @@ class PlayxMaterialApp extends StatelessWidget {
                           navigationSettings.onGenerateInitialRoutes,
                       onUnknownRoute: navigationSettings.onUnknownRoute,
                       builder: navigationSettings.builder,
+                      textDirection: textDirection,
+                      title: title,
+                      onGenerateTitle: onGenerateTitle,
+                      color: color,
                       darkTheme: themeSettings.darkTheme,
                       themeMode: themeSettings.themeMode,
                       supportedLocales: PlayxLocalization.supportedLocales,
@@ -137,17 +189,27 @@ class PlayxMaterialApp extends StatelessWidget {
                       showSemanticsDebugger: appSettings.showSemanticsDebugger,
                       shortcuts: appSettings.shortcuts,
                       scrollBehavior: appSettings.scrollBehavior,
+                      customTransition: navigationSettings.customTransition,
+                      onInit: onInit,
+                      onReady: onReady,
+                      onDispose: onDispose,
+                      routingCallback: navigationSettings.routingCallback,
+                      defaultTransition: navigationSettings.defaultTransition,
+                      getPages: navigationSettings.getPages,
+                      opaqueRoute: navigationSettings.opaqueRoute,
+                      enableLog: appSettings.enableLog,
+                      logWriterCallback: logWriterCallback,
+                      popGesture: popGesture,
+                      transitionDuration: navigationSettings.transitionDuration,
+                      defaultGlobalState: navigationSettings.defaultGlobalState,
+                      smartManagement: navigationSettings.smartManagement,
+                      initialBinding: navigationSettings.initialBinding,
+                      unknownRoute: navigationSettings.unknownRoute,
                       highContrastTheme: themeSettings.highContrastTheme,
                       highContrastDarkTheme:
                           themeSettings.highContrastDarkTheme,
                       actions: appSettings.actions,
                     );
-
-              return navigationSettings.goRouter != null
-                  ? PlayxNavigationBuilder(
-                      builder: (ctx) => materialApp,
-                      router: navigationSettings.goRouter!)
-                  : materialApp;
             });
           });
     });

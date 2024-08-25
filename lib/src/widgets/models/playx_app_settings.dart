@@ -1,7 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 /// Default app settings
 class PlayxAppSettings {
+  /// {@macro flutter.widgets.widgetsApp.title}
+  ///
+  /// This value is passed unmodified to [WidgetsApp.title].
+  final String title;
   final bool showPerformanceOverlay;
   final bool checkerboardRasterCacheImages;
   final bool checkerboardOffscreenLayers;
@@ -9,6 +14,10 @@ class PlayxAppSettings {
   final bool debugShowCheckedModeBanner;
   final bool debugShowMaterialGrid;
   final bool? enableLog;
+
+  final Map<LogicalKeySet, Intent>? shortcuts;
+  final ScrollBehavior? scrollBehavior;
+  final Map<Type, Action<Intent>>? actions;
 
   const PlayxAppSettings({
     this.debugShowMaterialGrid = false,
@@ -18,5 +27,9 @@ class PlayxAppSettings {
     this.showSemanticsDebugger = false,
     this.debugShowCheckedModeBanner = false,
     this.enableLog = kDebugMode,
+    this.shortcuts,
+    this.scrollBehavior,
+    this.actions,
+    this.title = '',
   });
 }

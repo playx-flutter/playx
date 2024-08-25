@@ -6,7 +6,7 @@
 Welcome to Playx, where simplicity meets functionality! Playx is an ecosystem designed to streamline your Flutter app development process by offering a plethora of utilities for themes, widgets, networking, and more.
 
 ## Features
-- **Prefs**: Efficient key-value pair storage powered by SharedPreferences.
+- **PlayxPrefs**: Efficient key-value pair storage powered by SharedPreferences.
 - **PlayX.runPlayX**: Simplifies app initialization by wrapping runApp and providing injection capabilities.
 - **AppConfig**: Enables hassle-free installation and setup of app dependencies.
 - **AppTheme**: Facilitates the creation and management of app themes with seamless theme switching.
@@ -19,7 +19,7 @@ Welcome to Playx, where simplicity meets functionality! Playx is an ecosystem de
 To integrate Playx into your project, add the following line to your `pubspec.yaml` file:
 
 ```yaml  
-playx: ^1.1.0  
+playx: ^1.2.0  
 ```  
 
 ## Usage
