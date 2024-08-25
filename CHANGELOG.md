@@ -19,6 +19,11 @@
   - Now utilize the `PlayxNavigation` package, with the added flexibility to integrate `goRouter` via the `navigationSettings.goRouter` constructor.
   - This transition allows for more versatile and modern navigation solutions, making these widgets more adaptable to different routing needs and state management solution
 
+- **Updated `ConnectionStatusController` to `ValueNotifier` instead of `GetxController`:**
+  - The `ConnectionStatusController` has been updated to use `ValueNotifier` instead of `GetxController`.
+  - This change allows for more flexibility and compatibility with different state management solutions.
+  - To use the `ConnectionStatusController`, users need to wrap it with `ValueListenableBuilder` to listen to changes.
+
 **Enhancements:**
 - **Moved to App Settings:**
   - The properties `shortcuts`, `scrollBehavior`, `actions`, and `title` have been moved to the app settings, centralizing these configurations.

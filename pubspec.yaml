@@ -30,6 +30,7 @@ dependencies:
   sentry_flutter: ^8.7.0
   flutter_animate: ^4.5.0
   internet_connection_checker_plus: ^2.5.1
+  connectivity_plus: ^6.0.5
   get: ^4.6.6
 
 dependency_overrides:

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:playx/playx.dart';
@@ -26,6 +27,7 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
     with WidgetsBindingObserver {
   final InternetConnection _internetConnection;
   StreamSubscription? _sub;
+  StreamSubscription<List<ConnectivityResult>>? _connectivitySub;
 
   /// Creates a [ConnectionStatusController] instance with the ability to customize
   /// the connection check interval and the URLs used to verify internet access.
@@ -121,6 +123,16 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
         isInternetConnected: event == InternetStatus.connected,
       );
     });
+
+    _connectivitySub =
+        Connectivity().onConnectivityChanged.listen((result) async {
+      if (result.contains(ConnectivityResult.mobile) ||
+          result.contains(ConnectivityResult.wifi)) {
+        checkInternetConnection();
+      } else {
+        value = ConnectionStatus.disconnected;
+      }
+    });
   }
 
   /// Handles changes in the internet connection status and updates the [ConnectionStatus]
@@ -133,10 +145,8 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
       if (value != ConnectionStatus.connected) {
         value = ConnectionStatus.connectionRestored;
       }
-      await Future.delayed(2.seconds);
-      value = await _internetConnection.hasInternetAccess
-          ? ConnectionStatus.connected
-          : ConnectionStatus.disconnected;
+      await Future.delayed(2.5.seconds);
+      value = ConnectionStatus.connected;
     } else {
       value = ConnectionStatus.disconnected;
     }
@@ -147,5 +157,7 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
   Future<void> stopListeningToConnectionStatus() async {
     _sub?.cancel();
     _sub = null;
+    _connectivitySub?.cancel();
+    _connectivitySub = null;
   }
 }

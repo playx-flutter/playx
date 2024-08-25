@@ -24,7 +24,6 @@ class _HomeState extends State<Home> {
     super.initState();
     getWeatherFromApi();
     getTextFromEnv();
-    Get.find<ConnectionStatusController>().listenToConnectionStatus();
   }
 
   @override
@@ -66,10 +65,13 @@ class _HomeState extends State<Home> {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w400),
               ),
-              GetX(
-                builder: (ConnectionStatusController controller) {
+              ValueListenableBuilder(
+                valueListenable: Get.find<ConnectionStatusController>(),
+                builder: (ctx, value, _) {
+                  Fimber.d('Connection Status: $value');
                   return Text(
-                    controller.isConnectedToInternet
+                    value == ConnectionStatus.connected ||
+                            value == ConnectionStatus.connectionRestored
                         ? 'Connected to Internet'
                         : 'Not Connected to Internet',
                     textAlign: TextAlign.center,
@@ -235,7 +237,6 @@ class _HomeState extends State<Home> {
 
   @override
   void dispose() {
-    Get.find<ConnectionStatusController>().stopListeningToConnectionStatus();
     super.dispose();
   }
 }
