@@ -1,36 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:playx_navigation/playx_navigation.dart';
 
-///Default navigation settings
+/// Default navigation settings for Playx with support for both Navigator and Router.
+///
+/// The [PlayxNavigationSettings] class provides configuration options for navigation
+/// within an application. It supports traditional [Navigator] and modern [Router] configurations,
+/// as well as the [GoRouter] for advanced routing scenarios.
+///
+/// **Note:** The settings for Navigator, Router, and GoRouter are mutually exclusive.
+/// Use only one of these configurations at a time.
 class PlayxNavigationSettings {
+  /// Key for managing the [Navigator] state.
   final GlobalKey<NavigatorState>? navigatorKey;
+
+  /// Map of route names to [WidgetBuilder] functions for traditional navigation.
   final Map<String, WidgetBuilder>? routes;
+
+  /// The initial route to display when the app starts.
   final String? initialRoute;
+
+  /// Function for generating routes for traditional navigation.
   final RouteFactory? onGenerateRoute;
+
+  /// Function for generating initial routes for traditional navigation.
   final InitialRouteListFactory? onGenerateInitialRoutes;
+
+  /// Function for handling unknown routes for traditional navigation.
   final RouteFactory? onUnknownRoute;
 
-  /// The navigator observers to use for the navigator.
-  /// Works only with Navigator1.
-  /// To add observers to Navigator2 Router, use the RouterDelegate.
+  /// List of [NavigatorObserver]s to observe navigation events.
+  /// Applicable only for traditional [Navigator].
+  /// For Router-based navigation, use the [RouterDelegate].
   final List<NavigatorObserver>? navigatorObservers;
+
+  /// A builder function to wrap the entire navigation stack.
   final TransitionBuilder? builder;
+
+  /// Default home widget for traditional navigation.
   final Widget? home;
 
+  /// [RouteInformationProvider] for Router-based navigation.
   final RouteInformationProvider? routeInformationProvider;
+
+  /// [RouteInformationParser] for Router-based navigation.
   final RouteInformationParser<Object>? routeInformationParser;
+
+  /// [RouterDelegate] for Router-based navigation.
   final RouterDelegate<Object>? routerDelegate;
+
+  /// [BackButtonDispatcher] for Router-based navigation.
   final BackButtonDispatcher? backButtonDispatcher;
 
-  /// The GoRouter instance to use for the navigation.
+  /// The [GoRouter] instance to use for advanced routing.
   final GoRouter? goRouter;
 
-  /// Whether should include sentry navigator observer or not.
-  /// Works only with Navigator. To add the sentry observer to Navigator2 Router, use the RouterDelegate.
+  /// Whether to include the Sentry navigator observer.
+  /// Applicable only for traditional [Navigator].
+  /// For Router-based navigation, add the Sentry observer to [RouterDelegate].
   final bool includeSentryNavigationObserver;
 
+  /// Indicates whether to use Router-based navigation or GoRouter.
   final bool useRouter;
 
+  /// Creates navigation settings for traditional [Navigator] navigation.
+  ///
+  /// This constructor sets up various properties related to Navigator-based navigation.
   const PlayxNavigationSettings({
     this.home,
     this.navigatorKey,
@@ -49,7 +83,9 @@ class PlayxNavigationSettings {
         goRouter = null,
         backButtonDispatcher = null;
 
-  ///Creates a navigation settings that uses the Router instead of a Navigator.
+  /// Creates navigation settings that use the Router instead of Navigator.
+  ///
+  /// This constructor sets up various properties related to Router-based navigation.
   const PlayxNavigationSettings.router({
     this.routeInformationProvider,
     this.routeInformationParser,
@@ -68,7 +104,9 @@ class PlayxNavigationSettings {
         includeSentryNavigationObserver = false,
         navigatorObservers = null;
 
-  /// Creates a navigation settings that uses the GoRouter instead of a Navigator.
+  /// Creates navigation settings that use the GoRouter instead of Navigator.
+  ///
+  /// This constructor sets up properties for advanced routing scenarios using [GoRouter].
   const PlayxNavigationSettings.goRouter({
     required GoRouter this.goRouter,
     this.navigatorKey,

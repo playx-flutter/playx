@@ -11,23 +11,36 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../models/playx_get_navigation_settings.dart';
 
-///PlayxMaterialApp : A widget that wraps [GetMaterialApp] with [PlayXThemeBuilder] to update the app with current theme  and [ScreenUtilInit] that initializes [ScreenUtil]
-/// With the ability to set app orientation and more.
+/// [PlayxGetMaterialApp] is a widget that integrates [GetMaterialApp] with [PlayXThemeBuilder] and [ScreenUtilInit].
+///
+/// This widget allows for configuration of theme settings, screen settings, and navigation settings. It also
+/// provides options to include a Sentry navigator observer for error tracking and customization of app behavior
+/// such as orientation, localization, and theming.
+///
+/// **Note:** This class might be removed in the future as part of ongoing refactoring and improvements. Users
+/// should be aware of this potential change and be prepared to migrate to alternative solutions if necessary.
 class PlayxGetMaterialApp extends StatelessWidget {
-  //orientation
-  /// Sets your preferred orientations of the Material app.
+  // Orientation settings for the Material app.
+  /// Sets the preferred orientations for the Material app.
   final List<DeviceOrientation> preferredOrientations;
 
-  /// Screen util settings
+  // Screen utility settings for initializing [ScreenUtil].
+  /// Configuration for screen utility settings, including design size, text adaptation, and responsive widgets.
   final PlayxScreenSettings screenSettings;
-  // App theme settings
+
+  // Theme settings for the app.
+  /// Settings related to app themes, including light and dark themes, and theme modes.
   final PlayxThemeSettings themeSettings;
-  // App navigation settings
+
+  // Navigation settings for the app.
+  /// Configuration for navigation, including route settings, custom transitions, and router delegates.
   final PlayxGetNavigationSettings navigationSettings;
-  // App settings
+
+  // General app settings.
+  /// General settings for app behavior, including logging, performance overlays, and shortcuts.
   final PlayxAppSettings appSettings;
 
-  //Get material app parameters
+  // GetMaterialApp parameters.
   final GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey;
   final String title;
   final GenerateAppTitle? onGenerateTitle;
@@ -38,12 +51,6 @@ class PlayxGetMaterialApp extends StatelessWidget {
   final VoidCallback? onDispose;
   final LogWriterCallback? logWriterCallback;
   final bool? popGesture;
-
-  ///Whether should include sentry navigator observer or not..
-  final bool includeSentryNavigationObserver;
-
-  ///Callback that is called when the theme is updated.
-  final Function(XTheme)? onThemeChanged;
 
   const PlayxGetMaterialApp({
     super.key,
@@ -64,15 +71,17 @@ class PlayxGetMaterialApp extends StatelessWidget {
     this.onDispose,
     this.logWriterCallback,
     this.popGesture,
-    this.includeSentryNavigationObserver = true,
-    this.onThemeChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return PlayxThemeBuilder(builder: (ctx, xTheme) {
-      onThemeChanged?.call(xTheme);
+      // Trigger the theme change callback if provided.
+      themeSettings.onThemeChanged?.call(xTheme);
+
+      // Set the preferred orientations for the app.
       SystemChrome.setPreferredOrientations(preferredOrientations);
+
       return ScreenUtilInit(
           designSize: screenSettings.designSize,
           minTextAdapt: screenSettings.minTextAdapt,
@@ -84,6 +93,7 @@ class PlayxGetMaterialApp extends StatelessWidget {
           ensureScreenSize: screenSettings.ensureScreenSize,
           builder: (context, child) {
             return PlayxLocalizationBuilder(builder: (ctx, locale) {
+              // Return a GetMaterialApp with router capabilities or standard GetMaterialApp based on settings.
               return navigationSettings.useRouter
                   ? GetMaterialApp.router(
                       theme: themeSettings.theme ??
@@ -101,7 +111,8 @@ class PlayxGetMaterialApp extends StatelessWidget {
                       navigatorObservers:
                           navigationSettings.navigatorObservers ??
                               [
-                                if (includeSentryNavigationObserver)
+                                if (navigationSettings
+                                    .includeSentryNavigationObserver)
                                   SentryNavigatorObserver(),
                               ],
                       scaffoldMessengerKey: scaffoldMessengerKey,
@@ -156,7 +167,8 @@ class PlayxGetMaterialApp extends StatelessWidget {
                       navigatorObservers:
                           navigationSettings.navigatorObservers ??
                               [
-                                if (includeSentryNavigationObserver)
+                                if (navigationSettings
+                                    .includeSentryNavigationObserver)
                                   SentryNavigatorObserver(),
                               ],
                       navigatorKey: navigationSettings.navigatorKey,

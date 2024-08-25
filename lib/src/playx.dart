@@ -5,18 +5,23 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:playx/playx.dart';
 
-///helps with redundant features , less code by providing many futures like:
-/// [Prefs] : easily save/ get key-value pairs from shared preferences.
-/// [PlayXAppConfig] : install and setup any dependencies that are required by the app.
-/// [PlayxTheme] : easily create and mange app theme with the ability to easily change app theme.
+/// The Playx library provides a suite of utilities for app setup, configuration, and management.
+///
+/// Key features include:
+/// - [Prefs]: Simplified key-value storage using shared preferences.
+/// - [PlayXAppConfig]: Install and set up dependencies required by the app.
+/// - [PlayxTheme]: Manage and change app themes easily.
+///
+/// This abstract class facilitates the initialization and management of Playx-related components.
 abstract class Playx {
-  static final _asyncCompleter = Completer();
+  static final _asyncCompleter = Completer<void>();
 
-  /// The current app config.
+  /// The current app configuration.
   static PlayXAppConfig? _config;
 
-  ///Returns the current app config.
-  ///Throws an exception if the app config is not set.
+  /// Returns the current app configuration.
+  ///
+  /// Throws an exception if the app configuration is not set.
   static PlayXAppConfig get appConfig {
     if (_config == null) {
       throw Exception(
@@ -25,9 +30,15 @@ abstract class Playx {
     return _config!;
   }
 
-  ///Boots playx package
-  ///Used to setup app dependencies, localization, theme and preferences.
-  ///Must be called to initialize dependencies.
+  /// Boots the Playx package by setting up app dependencies, localization, theme, and preferences.
+  ///
+  /// This method must be called to initialize dependencies before using Playx features.
+  ///
+  /// [appConfig]: The app configuration to set up.
+  /// [localeConfig]: The locale configuration for localization.
+  /// [themeConfig]: The theme configuration for the app.
+  /// [securePrefsSettings]: Settings for secure preferences (default: [PlayxSecurePrefsSettings]).
+  /// [envSettings]: Optional environment settings for configuration.
   static Future<void> boot({
     required PlayXAppConfig appConfig,
     required PlayxLocaleConfig localeConfig,
@@ -46,21 +57,27 @@ abstract class Playx {
 
     await PlayxLocalization.boot(config: localeConfig);
 
-    /// * boot the theme
+    /// Boot the theme configuration.
     await PlayxTheme.boot(config: themeConfig);
     EasyLocalization.logger('Theme booted ✔');
 
-    /// * boot app config.
+    /// Boot the app configuration.
     await appConfig.boot();
-    EasyLocalization.logger('appConfig booted ✔');
+    EasyLocalization.logger('AppConfig booted ✔');
 
-    //boot long running tasks asynchronously.
+    // Boot long-running tasks asynchronously.
     _asyncCompleter.complete(appConfig.asyncBoot());
   }
 
-  ///Wraps`runApp` to inject , init and setup playx packages.
-  ///[sentryOptions] : are used to initialize sentry to send crash reports to it.
-  /// If sentry dsn not provided it will ignore sentry.
+  /// Wraps `runApp` to initialize and set up Playx packages before running the app.
+  ///
+  /// [appConfig]: The app configuration to set up.
+  /// [app]: The root widget of the application.
+  /// [localeConfig]: The locale configuration for localization.
+  /// [themeConfig]: The theme configuration for the app.
+  /// [securePrefsSettings]: Settings for secure preferences (default: [PlayxSecurePrefsSettings]).
+  /// [envSettings]: Optional environment settings for configuration.
+  /// [sentryOptions]: Optional Sentry configuration for crash reporting.
   static Future<void> runPlayx({
     required PlayXAppConfig appConfig,
     required Widget app,
@@ -71,7 +88,7 @@ abstract class Playx {
     PlayxEnvSettings? envSettings,
     FlutterOptionsConfiguration? sentryOptions,
   }) async {
-    ///Boots playx dependencies.
+    // Boots Playx dependencies.
     await boot(
         appConfig: appConfig,
         themeConfig: themeConfig,
@@ -83,7 +100,7 @@ abstract class Playx {
       await SentryFlutter.init(
         sentryOptions,
 
-        /// run the app.
+        // Run the app after initializing Sentry.
         appRunner: () => runApp(app),
       );
     } else {
@@ -91,24 +108,26 @@ abstract class Playx {
     }
   }
 
-  ///Checks whether the application finished performing the async boot operation successfully.
+  /// Checks whether the application has finished performing the asynchronous boot operation successfully.
   static bool isAsyncBootCompleted() {
     return _asyncCompleter.isCompleted;
   }
 
-  ///Returns the future of performing the async boot operation.
-  ///Can be used to wait for the async boot operation to complete.
+  /// Returns the future for the asynchronous boot operation.
+  ///
+  /// This can be used to wait for the asynchronous boot operation to complete.
   static Future<void> asyncBootFuture() {
     return _asyncCompleter.future;
   }
 
-  ///Dispose playx package
-  ///Used to clean up and free up resources.
+  /// Disposes of the Playx package, cleaning up resources and freeing memory.
+  ///
+  /// This method is useful for cleanup and should be called when the application is disposed.
   @visibleForTesting
   static Future<void> dispose() async {
     await _config?.dispose();
     await PlayxTheme.dispose();
     await PlayxCore.dispose();
-    EasyLocalization.logger('disposed ✔');
+    EasyLocalization.logger('Disposed ✔');
   }
 }

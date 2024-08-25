@@ -47,9 +47,6 @@ class PlayxGetPlatformApp extends StatelessWidget {
   final LogWriterCallback? logWriterCallback;
   final bool? popGesture;
 
-  ///Whether should include sentry navigator observer or not..
-  final bool includeSentryNavigationObserver;
-
   const PlayxGetPlatformApp({
     super.key,
     this.preferredOrientations = const [
@@ -71,7 +68,6 @@ class PlayxGetPlatformApp extends StatelessWidget {
     this.onDispose,
     this.logWriterCallback,
     this.popGesture,
-    this.includeSentryNavigationObserver = true,
   });
 
   @override
@@ -184,7 +180,8 @@ class PlayxGetPlatformApp extends StatelessWidget {
                           navigatorObservers:
                               navigationSettings.navigatorObservers ??
                                   [
-                                    if (includeSentryNavigationObserver)
+                                    if (navigationSettings
+                                        .includeSentryNavigationObserver)
                                       SentryNavigatorObserver(),
                                   ],
                           navigatorKey: navigationSettings.navigatorKey,
