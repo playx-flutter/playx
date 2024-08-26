@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.1
+- Update exports
+
 ## 1.2.0
 > Note: This release has breaking changes.
 > Please refer to [playx_theme](https://pub.dev/packages/playx_theme), [playx_localization](https://pub.dev/packages/playx_localization) and  [playx_core](https://pub.dev/packages/playx_core)  for more information about the changes.
