@@ -1,7 +1,6 @@
 export 'package:async/async.dart' hide Result;
 export 'package:fimber/fimber.dart';
-export 'package:flutter_animate/flutter_animate.dart'
-    hide NumDurationExtensions;
+export 'package:flutter_animate/flutter_animate.dart';
 export 'package:get/get.dart'
     hide
         FormData,
