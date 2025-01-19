@@ -68,6 +68,9 @@ class PlayxAppSettings {
   /// specific intents across the application.
   final Map<Type, Action<Intent>>? actions;
 
+  /// The list of localizations delegates to use for the application with [PlayxLocalization].
+  final List<LocalizationsDelegate>? localizationsDelegates;
+
   /// Creates a new [PlayxAppSettings] instance with the provided configurations.
   ///
   /// All parameters are optional, with default values provided for each.
@@ -85,5 +88,6 @@ class PlayxAppSettings {
     this.scrollBehavior,
     this.actions,
     this.title = '',
+    this.localizationsDelegates,
   });
 }

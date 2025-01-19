@@ -1,4 +1,4 @@
-library playx;
+library;
 
 import 'dart:async';
 
@@ -8,7 +8,7 @@ import 'package:playx/playx.dart';
 /// The Playx library provides a suite of utilities for app setup, configuration, and management.
 ///
 /// Key features include:
-/// - [Prefs]: Simplified key-value storage using shared preferences.
+/// - [PlayxPrefs]: Simplified key-value storage using shared preferences.
 /// - [PlayXAppConfig]: Install and set up dependencies required by the app.
 /// - [PlayxTheme]: Manage and change app themes easily.
 ///
@@ -46,13 +46,18 @@ abstract class Playx {
     PlayxSecurePrefsSettings securePrefsSettings =
         const PlayxSecurePrefsSettings(),
     PlayxEnvSettings? envSettings,
+    PlayxPrefsSettings prefsSettings = const PlayxPrefsSettings(),
+    WorkManagerSettings workManagerSettings = const WorkManagerSettings(),
   }) async {
     EasyLocalization.logger.name = "Playx";
 
     WidgetsFlutterBinding.ensureInitialized();
 
     await PlayxCore.bootCore(
-        securePrefsSettings: securePrefsSettings, envSettings: envSettings);
+        securePrefsSettings: securePrefsSettings,
+        envSettings: envSettings,
+        prefsSettings: prefsSettings,
+        workerManagerSettings: workManagerSettings);
     EasyLocalization.logger('Core booted ✔');
 
     await PlayxLocalization.boot(config: localeConfig);
@@ -78,6 +83,8 @@ abstract class Playx {
   /// [securePrefsSettings]: Settings for secure preferences (default: [PlayxSecurePrefsSettings]).
   /// [envSettings]: Optional environment settings for configuration.
   /// [sentryOptions]: Optional Sentry configuration for crash reporting.
+  /// [prefsSettings]: Settings for shared preferences (default: [PlayxPrefsSettings]).
+  /// [workManagerSettings]: Settings for WorkManager (default: [WorkManagerSettings]).
   static Future<void> runPlayx({
     required PlayXAppConfig appConfig,
     required Widget app,
@@ -85,6 +92,8 @@ abstract class Playx {
     required PlayxThemeConfig themeConfig,
     PlayxSecurePrefsSettings securePrefsSettings =
         const PlayxSecurePrefsSettings(),
+    PlayxPrefsSettings prefsSettings = const PlayxPrefsSettings(),
+    WorkManagerSettings workManagerSettings = const WorkManagerSettings(),
     PlayxEnvSettings? envSettings,
     FlutterOptionsConfiguration? sentryOptions,
   }) async {
@@ -94,12 +103,13 @@ abstract class Playx {
         themeConfig: themeConfig,
         securePrefsSettings: securePrefsSettings,
         envSettings: envSettings,
-        localeConfig: localeConfig);
+        localeConfig: localeConfig,
+        prefsSettings: prefsSettings,
+        workManagerSettings: workManagerSettings);
 
     if (sentryOptions != null) {
       await SentryFlutter.init(
         sentryOptions,
-
         // Run the app after initializing Sentry.
         appRunner: () => runApp(app),
       );

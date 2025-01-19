@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:playx/playx.dart';
 
 /// An enumeration that represents the internet connection status.
@@ -28,6 +26,8 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
   final InternetConnection _internetConnection;
   StreamSubscription? _sub;
   StreamSubscription<List<ConnectivityResult>>? _connectivitySub;
+
+  final Connectivity connectivity = Connectivity();
 
   /// Creates a [ConnectionStatusController] instance with the ability to customize
   /// the connection check interval and the URLs used to verify internet access.
@@ -65,6 +65,8 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
                   uri: Uri.parse('https://icanhazip.com/'),
                   timeout: 10.seconds),
               InternetCheckOption(
+                  uri: Uri.parse('https://google.com'), timeout: 10.seconds),
+              InternetCheckOption(
                 uri: Uri.parse(
                   'https://jsonplaceholder.typicode.com/posts/1',
                 ),
@@ -73,11 +75,6 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
               InternetCheckOption(
                   uri: Uri.parse('https://pokeapi.co/api/v2/pokemon/1'),
                   timeout: 10.seconds),
-              InternetCheckOption(
-                  uri: Uri.parse('https://reqres.in/api/users/1'),
-                  timeout: 10.seconds),
-              InternetCheckOption(
-                  uri: Uri.parse('https://google.com'), timeout: 10.seconds),
             ],
         useDefaultOptions: false,
       );
@@ -91,10 +88,10 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
       case AppLifecycleState.resumed:
         listenToConnectionStatus();
         break;
-      case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
-      case AppLifecycleState.detached:
         stopListeningToConnectionStatus();
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.detached:
         break;
       case AppLifecycleState.hidden:
         break;
@@ -125,12 +122,18 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
     });
 
     _connectivitySub =
-        Connectivity().onConnectivityChanged.listen((result) async {
+        connectivity.onConnectivityChanged.listen((result) async {
       if (result.contains(ConnectivityResult.mobile) ||
           result.contains(ConnectivityResult.wifi)) {
         checkInternetConnection();
       } else {
-        value = ConnectionStatus.disconnected;
+        final res = await connectivity.checkConnectivity();
+        if (res.contains(ConnectivityResult.mobile) ||
+            res.contains(ConnectivityResult.wifi)) {
+          checkInternetConnection();
+        } else {
+          value = ConnectionStatus.disconnected;
+        }
       }
     });
   }
@@ -145,7 +148,7 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
       if (value != ConnectionStatus.connected) {
         value = ConnectionStatus.connectionRestored;
       }
-      await Future.delayed(2.5.seconds);
+      await Future.delayed(2.seconds);
       value = ConnectionStatus.connected;
     } else {
       value = ConnectionStatus.disconnected;
