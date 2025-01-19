@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.3.0
+- **Updated Packages**:
+  - Updated to the latest versions of Playx packages for better performance and features.
+
+- **Custom Localization**:
+  - Added `localizationsDelegates` to `PlayxAppSettings` to support custom localization alongside `PlayxLocalizationDelegates`.
+
+- **Improved Initialization**:
+  - Added `prefsSettings` and `workerManagerSettings` to `boot` and `runPlayx` methods for easier app setup.
+
+- **Bug Fix**:
+  - Fixed a connection status issue of `ConnectionStatusController` where it reappeared unnecessarily after the app resumed.
+
 ## 1.2.1- 1.2.2
 - Update exports
 
