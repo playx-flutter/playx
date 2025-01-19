@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:playx/playx.dart';
 import 'package:playx_example/colors/base_colors.dart';
+import 'package:playx_example/connection_status_widget.dart';
 import 'package:playx_example/model/weather.dart';
 import 'package:playx_example/translation/app_trans.dart';
 
@@ -47,6 +48,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               const AppVersion(),
+              const ConnectionStatusWidget(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(
@@ -63,29 +65,16 @@ class _HomeState extends State<Home> {
               Text(
                 _envText,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w400),
-              ),
-              ValueListenableBuilder(
-                valueListenable: Get.find<ConnectionStatusController>(),
-                builder: (ctx, value, _) {
-                  Fimber.d('Connection Status: $value');
-                  return Text(
-                    value == ConnectionStatus.connected ||
-                            value == ConnectionStatus.connectionRestored
-                        ? 'Connected to Internet'
-                        : 'Not Connected to Internet',
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w400),
-                  );
-                },
+                style:
+                    TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w400),
               ),
               ImageViewer.network(
                 'https://avatars.githubusercontent.com/u/35397170?s=200&v=4',
                 height: 100.w,
               ),
               ElevatedButton(
-                child: Text(AppTrans.changeLanguageTitle.tr(context: context)),
+                child:
+                    Text(AppTrans.changeLanguageTitle.tr(context: context)),
                 onPressed: () {
                   Get.dialog(
                     Center(
@@ -105,14 +94,14 @@ class _HomeState extends State<Home> {
                                         Get.back();
                                       },
                                       title: Text(e.name),
-                                      trailing:
-                                          PlayxLocalization.currentXLocale.id ==
-                                                  e.id
-                                              ? const Icon(
-                                                  Icons.done,
-                                                  color: Colors.lightBlue,
-                                                )
-                                              : const SizedBox.shrink(),
+                                      trailing: PlayxLocalization
+                                                  .currentXLocale.id ==
+                                              e.id
+                                          ? const Icon(
+                                              Icons.done,
+                                              color: Colors.lightBlue,
+                                            )
+                                          : const SizedBox.shrink(),
                                     )),
                           ],
                         ),
