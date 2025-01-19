@@ -99,7 +99,12 @@ class PlayxMaterialApp extends StatelessWidget {
                     themeMode: themeSettings.themeMode,
                     supportedLocales: PlayxLocalization.supportedLocales,
                     localizationsDelegates:
-                        PlayxLocalization.localizationDelegates,
+                        appSettings.localizationsDelegates == null
+                            ? PlayxLocalization.localizationDelegates
+                            : [
+                                ...PlayxLocalization.localizationDelegates,
+                                ...appSettings.localizationsDelegates!,
+                              ],
                     locale: locale.locale,
                     debugShowMaterialGrid: appSettings.debugShowMaterialGrid,
                     showPerformanceOverlay: appSettings.showPerformanceOverlay,
@@ -140,7 +145,12 @@ class PlayxMaterialApp extends StatelessWidget {
                     themeMode: themeSettings.themeMode,
                     supportedLocales: PlayxLocalization.supportedLocales,
                     localizationsDelegates:
-                        PlayxLocalization.localizationDelegates,
+                        appSettings.localizationsDelegates == null
+                            ? PlayxLocalization.localizationDelegates
+                            : [
+                                ...PlayxLocalization.localizationDelegates,
+                                ...appSettings.localizationsDelegates!,
+                              ],
                     locale: locale.locale,
                     debugShowMaterialGrid: appSettings.debugShowMaterialGrid,
                     showPerformanceOverlay: appSettings.showPerformanceOverlay,

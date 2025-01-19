@@ -96,7 +96,12 @@ class PlayxPlatformApp extends StatelessWidget {
                     builder: navigationSettings.builder,
                     supportedLocales: PlayxLocalization.supportedLocales,
                     localizationsDelegates:
-                        PlayxLocalization.localizationDelegates,
+                        appSettings.localizationsDelegates == null
+                            ? PlayxLocalization.localizationDelegates
+                            : [
+                                ...PlayxLocalization.localizationDelegates,
+                                ...appSettings.localizationsDelegates!,
+                              ],
                     locale: locale.locale,
                     showPerformanceOverlay: appSettings.showPerformanceOverlay,
                     checkerboardRasterCacheImages:
@@ -136,7 +141,12 @@ class PlayxPlatformApp extends StatelessWidget {
                     builder: navigationSettings.builder,
                     supportedLocales: PlayxLocalization.supportedLocales,
                     localizationsDelegates:
-                        PlayxLocalization.localizationDelegates,
+                        appSettings.localizationsDelegates == null
+                            ? PlayxLocalization.localizationDelegates
+                            : [
+                                ...PlayxLocalization.localizationDelegates,
+                                ...appSettings.localizationsDelegates!,
+                              ],
                     locale: locale.locale,
                     showPerformanceOverlay: appSettings.showPerformanceOverlay,
                     checkerboardRasterCacheImages:
