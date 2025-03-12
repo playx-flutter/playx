@@ -19,7 +19,7 @@ Welcome to Playx, where simplicity meets functionality! Playx is an ecosystem de
 To integrate Playx into your project, add the following line to your `pubspec.yaml` file:
 
 ```yaml  
-playx: ^1.2.0  
+playx: ^1.4.0  
 ```  
 
 ## Usage
@@ -67,13 +67,13 @@ Initialize dependencies, themes, and locales effortlessly with `PlayX.runPlayX`.
 
 ```dart  
 void main() async {  
-  Playx.runPlayx(  
-    appConfig: config,  
-    themeConfig: createThemeConfig(),  
-    envSettings: const PlayxEnvSettings(  
-      fileName: 'assets/env/keys.env',  
-    ),  
-    localeConfig: createLocaleConfig(),  
+  Playx.runPlayx(
+    appConfigBuilder:()=> AppConfig(),
+    themeConfigBuilder:()=> createThemeConfig(),
+    envSettingsBuilder:()=> const PlayxEnvSettings(
+      fileName: 'assets/env/keys.env',
+    ),
+    localeConfigBuilder:()=> createLocaleConfig(),
     app: const MyApp(),  
     sentryOptions: (options) {  
       options.dsn = AppConfig.sentryKey;  
@@ -133,7 +133,7 @@ To use it we need to :
             this.width, 
             this.height,});
         
-            Cat.fromJson(dynamic json) {
+          factory  Cat.fromJson(dynamic json) {
                   id = json['id'];
                   url = json['url'];
                  width = json['width'];

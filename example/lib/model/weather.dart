@@ -10,18 +10,21 @@ class Weather {
     this.currentWeather,
   });
 
-  Weather.fromJson(dynamic json) {
-    latitude = json['latitude'];
-    longitude = json['longitude'];
-    generationtimeMs = json['generationtime_ms'];
-    utcOffsetSeconds = json['utc_offset_seconds'];
-    timezone = json['timezone'];
-    timezoneAbbreviation = json['timezone_abbreviation'];
-    elevation = json['elevation'];
-    currentWeather = json['current_weather'] != null
-        ? CurrentWeather.fromJson(json['current_weather'])
-        : null;
+  factory Weather.fromJson(dynamic json) {
+    return Weather(
+      latitude: json['latitude'],
+      longitude: json['longitude'],
+      generationtimeMs: json['generationtime_ms'],
+      utcOffsetSeconds: json['utc_offset_seconds'],
+      timezone: json['timezone'],
+      timezoneAbbreviation: json['timezone_abbreviation'],
+      elevation: json['elevation'],
+      currentWeather: json['current_weather'] != null
+          ? CurrentWeather.fromJson(json['current_weather'])
+          : null,
+    );
   }
+
   num? latitude;
   num? longitude;
   num? generationtimeMs;
@@ -73,6 +76,7 @@ class CurrentWeather {
     isDay = json['is_day'];
     time = json['time'];
   }
+
   num? temperature;
   num? windspeed;
   num? winddirection;
