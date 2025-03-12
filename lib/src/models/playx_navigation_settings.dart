@@ -62,6 +62,7 @@ class PlayxNavigationSettings {
   /// Indicates whether to use Router-based navigation or GoRouter.
   final bool useRouter;
 
+
   /// Creates navigation settings for traditional [Navigator] navigation.
   ///
   /// This constructor sets up various properties related to Navigator-based navigation.

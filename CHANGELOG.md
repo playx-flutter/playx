@@ -1,5 +1,48 @@
 # Changelog
 
+## 1.4.0
+
+### Enhancements
+- **Updated `boot` and `runPlayx` to use builder functions** for key configurations:
+  - `appConfigBuilder`, `localeConfigBuilder`, `themeConfigBuilder`, and `envSettingsBuilder` are now passed as **builder functions** instead of direct instances.
+  - This change improves flexibility, allowing deferred initialization and better dependency management.
+
+- **Deprecated direct configuration parameters** in favor of builder functions.
+  - Existing parameters like `appConfig`, `localeConfig`, `themeConfig`, and `envSettings` will be removed in future versions.
+
+- **Updated `boot` and `runPlayx` to include `PlayxWebSettings`**  for web-specific configurations.
+  - `PlayxWebSettings` includes options like `usePathUrlStrategy`, `optionURLReflectsImperativeAPIs`.
+
+### **Package Updates**
+- **Updated most dependencies** to support **WASM web builds** for improved web compatibility.
+- **The only unsupported package is `flutter_secure_storage`**, which prevents full WASM support.
+  - To override this limitation, use:
+    ```yaml
+    dependency_overrides:
+      playx_core: ^1.0.0-beta.3
+    ```
+  - This allows Playx to support WASM builds while maintaining secure storage compatibility.
+
+### **Migration Guide**
+To update your existing implementation, replace direct configuration parameters with builder functions:
+#### **Before:**
+```dart
+runPlayx(
+  appConfig: MyAppConfig(),
+  localeConfig: MyLocaleConfig(),
+  themeConfig: MyThemeConfig(),
+);
+```
+#### **After:**
+```dart
+runPlayx(
+  appConfigBuilder: () => MyAppConfig(),
+  localeConfigBuilder: () => MyLocaleConfig(),
+  themeConfigBuilder: () => MyThemeConfig(),
+  webSettings: PlayxWebSettings(usePathUrlStrategy: true),
+);
+```
+
 ## 1.3.0
 - **Updated Packages**:
   - Updated to the latest versions of Playx packages for better performance and features.

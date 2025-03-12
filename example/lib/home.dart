@@ -76,8 +76,9 @@ class _HomeState extends State<Home> {
                 child:
                     Text(AppTrans.changeLanguageTitle.tr(context: context)),
                 onPressed: () {
-                  Get.dialog(
-                    Center(
+                  showDialog(
+                    context: PlayxNavigation.navigationContext!,
+                   builder: (ctx,)=> Center(
                       child: Card(
                         margin: const EdgeInsets.all(8),
                         child: Column(
@@ -91,7 +92,7 @@ class _HomeState extends State<Home> {
                                 .map((e) => ListTile(
                                       onTap: () {
                                         PlayxLocalization.updateById(e.id);
-                                        Get.back();
+                                        PlayxNavigation.pop();
                                       },
                                       title: Text(e.name),
                                       trailing: PlayxLocalization
