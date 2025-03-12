@@ -18,7 +18,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  async: 2.12.0
+  async: ^2.12.0
   playx_core: ^0.6.3
   playx_theme: ^1.0.4
   playx_widget: ^0.2.1
