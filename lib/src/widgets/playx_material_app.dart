@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:playx/src/widgets/models/playx_app_settings.dart';
-import 'package:playx/src/widgets/models/playx_navigation_settings.dart';
-import 'package:playx/src/widgets/models/playx_screen_settings.dart';
-import 'package:playx/src/widgets/models/playx_theme_settings.dart';
+import 'package:playx/src/models/playx_app_settings.dart';
+import 'package:playx/src/models/playx_navigation_settings.dart';
+import 'package:playx/src/models/playx_screen_settings.dart';
+import 'package:playx/src/models/playx_theme_settings.dart';
 import 'package:playx_localization/playx_localization.dart';
 import 'package:playx_navigation/playx_navigation.dart';
 import 'package:playx_theme/playx_theme.dart';
