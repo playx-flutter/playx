@@ -75,7 +75,6 @@ abstract class Playx {
     WorkManagerSettings workManagerSettings = const WorkManagerSettings(),
     PlayxWebSettings webSettings = const PlayxWebSettings(),
   }) async {
-    EasyLocalization.logger.name = "Playx";
 
     WidgetsFlutterBinding.ensureInitialized();
     assert(
@@ -96,13 +95,13 @@ abstract class Playx {
     );
 
     final envSettingsInstance = envSettingsBuilder?.call() ?? envSettings;
-
+   final logger= PlayxLogger.initLogger(name: 'playx', setAsDefault: false, useColoredFormatter: true);
     await PlayxCore.bootCore(
         securePrefsSettings: securePrefsSettings,
         envSettings: envSettingsInstance,
         prefsSettings: prefsSettings,
         workerManagerSettings: workManagerSettings);
-    EasyLocalization.logger('Core booted ✔');
+    logger.i('Core booted ✔');
 
 
     final localeConfigInstance = localeConfigBuilder?.call() ?? localeConfig!;
@@ -111,12 +110,12 @@ abstract class Playx {
     final themeConfigInstance = themeConfigBuilder?.call() ?? themeConfig!;
     /// Boot the theme configuration.
     await PlayxTheme.boot(config: themeConfigInstance);
-    EasyLocalization.logger('Theme booted ✔');
+    logger.i('Theme booted ✔');
 
     final appConfigInstance = appConfigBuilder?.call() ?? appConfig!;
     /// Boot the app configuration.
     await appConfigInstance.boot();
-    EasyLocalization.logger('AppConfig booted ✔');
+    logger.i('AppConfig booted ✔');
 
     /// Set up web navigation settings.
     PlayxNavigation.setupWeb(
@@ -222,6 +221,5 @@ abstract class Playx {
     await _config?.dispose();
     await PlayxTheme.dispose();
     await PlayxCore.dispose();
-    EasyLocalization.logger('Disposed ✔');
   }
 }

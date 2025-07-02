@@ -6,7 +6,7 @@ import 'package:playx/src/models/playx_app_settings.dart';
 import 'package:playx/src/models/playx_platform_settings.dart';
 import 'package:playx/src/models/playx_screen_settings.dart';
 import 'package:playx/src/models/playx_theme_settings.dart';
-import 'package:playx_localization/playx_localization.dart';
+import 'package:playx_localization/playx_localization.dart' hide TextDirection;
 import 'package:playx_theme/playx_theme.dart';
 import 'package:playx_widget/playx_widget.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';

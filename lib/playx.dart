@@ -1,6 +1,5 @@
 export 'package:async/async.dart' hide Result;
 export 'package:connectivity_plus/connectivity_plus.dart';
-export 'package:fimber/fimber.dart';
 export 'package:flutter_animate/flutter_animate.dart';
 export 'package:get/get.dart'
     hide
@@ -28,6 +27,9 @@ export 'package:sentry_flutter/sentry_flutter.dart'
         SentryTraceOrigins,
         SentrySpanOperations,
         SanitizedSentryRequest,
+        SentrySpanData,
+        SentrySpanDescriptions,
+        SentrySpanContext,
         getUtcDateTime,
         formatDateAsIso8601WithMillisPrecision,
         jsonSerializationFallback;
