@@ -13,7 +13,7 @@ export 'package:get/get.dart'
         Trans,
         ContextExtensionss;
 export 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-export 'package:playx_localization/playx_localization.dart';
+export 'package:playx_localization/playx_localization.dart' hide TextDirection;
 export 'package:playx_navigation/playx_navigation.dart';
 export 'package:playx_network/playx_network.dart';
 export 'package:playx_theme/playx_theme.dart';
@@ -30,6 +30,12 @@ export 'package:sentry_flutter/sentry_flutter.dart'
         SentrySpanData,
         SentrySpanDescriptions,
         SentrySpanContext,
+        OnBeforeCaptureLog,
+        BeforeSendEventObserver,
+        SdkLifecycleCallback,
+        SdkLifecycleEvent,
+        addTracingHeadersToHttpHeader,
+        getBreadcrumbLogLevelFromHttpStatusCode,
         getUtcDateTime,
         formatDateAsIso8601WithMillisPrecision,
         jsonSerializationFallback;
