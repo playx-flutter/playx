@@ -41,14 +41,17 @@ class _ConnectionStatusWidgetState extends State<ConnectionStatusWidget> {
           setState(() {
             msg = 'Connected to Internet';
           });
+          PlayxLogger.i('ConnectionStatusWidget: Connected to Internet');
         case ConnectionStatus.disconnected:
           setState(() {
             msg = 'Disconnected From Internet';
           });
+          PlayxLogger.error('ConnectionStatusWidget: Disconnected From Internet');
         case ConnectionStatus.connectionRestored:
           setState(() {
             msg = 'Connection RESTORED INTERNET';
           });
+          PlayxLogger.w('ConnectionStatusWidget: Connection RESTORED INTERNET');
           if (widget.retryOnConnectionRestored) {
             widget.onRetryClicked?.call();
           }

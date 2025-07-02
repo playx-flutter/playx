@@ -60,17 +60,19 @@ class _HomeState extends State<Home> {
               else
                 Text(
                   _weatherMsg,
-                  style: Theme.of(context).textTheme.headlineMedium,
+                  style:
+                  TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w400),
+                  textAlign: TextAlign.center,
                 ),
               Text(
                 _envText,
                 textAlign: TextAlign.center,
                 style:
-                    TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w400),
+                    TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w400),
               ),
               ImageViewer.network(
                 'https://avatars.githubusercontent.com/u/35397170?s=200&v=4',
-                height: 100.w,
+                height: 100.r,
               ),
               ElevatedButton(
                 child:
@@ -151,14 +153,13 @@ class _HomeState extends State<Home> {
                                       ? const Icon(Icons.check)
                                       : null,
                                   onTap: () async {
-                                    // PlayxTheme.updateByIndex(
-                                    //   index,
-                                    // );
                                     Navigator.of(dialogContext)
                                         .pop(); // Dismiss alert dialog
 
-                                    PlayxTheme.updateById(
-                                        PlayxTheme.supportedThemes[index].id);
+                                    PlayxTheme.updateByIndex(
+                                        index,
+                                        animation: PlayxThemeClipperAnimation()
+                                    );
                                   },
                                 ),
                               )),
