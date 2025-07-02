@@ -8,15 +8,14 @@ import 'package:playx_example/translation/app_trans.dart';
 import 'config/app_config.dart';
 
 void main() async {
-
   Playx.runPlayx(
-    appConfigBuilder:()=> AppConfig(),
-    themeConfigBuilder:()=> createThemeConfig(),
-    envSettingsBuilder:()=> const PlayxEnvSettings(
+    appConfigBuilder: () => AppConfig(),
+    themeConfigBuilder: () => createThemeConfig(),
+    envSettingsBuilder: () => const PlayxEnvSettings(
       fileName: 'assets/env/keys.env',
     ),
-    localeConfigBuilder:()=> createLocaleConfig(),
-    app:const MyApp(),
+    localeConfigBuilder: () => createLocaleConfig(),
+    app: const MyApp(),
     //not necessary
     // sentryOptions: (options) {
     //   options.dsn = AppConfig.sentryKey;
@@ -24,17 +23,14 @@ void main() async {
   );
 }
 
-
 final goRouter = GoRouter(
   routes: [
     PlayxRoute(path: '/', builder: (context, state) => const Home()),
   ],
 );
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
 
   @override
   Widget build(BuildContext context) {

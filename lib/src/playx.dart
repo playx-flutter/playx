@@ -32,7 +32,8 @@ abstract class Playx {
   static PlayXAppConfig get appConfig {
     if (_config == null) {
       throw Exception(
-          'App config not set. Please ensure you have called boot() before accessing the app config.');
+        'App config not set. Please ensure you have called boot() before accessing the app config.',
+      );
     }
     return _config!;
   }
@@ -65,63 +66,79 @@ abstract class Playx {
 
     // Deprecated parameters
     @Deprecated('Use appConfigBuilder instead.') PlayXAppConfig? appConfig,
-    @Deprecated('Use localeConfigBuilder instead.') PlayxLocaleConfig? localeConfig,
-    @Deprecated('Use themeConfigBuilder instead.') PlayxThemeConfig? themeConfig,
-    @Deprecated('Use envSettingsBuilder instead.') PlayxEnvSettings? envSettings,
+    @Deprecated('Use localeConfigBuilder instead.')
+    PlayxLocaleConfig? localeConfig,
+    @Deprecated('Use themeConfigBuilder instead.')
+    PlayxThemeConfig? themeConfig,
+    @Deprecated('Use envSettingsBuilder instead.')
+    PlayxEnvSettings? envSettings,
 
     // Other parameters (unchanged)
-    PlayxSecurePrefsSettings securePrefsSettings = const PlayxSecurePrefsSettings(),
+    PlayxSecurePrefsSettings securePrefsSettings =
+        const PlayxSecurePrefsSettings(),
     PlayxPrefsSettings prefsSettings = const PlayxPrefsSettings(),
     WorkManagerSettings workManagerSettings = const WorkManagerSettings(),
     PlayxWebSettings webSettings = const PlayxWebSettings(),
   }) async {
-    EasyLocalization.logger.name = "Playx";
-
     WidgetsFlutterBinding.ensureInitialized();
     assert(
-    (appConfigBuilder != null && appConfig == null) || (appConfigBuilder == null && appConfig != null) || (appConfigBuilder == null && appConfig == null),
-    'Use either appConfigBuilder or appConfig, not both.'
+      (appConfigBuilder != null && appConfig == null) ||
+          (appConfigBuilder == null && appConfig != null) ||
+          (appConfigBuilder == null && appConfig == null),
+      'Use either appConfigBuilder or appConfig, not both.',
     );
     assert(
-    (localeConfigBuilder != null && localeConfig == null) || (localeConfigBuilder == null && localeConfig != null) || (localeConfigBuilder == null && localeConfig == null),
-    'Use either localeConfigBuilder or localeConfig, not both.'
+      (localeConfigBuilder != null && localeConfig == null) ||
+          (localeConfigBuilder == null && localeConfig != null) ||
+          (localeConfigBuilder == null && localeConfig == null),
+      'Use either localeConfigBuilder or localeConfig, not both.',
     );
     assert(
-    (themeConfigBuilder != null && themeConfig == null) || (themeConfigBuilder == null && themeConfig != null) || (themeConfigBuilder == null && themeConfig == null),
-    'Use either themeConfigBuilder or themeConfig, not both.'
+      (themeConfigBuilder != null && themeConfig == null) ||
+          (themeConfigBuilder == null && themeConfig != null) ||
+          (themeConfigBuilder == null && themeConfig == null),
+      'Use either themeConfigBuilder or themeConfig, not both.',
     );
     assert(
-    (envSettingsBuilder != null && envSettings == null) || (envSettingsBuilder == null && envSettings != null),
-    'Use either envSettingsBuilder or envSettings, not both.'
+      (envSettingsBuilder != null && envSettings == null) ||
+          (envSettingsBuilder == null && envSettings != null),
+      'Use either envSettingsBuilder or envSettings, not both.',
     );
 
     final envSettingsInstance = envSettingsBuilder?.call() ?? envSettings;
-
+    final logger = PlayxLogger.initLogger(
+      name: 'playx',
+      setAsDefault: false,
+      useColoredFormatter: true,
+    );
     await PlayxCore.bootCore(
-        securePrefsSettings: securePrefsSettings,
-        envSettings: envSettingsInstance,
-        prefsSettings: prefsSettings,
-        workerManagerSettings: workManagerSettings);
-    EasyLocalization.logger('Core booted ✔');
-
+      securePrefsSettings: securePrefsSettings,
+      envSettings: envSettingsInstance,
+      prefsSettings: prefsSettings,
+      workerManagerSettings: workManagerSettings,
+    );
+    logger.i('Core booted ✔');
 
     final localeConfigInstance = localeConfigBuilder?.call() ?? localeConfig!;
     await PlayxLocalization.boot(config: localeConfigInstance);
 
     final themeConfigInstance = themeConfigBuilder?.call() ?? themeConfig!;
+
     /// Boot the theme configuration.
     await PlayxTheme.boot(config: themeConfigInstance);
-    EasyLocalization.logger('Theme booted ✔');
+    logger.i('Theme booted ✔');
 
     final appConfigInstance = appConfigBuilder?.call() ?? appConfig!;
+
     /// Boot the app configuration.
     await appConfigInstance.boot();
-    EasyLocalization.logger('AppConfig booted ✔');
+    logger.i('AppConfig booted ✔');
 
     /// Set up web navigation settings.
     PlayxNavigation.setupWeb(
       usePathUrlStrategy: webSettings.usePathUrlStrategy,
-      optionURLReflectsImperativeAPIs: webSettings.optionURLReflectsImperativeAPIs,
+      optionURLReflectsImperativeAPIs:
+          webSettings.optionURLReflectsImperativeAPIs,
     );
 
     /// Boot long-running tasks asynchronously.
@@ -140,7 +157,7 @@ abstract class Playx {
   /// [envSettingsBuilder]: A function that returns optional environment settings.
   /// [sentryOptions]: Optional Sentry configuration for crash reporting.
   static Future<void> runPlayx({
-    required Widget  app,
+    required Widget app,
     PlayxAppConfigBuilder? appConfigBuilder,
     PlayxLocaleConfigBuilder? localeConfigBuilder,
     PlayxThemeConfigBuilder? themeConfigBuilder,
@@ -153,26 +170,35 @@ abstract class Playx {
     PlayxWebSettings webSettings = const PlayxWebSettings(),
     // Deprecated parameters
     @Deprecated('Use appConfigBuilder instead.') PlayXAppConfig? appConfig,
-    @Deprecated('Use localeConfigBuilder instead.') PlayxLocaleConfig? localeConfig,
-    @Deprecated('Use themeConfigBuilder instead.') PlayxThemeConfig? themeConfig,
-    @Deprecated('Use envSettingsBuilder instead.') PlayxEnvSettings? envSettings,
-
+    @Deprecated('Use localeConfigBuilder instead.')
+    PlayxLocaleConfig? localeConfig,
+    @Deprecated('Use themeConfigBuilder instead.')
+    PlayxThemeConfig? themeConfig,
+    @Deprecated('Use envSettingsBuilder instead.')
+    PlayxEnvSettings? envSettings,
   }) async {
     assert(
-    (appConfigBuilder != null && appConfig == null) || (appConfigBuilder == null && appConfig != null) || (appConfigBuilder == null && appConfig == null),
-    'Use either appConfigBuilder or appConfig, not both.'
+      (appConfigBuilder != null && appConfig == null) ||
+          (appConfigBuilder == null && appConfig != null) ||
+          (appConfigBuilder == null && appConfig == null),
+      'Use either appConfigBuilder or appConfig, not both.',
     );
     assert(
-    (localeConfigBuilder != null && localeConfig == null) || (localeConfigBuilder == null && localeConfig != null) || (localeConfigBuilder == null && localeConfig == null),
-    'Use either localeConfigBuilder or localeConfig, not both.'
+      (localeConfigBuilder != null && localeConfig == null) ||
+          (localeConfigBuilder == null && localeConfig != null) ||
+          (localeConfigBuilder == null && localeConfig == null),
+      'Use either localeConfigBuilder or localeConfig, not both.',
     );
     assert(
-    (themeConfigBuilder != null && themeConfig == null) || (themeConfigBuilder == null && themeConfig != null) || (themeConfigBuilder == null && themeConfig == null),
-    'Use either themeConfigBuilder or themeConfig, not both.'
+      (themeConfigBuilder != null && themeConfig == null) ||
+          (themeConfigBuilder == null && themeConfig != null) ||
+          (themeConfigBuilder == null && themeConfig == null),
+      'Use either themeConfigBuilder or themeConfig, not both.',
     );
     assert(
-    (envSettingsBuilder != null && envSettings == null) || (envSettingsBuilder == null && envSettings != null),
-    'Use either envSettingsBuilder or envSettings, not both.'
+      (envSettingsBuilder != null && envSettings == null) ||
+          (envSettingsBuilder == null && envSettings != null),
+      'Use either envSettingsBuilder or envSettings, not both.',
     );
 
     // Boots Playx dependencies.
@@ -195,7 +221,7 @@ abstract class Playx {
       await SentryFlutter.init(
         sentryOptions,
         // Run the app after initializing Sentry.
-        appRunner: ()=> runApp(app),
+        appRunner: () => runApp(app),
       );
     } else {
       runApp(app);
@@ -222,6 +248,5 @@ abstract class Playx {
     await _config?.dispose();
     await PlayxTheme.dispose();
     await PlayxCore.dispose();
-    EasyLocalization.logger('Disposed ✔');
   }
 }

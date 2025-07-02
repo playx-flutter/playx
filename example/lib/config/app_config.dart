@@ -8,10 +8,11 @@ class AppConfig extends PlayXAppConfig {
 
   @override
   Future<void> boot() async {
-    if (kDebugMode) {
-      Fimber.plantTree(DebugTree());
-    }
-
+    PlayxLogger.initLogger(
+        name: 'Playx Example',
+        settings: PlayxLoggerSettings(
+          enabled: kDebugMode,
+        ));
     final apiClient = PlayxNetworkClient(
       dio: Dio(
         BaseOptions(

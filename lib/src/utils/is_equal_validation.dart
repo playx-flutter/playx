@@ -7,11 +7,11 @@ class IsEqual extends TextValidationRule {
   bool caseSensitive;
   String errorMsg;
 
-  IsEqual(
-      {required this.other,
-      this.errorMsg = 'There is no match',
-      this.caseSensitive = true})
-      : super(errorMsg);
+  IsEqual({
+    required this.other,
+    this.errorMsg = 'There is no match',
+    this.caseSensitive = true,
+  }) : super(errorMsg);
 
   ///  return a bool Either valid or NOT
   @override
@@ -22,8 +22,4 @@ class IsEqual extends TextValidationRule {
   }
 }
 
-bool _match(
-  String input,
-  String other,
-) =>
-    input == other;
+bool _match(String input, String other) => input == other;

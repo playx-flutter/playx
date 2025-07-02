@@ -320,11 +320,11 @@ class GetPlatformApp
     this.getPages,
     this.unknownRoute,
     this.cupertinoTheme,
-  })  : _useRouter = false,
-        routeInformationProvider = null,
-        routeInformationParser = null,
-        routerDelegate = null,
-        backButtonDispatcher = null;
+  }) : _useRouter = false,
+       routeInformationProvider = null,
+       routeInformationParser = null,
+       routerDelegate = null,
+       backButtonDispatcher = null;
 
   const GetPlatformApp.router({
     super.key,
@@ -376,14 +376,14 @@ class GetPlatformApp
     this.routerDelegate,
     this.backButtonDispatcher,
     this.cupertinoTheme,
-  })  : _useRouter = true,
-        navigatorKey = null,
-        onGenerateRoute = null,
-        home = null,
-        onGenerateInitialRoutes = null,
-        onUnknownRoute = null,
-        routes = null,
-        initialRoute = null,
-        navigatorObservers = null,
-        unknownRoute = null;
+  }) : _useRouter = true,
+       navigatorKey = null,
+       onGenerateRoute = null,
+       home = null,
+       onGenerateInitialRoutes = null,
+       onUnknownRoute = null,
+       routes = null,
+       initialRoute = null,
+       navigatorObservers = null,
+       unknownRoute = null;
 }
