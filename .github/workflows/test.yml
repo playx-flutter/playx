@@ -16,10 +16,13 @@ jobs:
         run: flutter packages get
 
       - name: Format code
-        run: dart format --fix
+        run: dart format .
 
       - name: Analyze Code
         run: flutter analyze lib test example
+
+      - name: Test Publish
+        run:  dart pub publish --dry-run
 
       - name: Test
         run: flutter test --coverage
