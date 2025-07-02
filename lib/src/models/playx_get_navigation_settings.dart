@@ -112,11 +112,11 @@ class PlayxGetNavigationSettings {
     this.initialBinding,
     this.unknownRoute,
     this.includeSentryNavigationObserver = true,
-  })  : useRouter = false,
-        routeInformationProvider = null,
-        routeInformationParser = null,
-        routerDelegate = null,
-        backButtonDispatcher = null;
+  }) : useRouter = false,
+       routeInformationProvider = null,
+       routeInformationParser = null,
+       routerDelegate = null,
+       backButtonDispatcher = null;
 
   /// Creates navigation settings for [Router] instead of [Navigator].
   ///
@@ -138,13 +138,13 @@ class PlayxGetNavigationSettings {
     this.smartManagement = SmartManagement.full,
     this.initialBinding,
     this.navigatorObservers,
-  })  : useRouter = true,
-        routes = null,
-        initialRoute = null,
-        onGenerateRoute = null,
-        onGenerateInitialRoutes = null,
-        onUnknownRoute = null,
-        unknownRoute = null,
-        includeSentryNavigationObserver = true,
-        home = null;
+  }) : useRouter = true,
+       routes = null,
+       initialRoute = null,
+       onGenerateRoute = null,
+       onGenerateInitialRoutes = null,
+       onUnknownRoute = null,
+       unknownRoute = null,
+       includeSentryNavigationObserver = true,
+       home = null;
 }

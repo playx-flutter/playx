@@ -51,9 +51,7 @@ class PlayxPlatformApp extends StatelessWidget {
   /// platform-specific widgets, screen size, theme, navigation, and general app behavior.
   const PlayxPlatformApp({
     super.key,
-    this.preferredOrientations = const [
-      DeviceOrientation.portraitUp,
-    ],
+    this.preferredOrientations = const [DeviceOrientation.portraitUp],
     this.platformSettings = const PlayxPlatformSettings(),
     this.screenSettings = const PlayxScreenSettings(),
     this.themeSettings = const PlayxThemeSettings(),
@@ -63,123 +61,144 @@ class PlayxPlatformApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlayxThemeBuilder(builder: (ctx, xTheme) {
-      themeSettings.onThemeChanged?.call(xTheme);
-      SystemChrome.setPreferredOrientations(preferredOrientations);
-      return ScreenUtilInit(
-        designSize: screenSettings.designSize,
-        minTextAdapt: screenSettings.minTextAdapt,
-        splitScreenMode: screenSettings.splitScreenMode,
-        useInheritedMediaQuery: screenSettings.useInheritedMediaQuery,
-        rebuildFactor: screenSettings.rebuildFactor,
-        fontSizeResolver: screenSettings.fontSizeResolver,
-        responsiveWidgets: screenSettings.responsiveWidgets,
-        ensureScreenSize: screenSettings.ensureScreenSize,
-        builder: (context, child) {
-          return PlayxLocalizationBuilder(builder: (ctx, locale) {
-            final platformApp = navigationSettings.useRouter
-                ? PlatformApp.router(
-                    debugShowCheckedModeBanner:
-                        appSettings.debugShowCheckedModeBanner,
-                    routeInformationProvider:
-                        navigationSettings.goRouter?.routeInformationProvider ??
+    return PlayxThemeBuilder(
+      builder: (ctx, xTheme) {
+        themeSettings.onThemeChanged?.call(xTheme);
+        SystemChrome.setPreferredOrientations(preferredOrientations);
+        return ScreenUtilInit(
+          designSize: screenSettings.designSize,
+          minTextAdapt: screenSettings.minTextAdapt,
+          splitScreenMode: screenSettings.splitScreenMode,
+          useInheritedMediaQuery: screenSettings.useInheritedMediaQuery,
+          rebuildFactor: screenSettings.rebuildFactor,
+          fontSizeResolver: screenSettings.fontSizeResolver,
+          responsiveWidgets: screenSettings.responsiveWidgets,
+          ensureScreenSize: screenSettings.ensureScreenSize,
+          builder: (context, child) {
+            return PlayxLocalizationBuilder(
+              builder: (ctx, locale) {
+                final platformApp = navigationSettings.useRouter
+                    ? PlatformApp.router(
+                        debugShowCheckedModeBanner:
+                            appSettings.debugShowCheckedModeBanner,
+                        routeInformationProvider:
+                            navigationSettings
+                                .goRouter
+                                ?.routeInformationProvider ??
                             navigationSettings.routeInformationProvider,
-                    routerDelegate:
-                        navigationSettings.goRouter?.routerDelegate ??
+                        routerDelegate:
+                            navigationSettings.goRouter?.routerDelegate ??
                             navigationSettings.routerDelegate,
-                    routeInformationParser:
-                        navigationSettings.goRouter?.routeInformationParser ??
+                        routeInformationParser:
+                            navigationSettings
+                                .goRouter
+                                ?.routeInformationParser ??
                             navigationSettings.routeInformationParser,
-                    backButtonDispatcher:
-                        navigationSettings.goRouter?.backButtonDispatcher ??
+                        backButtonDispatcher:
+                            navigationSettings.goRouter?.backButtonDispatcher ??
                             navigationSettings.backButtonDispatcher,
-                    builder: navigationSettings.builder,
-                    supportedLocales: PlayxLocalization.supportedLocales,
-                    localizationsDelegates:
-                        appSettings.localizationsDelegates == null
+                        builder: navigationSettings.builder,
+                        supportedLocales: PlayxLocalization.supportedLocales,
+                        localizationsDelegates:
+                            appSettings.localizationsDelegates == null
                             ? PlayxLocalization.localizationDelegates
                             : [
                                 ...PlayxLocalization.localizationDelegates,
                                 ...appSettings.localizationsDelegates!,
                               ],
-                    locale: locale.locale,
-                    showPerformanceOverlay: appSettings.showPerformanceOverlay,
-                    checkerboardRasterCacheImages:
-                        appSettings.checkerboardRasterCacheImages,
-                    checkerboardOffscreenLayers:
-                        appSettings.checkerboardOffscreenLayers,
-                    showSemanticsDebugger: appSettings.showSemanticsDebugger,
-                    shortcuts: appSettings.shortcuts,
-                    scrollBehavior: appSettings.scrollBehavior,
-                    actions: appSettings.actions,
-                    material: (c, _) => MaterialAppRouterData(
-                      debugShowMaterialGrid: appSettings.debugShowMaterialGrid,
-                      darkTheme: themeSettings.darkTheme,
-                      themeMode: themeSettings.themeMode,
-                      theme: themeSettings.theme ??
-                          xTheme.themeBuilder?.call(locale.locale) ??
-                          xTheme.themeData,
-                    ),
-                  )
-                : PlatformApp(
-                    debugShowCheckedModeBanner:
-                        appSettings.debugShowCheckedModeBanner,
-                    navigatorObservers: navigationSettings.navigatorObservers ??
-                        [
-                          if (navigationSettings
-                              .includeSentryNavigationObserver)
-                            SentryNavigatorObserver(),
-                        ],
-                    navigatorKey: navigationSettings.navigatorKey,
-                    home: navigationSettings.home,
-                    routes: navigationSettings.routes ?? {},
-                    initialRoute: navigationSettings.initialRoute,
-                    onGenerateRoute: navigationSettings.onGenerateRoute,
-                    onGenerateInitialRoutes:
-                        navigationSettings.onGenerateInitialRoutes,
-                    onUnknownRoute: navigationSettings.onUnknownRoute,
-                    builder: navigationSettings.builder,
-                    supportedLocales: PlayxLocalization.supportedLocales,
-                    localizationsDelegates:
-                        appSettings.localizationsDelegates == null
+                        locale: locale.locale,
+                        showPerformanceOverlay:
+                            appSettings.showPerformanceOverlay,
+                        checkerboardRasterCacheImages:
+                            appSettings.checkerboardRasterCacheImages,
+                        checkerboardOffscreenLayers:
+                            appSettings.checkerboardOffscreenLayers,
+                        showSemanticsDebugger:
+                            appSettings.showSemanticsDebugger,
+                        shortcuts: appSettings.shortcuts,
+                        scrollBehavior: appSettings.scrollBehavior,
+                        actions: appSettings.actions,
+                        material: (c, _) => MaterialAppRouterData(
+                          debugShowMaterialGrid:
+                              appSettings.debugShowMaterialGrid,
+                          darkTheme: themeSettings.darkTheme,
+                          themeMode: themeSettings.themeMode,
+                          theme:
+                              themeSettings.theme ??
+                              xTheme.themeBuilder?.call(locale.locale) ??
+                              xTheme.themeData,
+                        ),
+                      )
+                    : PlatformApp(
+                        debugShowCheckedModeBanner:
+                            appSettings.debugShowCheckedModeBanner,
+                        navigatorObservers:
+                            navigationSettings.navigatorObservers ??
+                            [
+                              if (navigationSettings
+                                  .includeSentryNavigationObserver)
+                                SentryNavigatorObserver(),
+                            ],
+                        navigatorKey: navigationSettings.navigatorKey,
+                        home: navigationSettings.home,
+                        routes: navigationSettings.routes ?? {},
+                        initialRoute: navigationSettings.initialRoute,
+                        onGenerateRoute: navigationSettings.onGenerateRoute,
+                        onGenerateInitialRoutes:
+                            navigationSettings.onGenerateInitialRoutes,
+                        onUnknownRoute: navigationSettings.onUnknownRoute,
+                        builder: navigationSettings.builder,
+                        supportedLocales: PlayxLocalization.supportedLocales,
+                        localizationsDelegates:
+                            appSettings.localizationsDelegates == null
                             ? PlayxLocalization.localizationDelegates
                             : [
                                 ...PlayxLocalization.localizationDelegates,
                                 ...appSettings.localizationsDelegates!,
                               ],
-                    locale: locale.locale,
-                    showPerformanceOverlay: appSettings.showPerformanceOverlay,
-                    checkerboardRasterCacheImages:
-                        appSettings.checkerboardRasterCacheImages,
-                    checkerboardOffscreenLayers:
-                        appSettings.checkerboardOffscreenLayers,
-                    showSemanticsDebugger: appSettings.showSemanticsDebugger,
-                    shortcuts: appSettings.shortcuts,
-                    scrollBehavior: appSettings.scrollBehavior,
-                    actions: appSettings.actions,
-                    material: (c, _) => MaterialAppData(
-                      debugShowMaterialGrid: appSettings.debugShowMaterialGrid,
-                      darkTheme: themeSettings.darkTheme,
-                      themeMode: themeSettings.themeMode,
-                      theme: themeSettings.theme ??
-                          xTheme.themeBuilder?.call(locale.locale) ??
-                          xTheme.themeData,
-                    ),
-                    cupertino: (c, _) => CupertinoAppData(
-                      theme: themeSettings.cupertinoTheme ??
-                          xTheme.cupertinoThemeBuilder?.call(locale.locale) ??
-                          xTheme.cupertinoThemeData,
-                    ),
-                  );
+                        locale: locale.locale,
+                        showPerformanceOverlay:
+                            appSettings.showPerformanceOverlay,
+                        checkerboardRasterCacheImages:
+                            appSettings.checkerboardRasterCacheImages,
+                        checkerboardOffscreenLayers:
+                            appSettings.checkerboardOffscreenLayers,
+                        showSemanticsDebugger:
+                            appSettings.showSemanticsDebugger,
+                        shortcuts: appSettings.shortcuts,
+                        scrollBehavior: appSettings.scrollBehavior,
+                        actions: appSettings.actions,
+                        material: (c, _) => MaterialAppData(
+                          debugShowMaterialGrid:
+                              appSettings.debugShowMaterialGrid,
+                          darkTheme: themeSettings.darkTheme,
+                          themeMode: themeSettings.themeMode,
+                          theme:
+                              themeSettings.theme ??
+                              xTheme.themeBuilder?.call(locale.locale) ??
+                              xTheme.themeData,
+                        ),
+                        cupertino: (c, _) => CupertinoAppData(
+                          theme:
+                              themeSettings.cupertinoTheme ??
+                              xTheme.cupertinoThemeBuilder?.call(
+                                locale.locale,
+                              ) ??
+                              xTheme.cupertinoThemeData,
+                        ),
+                      );
 
-            return navigationSettings.goRouter != null
-                ? PlayxNavigationBuilder(
-                    builder: (ctx) => platformApp,
-                    router: navigationSettings.goRouter!)
-                : platformApp;
-          });
-        },
-      );
-    });
+                return navigationSettings.goRouter != null
+                    ? PlayxNavigationBuilder(
+                        builder: (ctx) => platformApp,
+                        router: navigationSettings.goRouter!,
+                      )
+                    : platformApp;
+              },
+            );
+          },
+        );
+      },
+    );
   }
 }

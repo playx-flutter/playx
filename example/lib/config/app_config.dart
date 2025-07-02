@@ -11,8 +11,8 @@ class AppConfig extends PlayXAppConfig {
     PlayxLogger.initLogger(
         name: 'Playx Example',
         settings: PlayxLoggerSettings(
-      enabled: kDebugMode,
-    ));
+          enabled: kDebugMode,
+        ));
     final apiClient = PlayxNetworkClient(
       dio: Dio(
         BaseOptions(

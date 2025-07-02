@@ -12,7 +12,7 @@ enum ConnectionStatus {
   disconnected,
 
   /// The device lost connection but then restored it.
-  connectionRestored;
+  connectionRestored,
 }
 
 /// A controller that monitors the internet connection status by checking the
@@ -42,11 +42,12 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
   ConnectionStatusController({
     Duration checkInterval = const Duration(seconds: 5),
     List<InternetCheckOption>? customCheckOptions,
-    this.backOnlineDelay= const Duration(seconds: 2),
-  })  : _internetConnection = _createInternetConnection(
-            checkInterval: checkInterval,
-            customCheckOptions: customCheckOptions),
-        super(ConnectionStatus.connected) {
+    this.backOnlineDelay = const Duration(seconds: 2),
+  }) : _internetConnection = _createInternetConnection(
+         checkInterval: checkInterval,
+         customCheckOptions: customCheckOptions,
+       ),
+       super(ConnectionStatus.connected) {
     WidgetsBinding.instance.addObserver(this);
     listenToConnectionStatus();
   }
@@ -59,30 +60,30 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
   static InternetConnection _createInternetConnection({
     Duration checkInterval = const Duration(seconds: 5),
     List<InternetCheckOption>? customCheckOptions,
-  }) =>
-      InternetConnection.createInstance(
-        checkInterval: checkInterval,
-        customCheckOptions: customCheckOptions ??
-            [
-              InternetCheckOption(
-                uri: Uri.parse('https://clients3.google.com/generate_204'),
-                timeout: 5.seconds,
-              ),
-              InternetCheckOption(
-                uri: Uri.parse('https://1.1.1.1/generate_204'),
-                timeout: 5.seconds,
-              ),
-              InternetCheckOption(
-                uri: Uri.parse('http://www.msftncsi.com/ncsi.txt'),
-                timeout: 5.seconds,
-              ),
-              InternetCheckOption(
-                uri: Uri.parse('http://captive.apple.com/hotspot-detect.html'),
-                timeout: 5.seconds,
-              ),
-            ],
-        useDefaultOptions: false,
-      );
+  }) => InternetConnection.createInstance(
+    checkInterval: checkInterval,
+    customCheckOptions:
+        customCheckOptions ??
+        [
+          InternetCheckOption(
+            uri: Uri.parse('https://clients3.google.com/generate_204'),
+            timeout: 5.seconds,
+          ),
+          InternetCheckOption(
+            uri: Uri.parse('https://1.1.1.1/generate_204'),
+            timeout: 5.seconds,
+          ),
+          InternetCheckOption(
+            uri: Uri.parse('http://www.msftncsi.com/ncsi.txt'),
+            timeout: 5.seconds,
+          ),
+          InternetCheckOption(
+            uri: Uri.parse('http://captive.apple.com/hotspot-detect.html'),
+            timeout: 5.seconds,
+          ),
+        ],
+    useDefaultOptions: false,
+  );
 
   /// Monitors app lifecycle changes to manage the connection status check.
   /// Resumes listening when the app is in the foreground and stops when the app
@@ -108,17 +109,17 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
   Future<void> checkInternetConnection() async {
     final bool hasInternetAccess = await _internetConnection.hasInternetAccess;
 
-    _handleInternetConnection(
-      isInternetConnected: hasInternetAccess,
-    );
+    _handleInternetConnection(isInternetConnected: hasInternetAccess);
   }
 
   /// Starts listening to internet connection status changes and updates
   /// the [ConnectionStatus] value in real-time. Also checks the connection
   /// status immediately upon starting.
-  Future<void> listenToConnectionStatus({bool fromLifecycleCallback=false}) async {
+  Future<void> listenToConnectionStatus({
+    bool fromLifecycleCallback = false,
+  }) async {
     stopListeningToConnectionStatus();
-    if(!fromLifecycleCallback) {
+    if (!fromLifecycleCallback) {
       checkInternetConnection();
     }
     _sub = _internetConnection.onStatusChange.listen((event) async {
@@ -127,8 +128,9 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
       );
     });
 
-    _connectivitySub =
-        connectivity.onConnectivityChanged.listen((result) async {
+    _connectivitySub = connectivity.onConnectivityChanged.listen((
+      result,
+    ) async {
       if (result.contains(ConnectivityResult.mobile) ||
           result.contains(ConnectivityResult.wifi)) {
         checkInternetConnection();

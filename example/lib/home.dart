@@ -61,26 +61,27 @@ class _HomeState extends State<Home> {
                 Text(
                   _weatherMsg,
                   style:
-                  TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w400),
+                      TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w400),
                   textAlign: TextAlign.center,
                 ),
               Text(
                 _envText,
                 textAlign: TextAlign.center,
-                style:
-                    TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w400),
+                style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w400),
               ),
               ImageViewer.network(
                 'https://avatars.githubusercontent.com/u/35397170?s=200&v=4',
                 height: 100.r,
               ),
               ElevatedButton(
-                child:
-                    Text(AppTrans.changeLanguageTitle.tr(context: context)),
+                child: Text(AppTrans.changeLanguageTitle.tr(context: context)),
                 onPressed: () {
                   showDialog(
                     context: PlayxNavigation.navigationContext!,
-                   builder: (ctx,)=> Center(
+                    builder: (
+                      ctx,
+                    ) =>
+                        Center(
                       child: Card(
                         margin: const EdgeInsets.all(8),
                         child: Column(
@@ -97,14 +98,14 @@ class _HomeState extends State<Home> {
                                         PlayxNavigation.pop();
                                       },
                                       title: Text(e.name),
-                                      trailing: PlayxLocalization
-                                                  .currentXLocale.id ==
-                                              e.id
-                                          ? const Icon(
-                                              Icons.done,
-                                              color: Colors.lightBlue,
-                                            )
-                                          : const SizedBox.shrink(),
+                                      trailing:
+                                          PlayxLocalization.currentXLocale.id ==
+                                                  e.id
+                                              ? const Icon(
+                                                  Icons.done,
+                                                  color: Colors.lightBlue,
+                                                )
+                                              : const SizedBox.shrink(),
                                     )),
                           ],
                         ),
@@ -156,10 +157,9 @@ class _HomeState extends State<Home> {
                                     Navigator.of(dialogContext)
                                         .pop(); // Dismiss alert dialog
 
-                                    PlayxTheme.updateByIndex(
-                                        index,
-                                        animation: PlayxThemeClipperAnimation()
-                                    );
+                                    PlayxTheme.updateByIndex(index,
+                                        animation:
+                                            PlayxThemeClipperAnimation());
                                   },
                                 ),
                               )),

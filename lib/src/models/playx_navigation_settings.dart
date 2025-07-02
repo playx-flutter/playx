@@ -62,7 +62,6 @@ class PlayxNavigationSettings {
   /// Indicates whether to use Router-based navigation or GoRouter.
   final bool useRouter;
 
-
   /// Creates navigation settings for traditional [Navigator] navigation.
   ///
   /// This constructor sets up various properties related to Navigator-based navigation.
@@ -77,12 +76,12 @@ class PlayxNavigationSettings {
     this.navigatorObservers = const <NavigatorObserver>[],
     this.builder,
     this.includeSentryNavigationObserver = false,
-  })  : useRouter = false,
-        routeInformationProvider = null,
-        routeInformationParser = null,
-        routerDelegate = null,
-        goRouter = null,
-        backButtonDispatcher = null;
+  }) : useRouter = false,
+       routeInformationProvider = null,
+       routeInformationParser = null,
+       routerDelegate = null,
+       goRouter = null,
+       backButtonDispatcher = null;
 
   /// Creates navigation settings that use the Router instead of Navigator.
   ///
@@ -94,16 +93,16 @@ class PlayxNavigationSettings {
     this.backButtonDispatcher,
     this.navigatorKey,
     this.builder,
-  })  : useRouter = true,
-        routes = null,
-        initialRoute = null,
-        onGenerateRoute = null,
-        onGenerateInitialRoutes = null,
-        onUnknownRoute = null,
-        goRouter = null,
-        home = null,
-        includeSentryNavigationObserver = false,
-        navigatorObservers = null;
+  }) : useRouter = true,
+       routes = null,
+       initialRoute = null,
+       onGenerateRoute = null,
+       onGenerateInitialRoutes = null,
+       onUnknownRoute = null,
+       goRouter = null,
+       home = null,
+       includeSentryNavigationObserver = false,
+       navigatorObservers = null;
 
   /// Creates navigation settings that use the GoRouter instead of Navigator.
   ///
@@ -112,17 +111,17 @@ class PlayxNavigationSettings {
     required GoRouter this.goRouter,
     this.navigatorKey,
     this.builder,
-  })  : useRouter = true,
-        routes = null,
-        initialRoute = null,
-        onGenerateRoute = null,
-        onGenerateInitialRoutes = null,
-        onUnknownRoute = null,
-        routeInformationProvider = null,
-        routeInformationParser = null,
-        routerDelegate = null,
-        backButtonDispatcher = null,
-        navigatorObservers = null,
-        includeSentryNavigationObserver = false,
-        home = null;
+  }) : useRouter = true,
+       routes = null,
+       initialRoute = null,
+       onGenerateRoute = null,
+       onGenerateInitialRoutes = null,
+       onUnknownRoute = null,
+       routeInformationProvider = null,
+       routeInformationParser = null,
+       routerDelegate = null,
+       backButtonDispatcher = null,
+       navigatorObservers = null,
+       includeSentryNavigationObserver = false,
+       home = null;
 }

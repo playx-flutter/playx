@@ -704,10 +704,10 @@ packages:
     dependency: transitive
     description:
       name: playx_network
-      sha256: ada658950e412132ecd2c2aa32336e557fda341347fe9ef60a4d4bd7b7b0b5a8
+      sha256: a4f42b930fc20adbc9e128f98cf8d59a88d7a66150d35f5d47441f92e22de2c7
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.5.1"
   playx_theme:
     dependency: transitive
     description:

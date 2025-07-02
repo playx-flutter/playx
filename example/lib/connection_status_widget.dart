@@ -6,7 +6,8 @@ class ConnectionStatusWidget extends StatefulWidget {
   final bool retryOnConnectionRestored;
   final VoidCallback? onRetryClicked;
 
-  const ConnectionStatusWidget({super.key,
+  const ConnectionStatusWidget({
+    super.key,
     this.enableCheckingInternet = true,
     this.onRetryClicked,
     this.retryOnConnectionRestored = true,
@@ -46,7 +47,8 @@ class _ConnectionStatusWidgetState extends State<ConnectionStatusWidget> {
           setState(() {
             msg = 'Disconnected From Internet';
           });
-          PlayxLogger.error('ConnectionStatusWidget: Disconnected From Internet');
+          PlayxLogger.error(
+              'ConnectionStatusWidget: Disconnected From Internet');
         case ConnectionStatus.connectionRestored:
           setState(() {
             msg = 'Connection RESTORED INTERNET';

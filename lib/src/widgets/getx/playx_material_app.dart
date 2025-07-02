@@ -11,8 +11,6 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../models/playx_get_navigation_settings.dart';
 
-
-
 /// [PlayxGetMaterialApp] is a widget that integrates [GetMaterialApp] with [PlayXThemeBuilder] and [ScreenUtilInit].
 ///
 /// This widget allows for configuration of theme settings, screen settings, and navigation settings. It also
@@ -56,9 +54,7 @@ class PlayxGetMaterialApp extends StatelessWidget {
 
   const PlayxGetMaterialApp({
     super.key,
-    this.preferredOrientations = const [
-      DeviceOrientation.portraitUp,
-    ],
+    this.preferredOrientations = const [DeviceOrientation.portraitUp],
     this.screenSettings = const PlayxScreenSettings(),
     this.themeSettings = const PlayxThemeSettings(),
     this.navigationSettings = const PlayxGetNavigationSettings(),
@@ -77,14 +73,15 @@ class PlayxGetMaterialApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlayxThemeBuilder(builder: (ctx, xTheme) {
-      // Trigger the theme change callback if provided.
-      themeSettings.onThemeChanged?.call(xTheme);
+    return PlayxThemeBuilder(
+      builder: (ctx, xTheme) {
+        // Trigger the theme change callback if provided.
+        themeSettings.onThemeChanged?.call(xTheme);
 
-      // Set the preferred orientations for the app.
-      SystemChrome.setPreferredOrientations(preferredOrientations);
+        // Set the preferred orientations for the app.
+        SystemChrome.setPreferredOrientations(preferredOrientations);
 
-      return ScreenUtilInit(
+        return ScreenUtilInit(
           designSize: screenSettings.designSize,
           minTextAdapt: screenSettings.minTextAdapt,
           splitScreenMode: screenSettings.splitScreenMode,
@@ -94,138 +91,152 @@ class PlayxGetMaterialApp extends StatelessWidget {
           responsiveWidgets: screenSettings.responsiveWidgets,
           ensureScreenSize: screenSettings.ensureScreenSize,
           builder: (context, child) {
-            return PlayxLocalizationBuilder(builder: (ctx, locale) {
-              // Return a GetMaterialApp with router capabilities or standard GetMaterialApp based on settings.
-              return navigationSettings.useRouter
-                  ? GetMaterialApp.router(
-                      theme: themeSettings.theme ??
-                          xTheme.themeBuilder?.call(locale.locale) ??
-                          xTheme.themeData,
-                      debugShowCheckedModeBanner:
-                          appSettings.debugShowCheckedModeBanner,
-                      routeInformationProvider:
-                          navigationSettings.routeInformationProvider,
-                      routerDelegate: navigationSettings.routerDelegate,
-                      routeInformationParser:
-                          navigationSettings.routeInformationParser,
-                      backButtonDispatcher:
-                          navigationSettings.backButtonDispatcher,
-                      navigatorObservers:
-                          navigationSettings.navigatorObservers ??
-                              [
-                                if (navigationSettings
-                                    .includeSentryNavigationObserver)
-                                  SentryNavigatorObserver(),
-                              ],
-                      scaffoldMessengerKey: scaffoldMessengerKey,
-                      builder: navigationSettings.builder,
-                      textDirection: textDirection,
-                      title: title,
-                      onGenerateTitle: onGenerateTitle,
-                      color: color,
-                      darkTheme: themeSettings.darkTheme,
-                      themeMode: themeSettings.themeMode,
-                      supportedLocales: PlayxLocalization.supportedLocales,
-                      localizationsDelegates:
-                          PlayxLocalization.localizationDelegates,
-                      locale: locale.locale,
-                      debugShowMaterialGrid: appSettings.debugShowMaterialGrid,
-                      showPerformanceOverlay:
-                          appSettings.showPerformanceOverlay,
-                      checkerboardRasterCacheImages:
-                          appSettings.checkerboardRasterCacheImages,
-                      checkerboardOffscreenLayers:
-                          appSettings.checkerboardOffscreenLayers,
-                      showSemanticsDebugger: appSettings.showSemanticsDebugger,
-                      shortcuts: appSettings.shortcuts,
-                      scrollBehavior: appSettings.scrollBehavior,
-                      customTransition: navigationSettings.customTransition,
-                      onInit: onInit,
-                      onReady: onReady,
-                      onDispose: onDispose,
-                      routingCallback: navigationSettings.routingCallback,
-                      defaultTransition: navigationSettings.defaultTransition,
-                      getPages: navigationSettings.getPages,
-                      opaqueRoute: navigationSettings.opaqueRoute,
-                      enableLog: appSettings.enableLog,
-                      logWriterCallback: logWriterCallback,
-                      popGesture: popGesture,
-                      transitionDuration: navigationSettings.transitionDuration,
-                      defaultGlobalState: navigationSettings.defaultGlobalState,
-                      smartManagement: navigationSettings.smartManagement,
-                      initialBinding: navigationSettings.initialBinding,
-                      unknownRoute: navigationSettings.unknownRoute,
-                      highContrastTheme: themeSettings.highContrastTheme,
-                      highContrastDarkTheme:
-                          themeSettings.highContrastDarkTheme,
-                      actions: appSettings.actions,
-                    )
-                  : GetMaterialApp(
-                      theme: themeSettings.theme ??
-                          xTheme.themeBuilder?.call(locale.locale) ??
-                          xTheme.themeData,
-                      debugShowCheckedModeBanner:
-                          appSettings.debugShowCheckedModeBanner,
-                      navigatorObservers:
-                          navigationSettings.navigatorObservers ??
-                              [
-                                if (navigationSettings
-                                    .includeSentryNavigationObserver)
-                                  SentryNavigatorObserver(),
-                              ],
-                      navigatorKey: navigationSettings.navigatorKey,
-                      scaffoldMessengerKey: scaffoldMessengerKey,
-                      home: navigationSettings.home,
-                      routes: navigationSettings.routes ?? {},
-                      initialRoute: navigationSettings.initialRoute,
-                      onGenerateRoute: navigationSettings.onGenerateRoute,
-                      onGenerateInitialRoutes:
-                          navigationSettings.onGenerateInitialRoutes,
-                      onUnknownRoute: navigationSettings.onUnknownRoute,
-                      builder: navigationSettings.builder,
-                      textDirection: textDirection,
-                      title: title,
-                      onGenerateTitle: onGenerateTitle,
-                      color: color,
-                      darkTheme: themeSettings.darkTheme,
-                      themeMode: themeSettings.themeMode,
-                      supportedLocales: PlayxLocalization.supportedLocales,
-                      localizationsDelegates:
-                          PlayxLocalization.localizationDelegates,
-                      locale: locale.locale,
-                      debugShowMaterialGrid: appSettings.debugShowMaterialGrid,
-                      showPerformanceOverlay:
-                          appSettings.showPerformanceOverlay,
-                      checkerboardRasterCacheImages:
-                          appSettings.checkerboardRasterCacheImages,
-                      checkerboardOffscreenLayers:
-                          appSettings.checkerboardOffscreenLayers,
-                      showSemanticsDebugger: appSettings.showSemanticsDebugger,
-                      shortcuts: appSettings.shortcuts,
-                      scrollBehavior: appSettings.scrollBehavior,
-                      customTransition: navigationSettings.customTransition,
-                      onInit: onInit,
-                      onReady: onReady,
-                      onDispose: onDispose,
-                      routingCallback: navigationSettings.routingCallback,
-                      defaultTransition: navigationSettings.defaultTransition,
-                      getPages: navigationSettings.getPages,
-                      opaqueRoute: navigationSettings.opaqueRoute,
-                      enableLog: appSettings.enableLog,
-                      logWriterCallback: logWriterCallback,
-                      popGesture: popGesture,
-                      transitionDuration: navigationSettings.transitionDuration,
-                      defaultGlobalState: navigationSettings.defaultGlobalState,
-                      smartManagement: navigationSettings.smartManagement,
-                      initialBinding: navigationSettings.initialBinding,
-                      unknownRoute: navigationSettings.unknownRoute,
-                      highContrastTheme: themeSettings.highContrastTheme,
-                      highContrastDarkTheme:
-                          themeSettings.highContrastDarkTheme,
-                      actions: appSettings.actions,
-                    );
-            });
-          });
-    });
+            return PlayxLocalizationBuilder(
+              builder: (ctx, locale) {
+                // Return a GetMaterialApp with router capabilities or standard GetMaterialApp based on settings.
+                return navigationSettings.useRouter
+                    ? GetMaterialApp.router(
+                        theme:
+                            themeSettings.theme ??
+                            xTheme.themeBuilder?.call(locale.locale) ??
+                            xTheme.themeData,
+                        debugShowCheckedModeBanner:
+                            appSettings.debugShowCheckedModeBanner,
+                        routeInformationProvider:
+                            navigationSettings.routeInformationProvider,
+                        routerDelegate: navigationSettings.routerDelegate,
+                        routeInformationParser:
+                            navigationSettings.routeInformationParser,
+                        backButtonDispatcher:
+                            navigationSettings.backButtonDispatcher,
+                        navigatorObservers:
+                            navigationSettings.navigatorObservers ??
+                            [
+                              if (navigationSettings
+                                  .includeSentryNavigationObserver)
+                                SentryNavigatorObserver(),
+                            ],
+                        scaffoldMessengerKey: scaffoldMessengerKey,
+                        builder: navigationSettings.builder,
+                        textDirection: textDirection,
+                        title: title,
+                        onGenerateTitle: onGenerateTitle,
+                        color: color,
+                        darkTheme: themeSettings.darkTheme,
+                        themeMode: themeSettings.themeMode,
+                        supportedLocales: PlayxLocalization.supportedLocales,
+                        localizationsDelegates:
+                            PlayxLocalization.localizationDelegates,
+                        locale: locale.locale,
+                        debugShowMaterialGrid:
+                            appSettings.debugShowMaterialGrid,
+                        showPerformanceOverlay:
+                            appSettings.showPerformanceOverlay,
+                        checkerboardRasterCacheImages:
+                            appSettings.checkerboardRasterCacheImages,
+                        checkerboardOffscreenLayers:
+                            appSettings.checkerboardOffscreenLayers,
+                        showSemanticsDebugger:
+                            appSettings.showSemanticsDebugger,
+                        shortcuts: appSettings.shortcuts,
+                        scrollBehavior: appSettings.scrollBehavior,
+                        customTransition: navigationSettings.customTransition,
+                        onInit: onInit,
+                        onReady: onReady,
+                        onDispose: onDispose,
+                        routingCallback: navigationSettings.routingCallback,
+                        defaultTransition: navigationSettings.defaultTransition,
+                        getPages: navigationSettings.getPages,
+                        opaqueRoute: navigationSettings.opaqueRoute,
+                        enableLog: appSettings.enableLog,
+                        logWriterCallback: logWriterCallback,
+                        popGesture: popGesture,
+                        transitionDuration:
+                            navigationSettings.transitionDuration,
+                        defaultGlobalState:
+                            navigationSettings.defaultGlobalState,
+                        smartManagement: navigationSettings.smartManagement,
+                        initialBinding: navigationSettings.initialBinding,
+                        unknownRoute: navigationSettings.unknownRoute,
+                        highContrastTheme: themeSettings.highContrastTheme,
+                        highContrastDarkTheme:
+                            themeSettings.highContrastDarkTheme,
+                        actions: appSettings.actions,
+                      )
+                    : GetMaterialApp(
+                        theme:
+                            themeSettings.theme ??
+                            xTheme.themeBuilder?.call(locale.locale) ??
+                            xTheme.themeData,
+                        debugShowCheckedModeBanner:
+                            appSettings.debugShowCheckedModeBanner,
+                        navigatorObservers:
+                            navigationSettings.navigatorObservers ??
+                            [
+                              if (navigationSettings
+                                  .includeSentryNavigationObserver)
+                                SentryNavigatorObserver(),
+                            ],
+                        navigatorKey: navigationSettings.navigatorKey,
+                        scaffoldMessengerKey: scaffoldMessengerKey,
+                        home: navigationSettings.home,
+                        routes: navigationSettings.routes ?? {},
+                        initialRoute: navigationSettings.initialRoute,
+                        onGenerateRoute: navigationSettings.onGenerateRoute,
+                        onGenerateInitialRoutes:
+                            navigationSettings.onGenerateInitialRoutes,
+                        onUnknownRoute: navigationSettings.onUnknownRoute,
+                        builder: navigationSettings.builder,
+                        textDirection: textDirection,
+                        title: title,
+                        onGenerateTitle: onGenerateTitle,
+                        color: color,
+                        darkTheme: themeSettings.darkTheme,
+                        themeMode: themeSettings.themeMode,
+                        supportedLocales: PlayxLocalization.supportedLocales,
+                        localizationsDelegates:
+                            PlayxLocalization.localizationDelegates,
+                        locale: locale.locale,
+                        debugShowMaterialGrid:
+                            appSettings.debugShowMaterialGrid,
+                        showPerformanceOverlay:
+                            appSettings.showPerformanceOverlay,
+                        checkerboardRasterCacheImages:
+                            appSettings.checkerboardRasterCacheImages,
+                        checkerboardOffscreenLayers:
+                            appSettings.checkerboardOffscreenLayers,
+                        showSemanticsDebugger:
+                            appSettings.showSemanticsDebugger,
+                        shortcuts: appSettings.shortcuts,
+                        scrollBehavior: appSettings.scrollBehavior,
+                        customTransition: navigationSettings.customTransition,
+                        onInit: onInit,
+                        onReady: onReady,
+                        onDispose: onDispose,
+                        routingCallback: navigationSettings.routingCallback,
+                        defaultTransition: navigationSettings.defaultTransition,
+                        getPages: navigationSettings.getPages,
+                        opaqueRoute: navigationSettings.opaqueRoute,
+                        enableLog: appSettings.enableLog,
+                        logWriterCallback: logWriterCallback,
+                        popGesture: popGesture,
+                        transitionDuration:
+                            navigationSettings.transitionDuration,
+                        defaultGlobalState:
+                            navigationSettings.defaultGlobalState,
+                        smartManagement: navigationSettings.smartManagement,
+                        initialBinding: navigationSettings.initialBinding,
+                        unknownRoute: navigationSettings.unknownRoute,
+                        highContrastTheme: themeSettings.highContrastTheme,
+                        highContrastDarkTheme:
+                            themeSettings.highContrastDarkTheme,
+                        actions: appSettings.actions,
+                      );
+              },
+            );
+          },
+        );
+      },
+    );
   }
 }
