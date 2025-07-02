@@ -1,5 +1,40 @@
 # Changelog
 
+## 1.5.0
+
+###  SDK & Dependency Updates
+
+* Updated SDK constraints:
+
+  * Dart: `>=3.8.0 <4.0.0`
+  * Flutter: `>=3.32.0`
+* Upgraded dependencies:
+
+  * `async: ^2.13.0`
+  * `playx_core: ^0.7.3`
+  * `playx_theme: ^1.1.0`
+  * `playx_widget: ^0.3.0`
+  * `playx_network: ^0.5.0`
+  * `playx_navigation: ^0.2.0`
+  * `playx_localization: ^0.3.0`
+  * `sentry_flutter: ^9.2.0`
+  * `internet_connection_checker_plus: ^2.7.2`
+  * `connectivity_plus: ^6.1.4`
+
+###  Connection Status Enhancements
+
+* Improved `ConnectionStatusController`:
+
+  * Replaced default internet check URLs with more reliable ones.
+  * Added `backOnlineDelay` to control delay after reconnection.
+  * Skipped unnecessary checks on app resume.
+
+###  Project Maintenance
+
+* Migrated example project’s Android build files to **Kotlin DSL (`.kts`)**.
+* Upgraded example project dependencies for compatibility.
+
+
 ## 1.4.1
 - Update packages.
 
