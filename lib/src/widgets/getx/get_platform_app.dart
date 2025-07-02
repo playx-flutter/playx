@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:playx/playx.dart' hide TextDirection;
+import 'package:playx/playx.dart';
 
 /// A widget that represents [GetMaterialApp] for Android or Material platforms
 /// and [GetCupertinoApp] for iOS devices or Cupertino platforms.\
