@@ -14,7 +14,7 @@
   * `playx_core: ^0.7.3`
   * `playx_theme: ^1.1.0`
   * `playx_widget: ^0.3.0`
-  * `playx_network: ^0.5.0`
+  * `playx_network: ^0.5.1`
   * `playx_navigation: ^0.2.0`
   * `playx_localization: ^0.3.0`
   * `sentry_flutter: ^9.2.0`
