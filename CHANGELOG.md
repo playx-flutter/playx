@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.6.0
+- Update dependencies
+
 ## 1.5.0
 
 ###  SDK & Dependency Updates
