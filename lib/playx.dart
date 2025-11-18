@@ -31,9 +31,12 @@ export 'package:sentry_flutter/sentry_flutter.dart'
         SentrySpanDescriptions,
         SentrySpanContext,
         OnBeforeCaptureLog,
-        BeforeSendEventObserver,
         SdkLifecycleCallback,
         SdkLifecycleEvent,
+        SdkLifecycleRegistry,
+        OnBeforeSendEvent,
+        OnSpanStart,
+        OnSpanFinish,
         addTracingHeadersToHttpHeader,
         getBreadcrumbLogLevelFromHttpStatusCode,
         getUtcDateTime,
@@ -42,16 +45,16 @@ export 'package:sentry_flutter/sentry_flutter.dart'
 
 export 'src/config/playx_app_config.dart';
 export 'src/connection_status/connection_status_controller.dart';
-export 'src/playx.dart';
-export 'src/utils/is_equal_validation.dart';
-export 'src/widgets/getx/get_platform_app.dart';
-export 'src/widgets/getx/playx_material_app.dart';
-export 'src/widgets/getx/playx_platform_app.dart';
 export 'src/models/playx_app_settings.dart';
 export 'src/models/playx_get_navigation_settings.dart';
 export 'src/models/playx_navigation_settings.dart';
 export 'src/models/playx_platform_settings.dart';
 export 'src/models/playx_screen_settings.dart';
 export 'src/models/playx_theme_settings.dart';
+export 'src/playx.dart';
+export 'src/utils/is_equal_validation.dart';
+export 'src/widgets/getx/get_platform_app.dart';
+export 'src/widgets/getx/playx_material_app.dart';
+export 'src/widgets/getx/playx_platform_app.dart';
 export 'src/widgets/playx_material_app.dart';
 export 'src/widgets/playx_platform_app.dart';
