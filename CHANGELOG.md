@@ -27,6 +27,12 @@
   * Prevented memory leaks by mapping proper `dispose()` logic directly inside the ValueNotifier lifecycle.
   * Optimizations yielding faster feedback checks across different network types like Ethernet and VPNs.
 
+### Validation Enhancements
+* Replaced `IsEqual` validation rule with `AreEqual` for better naming consistency.
+* Added `AreNotEqual` validation rule for text fields to check if an input does not match another string.
+
+### Internal Fixes
+* Fixed lint warnings in `playx.dart` by hiding internal Sentry classes and methods (`SemanticAttributesConstants`, `InstrumentationSpan`, etc.) that were updated or restricted in Sentry Core `9.16.0`.
 ## 1.6.0
 - Update dependencies
 
