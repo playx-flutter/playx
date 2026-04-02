@@ -1,5 +1,38 @@
 # Changelog
 
+## 2.0.0
+
+### SDK & Dependency Updates
+* Updated SDK constraints:
+  * Dart: `>=3.10.0 <4.0.0`
+  * Flutter: `>=3.38.0`
+* Upgraded dependencies to their latest versions:
+  * `playx_core: ^1.0.0`
+  * `playx_theme: ^2.0.0`
+  * `playx_widget: ^0.5.0`
+  * `playx_network: ^1.0.0`
+  * `playx_navigation: ^1.0.0`
+  * `playx_localization: ^0.4.0`
+  * `sentry_flutter: ^9.16.0`
+  * `internet_connection_checker_plus: ^2.9.1+2`
+  * `connectivity_plus: ^7.1.0`
+  * `get: ^4.7.3`
+  * `async: ^2.13.1`
+
+### Connection Status Enhancements
+* Restructured `ConnectionStatusController` to provide more robust network checking capabilities:
+  * Added `ConnectionCheckType` enum (`both`, `internet`, `device`) to give explicit control over pinging URLs versus monitoring device network state.
+  * Improved Web support out of the box by gracefully defaulting to `ConnectionCheckType.device` to prevent CORS issues.
+  * Included dynamic `enableChecking` flag and `setCheckingEnabled(bool)` so developers can manually pause and resume background watchers.
+  * Prevented memory leaks by mapping proper `dispose()` logic directly inside the ValueNotifier lifecycle.
+  * Optimizations yielding faster feedback checks across different network types like Ethernet and VPNs.
+
+### Validation Enhancements
+* Replaced `IsEqual` validation rule with `AreEqual` for better naming consistency.
+* Added `AreNotEqual` validation rule for text fields to check if an input does not match another string.
+
+### Internal Fixes
+* Fixed lint warnings in `playx.dart` by hiding internal Sentry classes and methods (`SemanticAttributesConstants`, `InstrumentationSpan`, etc.) that were updated or restricted in Sentry Core `9.16.0`.
 ## 1.6.0
 - Update dependencies
 

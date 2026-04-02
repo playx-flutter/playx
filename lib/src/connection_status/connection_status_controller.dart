@@ -1,29 +1,46 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:playx/playx.dart';
 
-/// An enumeration that represents the internet connection status.
+/// The type of connection check to perform.
+enum ConnectionCheckType {
+  /// Checks both device network connectivity and verifies actual internet access by pinging URLs.
+  /// This is the most comprehensive check.
+  both,
+
+  /// Only verifies internet access by periodically pinging URLs, without listening to device network changes.
+  /// Note: On Web, this requires URLs that support CORS.
+  internet,
+
+  /// Only checks if the device is connected to a local network (WiFi, mobile, etc.),
+  /// without verifying actual internet access.
+  /// Recommended for Web to avoid CORS issues and unnecessary pings.
+  device,
+}
+
+/// An enumeration that represents the connection status.
 enum ConnectionStatus {
-  /// The device is connected to the internet.
+  /// The device is connected.
   connected,
 
-  /// The device is not connected to the internet.
+  /// The device is not connected.
   disconnected,
 
   /// The device lost connection but then restored it.
   connectionRestored,
 }
 
-/// A controller that monitors the internet connection status by checking the
-/// device's connectivity and verifying internet access through multiple endpoints.
+/// A controller that monitors the connection status by checking the
+/// device's connectivity. It can also verify internet access through multiple endpoints.
 ///
 /// This class automatically updates the connection status and allows you to react
-/// to changes in internet connectivity. It also manages the connection check interval
+/// to changes in connectivity. It also manages the connection check interval
 /// and handles lifecycle changes to pause or resume connectivity checks as needed.
 class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
     with WidgetsBindingObserver {
-  final InternetConnection _internetConnection;
+  InternetConnection? _internetConnection;
   StreamSubscription? _sub;
   StreamSubscription<List<ConnectivityResult>>? _connectivitySub;
 
@@ -31,29 +48,63 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
 
   final Duration backOnlineDelay;
 
+  /// The type of connection check to perform.
+  final ConnectionCheckType checkType;
+
+  bool _isCheckingEnabled;
+
+  /// Whether connection monitoring is currently active.
+  bool get isCheckingEnabled => _isCheckingEnabled;
+
   /// Creates a [ConnectionStatusController] instance with the ability to customize
-  /// the connection check interval and the URLs used to verify internet access.
+  /// the connection check interval, the connection check type, and options.
   ///
-  /// - [checkInterval]: The time interval between each connectivity check.
-  ///   Defaults to 5 seconds.
-  /// - [customCheckOptions]: A list of [InternetCheckOption] objects that specify
-  ///   custom URLs and timeout durations for checking internet access. If not provided,
-  ///   default options will be used.
+  /// - [checkType]: Specifies the type of connection check to perform.
+  ///   Defaults to `ConnectionCheckType.device` on Web and `ConnectionCheckType.both` otherwise.
+  /// - [enableChecking]: Starts monitoring immediately upon creation if true.
+  /// - [checkInterval]: The time interval between each connectivity check. Defaults to 5 seconds.
+  /// - [customCheckOptions]: A list of [InternetCheckOption] providing custom URLs/timeouts.
   ConnectionStatusController({
+    ConnectionCheckType? checkType,
+    bool enableChecking = true,
     Duration checkInterval = const Duration(seconds: 5),
     List<InternetCheckOption>? customCheckOptions,
     this.backOnlineDelay = const Duration(seconds: 2),
-  }) : _internetConnection = _createInternetConnection(
-         checkInterval: checkInterval,
-         customCheckOptions: customCheckOptions,
-       ),
+  }) : checkType =
+           checkType ??
+           (kIsWeb ? ConnectionCheckType.device : ConnectionCheckType.both),
+       _isCheckingEnabled = enableChecking,
        super(ConnectionStatus.connected) {
+    if (this.checkType == ConnectionCheckType.both ||
+        this.checkType == ConnectionCheckType.internet) {
+      _internetConnection = _createInternetConnection(
+        checkInterval: checkInterval,
+        customCheckOptions: customCheckOptions,
+      );
+    }
     WidgetsBinding.instance.addObserver(this);
-    listenToConnectionStatus();
+
+    if (_isCheckingEnabled) {
+      listenToConnectionStatus();
+    }
   }
 
-  /// Indicates whether the device is currently connected to the internet.
-  bool get isConnectedToInternet => value != ConnectionStatus.disconnected;
+  /// Indicates whether the device is currently connected.
+  bool get isConnected => value != ConnectionStatus.disconnected;
+
+  /// (Deprecated) Use [isConnected] instead.
+  bool get isConnectedToInternet => isConnected;
+
+  /// Enables or disables the connection checking mechanism dynamically.
+  void setCheckingEnabled(bool enabled) {
+    if (_isCheckingEnabled == enabled) return;
+    _isCheckingEnabled = enabled;
+    if (enabled) {
+      listenToConnectionStatus();
+    } else {
+      stopListeningToConnectionStatus();
+    }
+  }
 
   /// Helper method to create an [InternetConnection] instance with the provided
   /// check interval and custom check options.
@@ -90,6 +141,7 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
   /// is paused or closed.
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!_isCheckingEnabled) return;
     switch (state) {
       case AppLifecycleState.resumed:
         listenToConnectionStatus(fromLifecycleCallback: true);
@@ -104,60 +156,76 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
     }
   }
 
-  /// Manually checks the current internet connection status and updates
+  /// Manually checks the current connection status and updates
   /// the [ConnectionStatus] value accordingly.
   Future<void> checkInternetConnection() async {
-    final bool hasInternetAccess = await _internetConnection.hasInternetAccess;
-
-    _handleInternetConnection(isInternetConnected: hasInternetAccess);
+    if (checkType == ConnectionCheckType.device) {
+      final result = await connectivity.checkConnectivity();
+      final isDeviceConnected =
+          result.isNotEmpty &&
+          !result.every((r) => r == ConnectivityResult.none);
+      _handleInternetConnection(isInternetConnected: isDeviceConnected);
+    } else {
+      final bool hasInternetAccess =
+          await _internetConnection?.hasInternetAccess ?? false;
+      _handleInternetConnection(isInternetConnected: hasInternetAccess);
+    }
   }
 
-  /// Starts listening to internet connection status changes and updates
+  /// Starts listening to connection status changes and updates
   /// the [ConnectionStatus] value in real-time. Also checks the connection
   /// status immediately upon starting.
-  Future<void> listenToConnectionStatus({
-    bool fromLifecycleCallback = false,
-  }) async {
+  void listenToConnectionStatus({bool fromLifecycleCallback = false}) {
     stopListeningToConnectionStatus();
     if (!fromLifecycleCallback) {
       checkInternetConnection();
     }
-    _sub = _internetConnection.onStatusChange.listen((event) async {
-      _handleInternetConnection(
-        isInternetConnected: event == InternetStatus.connected,
-      );
-    });
 
-    _connectivitySub = connectivity.onConnectivityChanged.listen((
-      result,
-    ) async {
-      if (result.contains(ConnectivityResult.mobile) ||
-          result.contains(ConnectivityResult.wifi)) {
-        checkInternetConnection();
-      } else {
-        final res = await connectivity.checkConnectivity();
-        if (res.contains(ConnectivityResult.mobile) ||
-            res.contains(ConnectivityResult.wifi)) {
-          checkInternetConnection();
-        } else {
+    if ((checkType == ConnectionCheckType.both ||
+            checkType == ConnectionCheckType.internet) &&
+        _internetConnection != null) {
+      _sub = _internetConnection!.onStatusChange.listen((event) {
+        _handleInternetConnection(
+          isInternetConnected: event == InternetStatus.connected,
+        );
+      });
+    }
+
+    if (checkType == ConnectionCheckType.both ||
+        checkType == ConnectionCheckType.device) {
+      _connectivitySub = connectivity.onConnectivityChanged.listen((result) {
+        final isDeviceConnected =
+            result.isNotEmpty &&
+            !result.every((r) => r == ConnectivityResult.none);
+
+        if (!isDeviceConnected) {
           value = ConnectionStatus.disconnected;
+        } else {
+          if (checkType == ConnectionCheckType.device) {
+            _handleInternetConnection(isInternetConnected: true);
+          } else {
+            checkInternetConnection();
+          }
         }
-      }
-    });
+      });
+    }
   }
 
-  /// Handles changes in the internet connection status and updates the [ConnectionStatus]
+  /// Handles changes in the connection status and updates the [ConnectionStatus]
   /// value accordingly. If the connection is restored, it briefly shows `connectionRestored`
   /// before switching back to `connected`.
   Future<void> _handleInternetConnection({
     required bool isInternetConnected,
   }) async {
     if (isInternetConnected) {
-      if (value != ConnectionStatus.connected) {
+      if (value == ConnectionStatus.disconnected) {
         value = ConnectionStatus.connectionRestored;
+        await Future.delayed(backOnlineDelay);
       }
-      await Future.delayed(backOnlineDelay);
-      value = ConnectionStatus.connected;
+      // Ensure we haven't gone offline during the delay.
+      if (value != ConnectionStatus.disconnected) {
+        value = ConnectionStatus.connected;
+      }
     } else {
       value = ConnectionStatus.disconnected;
     }
@@ -165,10 +233,17 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
 
   /// Stops listening to internet connection status changes and cancels
   /// the ongoing subscription to prevent memory leaks.
-  Future<void> stopListeningToConnectionStatus() async {
+  void stopListeningToConnectionStatus() {
     _sub?.cancel();
     _sub = null;
     _connectivitySub?.cancel();
     _connectivitySub = null;
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    stopListeningToConnectionStatus();
+    super.dispose();
   }
 }
