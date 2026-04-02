@@ -30,7 +30,6 @@ export 'package:sentry_flutter/sentry_flutter.dart'
         SentrySpanData,
         SentrySpanDescriptions,
         SentrySpanContext,
-        OnBeforeCaptureLog,
         SdkLifecycleCallback,
         SdkLifecycleEvent,
         SdkLifecycleRegistry,
@@ -41,7 +40,19 @@ export 'package:sentry_flutter/sentry_flutter.dart'
         getBreadcrumbLogLevelFromHttpStatusCode,
         getUtcDateTime,
         formatDateAsIso8601WithMillisPrecision,
-        jsonSerializationFallback;
+        jsonSerializationFallback,
+        SemanticAttributesConstants,
+        AddAllAbsentX,
+        SentryAttributeFormatting,
+        SentryAttributeMapFormatting,
+        OnProcessLog,
+        OnProcessMetric,
+        OnGenerateNewTrace,
+        SentryInternalLogger,
+        InstrumentationSpan,
+        LegacyInstrumentationSpan,
+        InstrumentationSpanFactory,
+        LegacyInstrumentationSpanFactory;
 
 export 'src/config/playx_app_config.dart';
 export 'src/connection_status/connection_status_controller.dart';
