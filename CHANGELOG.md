@@ -1,5 +1,36 @@
 # Changelog
 
+## 2.1.0
+
+### Dependency Updates
+* `playx_navigation: ^2.0.0`
+
+### Navigation Enhancements (`playx_navigation` 2.0.0)
+* **Updated `PlayxNavigationSettings.goRouter`** to accept the new `PlayxPageConfig? config` parameter, enabling global defaults for:
+  * `loadingWidget` — widget shown while a binding's `onEnter` is executing.
+  * `waitForBinding` — whether routes block their build on `onEnter` completion.
+  * `shellBuilder` — persistent page chrome (AppBar, Drawer) rendered immediately during transitions.
+  * `initTransitionDuration` — crossfade animation duration between loading and content states.
+* **Updated `PlayxMaterialApp` and `PlayxPlatformApp`** to forward `PlayxPageConfig` to `PlayxNavigationBuilder`, enabling global page configuration when using GoRouter.
+* Route-level settings override global `PlayxPageConfig` defaults.
+
+#### Example:
+```dart
+PlayxMaterialApp(
+  navigationSettings: PlayxNavigationSettings.goRouter(
+    goRouter: myRouter,
+    config: PlayxPageConfig(
+      loadingWidget: Center(child: CircularProgressIndicator()),
+      waitForBinding: false,
+      shellBuilder: (context, state, isInitialized, child) => Scaffold(
+        appBar: AppBar(title: Text('My App')),
+        body: child,
+      ),
+    ),
+  ),
+);
+```
+
 ## 2.0.0
 
 ### SDK & Dependency Updates

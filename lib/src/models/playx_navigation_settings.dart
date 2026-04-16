@@ -62,6 +62,18 @@ class PlayxNavigationSettings {
   /// Indicates whether to use Router-based navigation or GoRouter.
   final bool useRouter;
 
+  /// Optional global configuration for all [PlayxPage] instances when
+  /// using [GoRouter]-based navigation.
+  ///
+  /// Sets defaults for [PlayxPageConfig.loadingWidget],
+  /// [PlayxPageConfig.waitForBinding], [PlayxPageConfig.shellBuilder],
+  /// and [PlayxPageConfig.initTransitionDuration] that individual routes
+  /// can override.
+  ///
+  /// Only applicable when using the [PlayxNavigationSettings.goRouter]
+  /// constructor.
+  final PlayxPageConfig? config;
+
   /// Creates navigation settings for traditional [Navigator] navigation.
   ///
   /// This constructor sets up various properties related to Navigator-based navigation.
@@ -81,7 +93,8 @@ class PlayxNavigationSettings {
        routeInformationParser = null,
        routerDelegate = null,
        goRouter = null,
-       backButtonDispatcher = null;
+       backButtonDispatcher = null,
+       config = null;
 
   /// Creates navigation settings that use the Router instead of Navigator.
   ///
@@ -102,7 +115,8 @@ class PlayxNavigationSettings {
        goRouter = null,
        home = null,
        includeSentryNavigationObserver = false,
-       navigatorObservers = null;
+       navigatorObservers = null,
+       config = null;
 
   /// Creates navigation settings that use the GoRouter instead of Navigator.
   ///
@@ -111,6 +125,7 @@ class PlayxNavigationSettings {
     required GoRouter this.goRouter,
     this.navigatorKey,
     this.builder,
+    this.config,
   }) : useRouter = true,
        routes = null,
        initialRoute = null,

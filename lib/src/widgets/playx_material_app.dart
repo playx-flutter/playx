@@ -185,6 +185,7 @@ class PlayxMaterialApp extends StatelessWidget {
                     ? PlayxNavigationBuilder(
                         builder: (ctx) => materialApp,
                         router: navigationSettings.goRouter!,
+                        config: navigationSettings.config,
                       )
                     : materialApp;
               },
