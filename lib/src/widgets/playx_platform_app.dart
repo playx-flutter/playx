@@ -192,6 +192,7 @@ class PlayxPlatformApp extends StatelessWidget {
                     ? PlayxNavigationBuilder(
                         builder: (ctx) => platformApp,
                         router: navigationSettings.goRouter!,
+                        config: navigationSettings.config,
                       )
                     : platformApp;
               },

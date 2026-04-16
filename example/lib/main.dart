@@ -25,7 +25,8 @@ void main() async {
 
 final goRouter = GoRouter(
   routes: [
-    PlayxRoute(path: '/', builder: (context, state) => const Home()),
+    PlayxRoute(
+        path: '/', builder: (context, state, isInitialized) => const Home()),
   ],
 );
 
