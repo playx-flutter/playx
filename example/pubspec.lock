@@ -691,7 +691,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.1.0"
+    version: "2.1.1"
   playx_core:
     dependency: transitive
     description:
@@ -712,10 +712,10 @@ packages:
     dependency: transitive
     description:
       name: playx_navigation
-      sha256: "31f774a4da59e7264d2647094b35f0640b78f65cfd68fa3f82f19e28bbe22776"
+      sha256: "199939b6928cd739209543dad86f0c7e7489bc63b3a2b94a98593a9d98afd339"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.0"
   playx_network:
     dependency: transitive
     description:

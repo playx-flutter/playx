@@ -1,9 +1,9 @@
 # Changelog
 
-## 2.1.0
+## 2.1.0 - 2.1.1
 
 ### Dependency Updates
-* `playx_navigation: ^2.0.0`
+* `playx_navigation: ^2.1.0`
 
 ### Navigation Enhancements (`playx_navigation` 2.0.0)
 * **Updated `PlayxNavigationSettings.goRouter`** to accept the new `PlayxPageConfig? config` parameter, enabling global defaults for:
