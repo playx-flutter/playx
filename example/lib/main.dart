@@ -15,7 +15,7 @@ void main() async {
       fileName: 'assets/env/keys.env',
     ),
     localeConfigBuilder: () => createLocaleConfig(),
-    app: const MyApp(),
+    appRunner: () => runApp(const MyApp()),
     //not necessary
     // sentryOptions: (options) {
     //   options.dsn = AppConfig.sentryKey;
@@ -26,7 +26,12 @@ void main() async {
 final goRouter = GoRouter(
   routes: [
     PlayxRoute(
-        path: '/', builder: (context, state, isInitialized) => const Home()),
+        path: '/',
+        builder: (
+          context,
+          state,
+        ) =>
+            const Home()),
   ],
 );
 

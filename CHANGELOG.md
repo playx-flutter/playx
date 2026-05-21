@@ -1,9 +1,15 @@
 # Changelog
 
-## 2.1.0
+## 2.1.2
+
+- Fix Playx boot initialization inside Sentry's `appRunner` zone.
+- Add `appRunner` support to `runPlayx`.
+- Deprecate the `app` parameter in `runPlayx`.
+
+## 2.1.0 - 2.1.1
 
 ### Dependency Updates
-* `playx_navigation: ^2.0.0`
+* `playx_navigation: ^2.1.0`
 
 ### Navigation Enhancements (`playx_navigation` 2.0.0)
 * **Updated `PlayxNavigationSettings.goRouter`** to accept the new `PlayxPageConfig? config` parameter, enabling global defaults for:
