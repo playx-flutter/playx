@@ -11,6 +11,7 @@ typedef PlayxAppConfigBuilder = PlayXAppConfig Function();
 typedef PlayxLocaleConfigBuilder = PlayxLocaleConfig Function();
 typedef PlayxThemeConfigBuilder = PlayxThemeConfig Function();
 typedef PlayxEnvSettingsBuilder = PlayxEnvSettings Function()?;
+typedef PlayxAppRunner = FutureOr<void> Function();
 
 /// The Playx library provides a suite of utilities for app setup, configuration, and management.
 ///
@@ -147,7 +148,7 @@ abstract class Playx {
 
   /// Wraps `runApp` to initialize and set up Playx packages before running the app.
   ///
-  /// [app]: The root widget of the application.
+  /// [appRunner]: Runs the application after Playx finishes booting.
   /// [appConfigBuilder]: A function that returns the app configuration.
   /// [localeConfigBuilder]: A function that returns the locale configuration.
   /// [themeConfigBuilder]: A function that returns the theme configuration.
@@ -157,7 +158,7 @@ abstract class Playx {
   /// [envSettingsBuilder]: A function that returns optional environment settings.
   /// [sentryOptions]: Optional Sentry configuration for crash reporting.
   static Future<void> runPlayx({
-    required Widget app,
+    PlayxAppRunner? appRunner,
     PlayxAppConfigBuilder? appConfigBuilder,
     PlayxLocaleConfigBuilder? localeConfigBuilder,
     PlayxThemeConfigBuilder? themeConfigBuilder,
@@ -169,6 +170,7 @@ abstract class Playx {
     FlutterOptionsConfiguration? sentryOptions,
     PlayxWebSettings webSettings = const PlayxWebSettings(),
     // Deprecated parameters
+    @Deprecated('Use appRunner instead.') Widget? app,
     @Deprecated('Use appConfigBuilder instead.') PlayXAppConfig? appConfig,
     @Deprecated('Use localeConfigBuilder instead.')
     PlayxLocaleConfig? localeConfig,
@@ -200,6 +202,13 @@ abstract class Playx {
           (envSettingsBuilder == null && envSettings != null),
       'Use either envSettingsBuilder or envSettings, not both.',
     );
+    assert(
+      (appRunner != null && app == null) ||
+          (appRunner == null && app != null),
+      'Use either appRunner or app, not both.',
+    );
+
+    final resolvedAppRunner = appRunner ?? () => runApp(app!);
 
     if (sentryOptions != null) {
       await SentryFlutter.init(
@@ -221,7 +230,7 @@ abstract class Playx {
             workManagerSettings: workManagerSettings,
             webSettings: webSettings,
           );
-          runApp(app);
+          await Future<void>.sync(resolvedAppRunner);
         },
       );
     } else {
@@ -239,7 +248,7 @@ abstract class Playx {
         workManagerSettings: workManagerSettings,
         webSettings: webSettings,
       );
-      runApp(app);
+      await Future<void>.sync(resolvedAppRunner);
     }
   }
 

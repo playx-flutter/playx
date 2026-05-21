@@ -15,7 +15,7 @@ void main() async {
       fileName: 'assets/env/keys.env',
     ),
     localeConfigBuilder: () => createLocaleConfig(),
-    app: const MyApp(),
+    appRunner: () => runApp(const MyApp()),
     //not necessary
     // sentryOptions: (options) {
     //   options.dsn = AppConfig.sentryKey;
