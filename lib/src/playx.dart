@@ -201,29 +201,44 @@ abstract class Playx {
       'Use either envSettingsBuilder or envSettings, not both.',
     );
 
-    // Boots Playx dependencies.
-    await boot(
-      appConfig: appConfig,
-      themeConfig: themeConfig,
-      envSettings: envSettings,
-      localeConfig: localeConfig,
-      appConfigBuilder: appConfigBuilder,
-      localeConfigBuilder: localeConfigBuilder,
-      themeConfigBuilder: themeConfigBuilder,
-      envSettingsBuilder: envSettingsBuilder,
-      securePrefsSettings: securePrefsSettings,
-      prefsSettings: prefsSettings,
-      workManagerSettings: workManagerSettings,
-      webSettings: webSettings,
-    );
-
     if (sentryOptions != null) {
       await SentryFlutter.init(
         sentryOptions,
-        // Run the app after initializing Sentry.
-        appRunner: () => runApp(app),
+        // Boot Playx inside Sentry's app runner so binding initialization and
+        // runApp execute in the same zone, especially on Flutter web.
+        appRunner: () async {
+          await boot(
+            appConfig: appConfig,
+            themeConfig: themeConfig,
+            envSettings: envSettings,
+            localeConfig: localeConfig,
+            appConfigBuilder: appConfigBuilder,
+            localeConfigBuilder: localeConfigBuilder,
+            themeConfigBuilder: themeConfigBuilder,
+            envSettingsBuilder: envSettingsBuilder,
+            securePrefsSettings: securePrefsSettings,
+            prefsSettings: prefsSettings,
+            workManagerSettings: workManagerSettings,
+            webSettings: webSettings,
+          );
+          runApp(app);
+        },
       );
     } else {
+      await boot(
+        appConfig: appConfig,
+        themeConfig: themeConfig,
+        envSettings: envSettings,
+        localeConfig: localeConfig,
+        appConfigBuilder: appConfigBuilder,
+        localeConfigBuilder: localeConfigBuilder,
+        themeConfigBuilder: themeConfigBuilder,
+        envSettingsBuilder: envSettingsBuilder,
+        securePrefsSettings: securePrefsSettings,
+        prefsSettings: prefsSettings,
+        workManagerSettings: workManagerSettings,
+        webSettings: webSettings,
+      );
       runApp(app);
     }
   }
