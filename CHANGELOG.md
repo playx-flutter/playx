@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.2
+
+- Fix Playx boot initialization inside Sentry's `appRunner` zone.
+- Add `appRunner` support to `runPlayx`.
+- Deprecate the `app` parameter in `runPlayx`.
+
 ## 2.1.0 - 2.1.1
 
 ### Dependency Updates
