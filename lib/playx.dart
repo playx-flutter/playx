@@ -74,6 +74,7 @@ export 'package:sentry_flutter/sentry_flutter.dart'
 export 'src/config/playx_app_config.dart';
 export 'src/connection_status/connection_status_controller.dart';
 export 'src/models/playx_app_settings.dart';
+export 'src/models/playx_boot_exception.dart';
 export 'src/models/playx_get_navigation_settings.dart';
 export 'src/models/playx_navigation_settings.dart';
 export 'src/models/playx_platform_settings.dart';

@@ -22,7 +22,12 @@ typedef PlayxAppRunner = FutureOr<void> Function();
 ///
 /// This abstract class facilitates the initialization and management of Playx-related components.
 abstract class Playx {
-  static final _asyncCompleter = Completer<void>();
+  /// The in-flight or completed boot, so calling [boot] more than once is safe.
+  static Future<void>? _bootFuture;
+
+  /// The future of the asynchronous boot, set once [boot] finishes.
+  static Future<void>? _asyncBootFuture;
+  static bool _asyncBootCompleted = false;
 
   /// The current app configuration.
   static PlayXAppConfig? _config;
@@ -84,6 +89,44 @@ abstract class Playx {
     WorkManagerSettings workManagerSettings = const WorkManagerSettings(),
     PlayxWebSettings webSettings = const PlayxWebSettings(),
     bool initializeBinding = true,
+  }) {
+    // Calling boot again returns the same boot instead of running it twice.
+    // A failed boot is cleared so it can be retried.
+    return _bootFuture ??=
+        _boot(
+          appConfigBuilder: appConfigBuilder,
+          localeConfigBuilder: localeConfigBuilder,
+          themeConfigBuilder: themeConfigBuilder,
+          envSettingsBuilder: envSettingsBuilder,
+          appConfig: appConfig,
+          localeConfig: localeConfig,
+          themeConfig: themeConfig,
+          envSettings: envSettings,
+          securePrefsSettings: securePrefsSettings,
+          prefsSettings: prefsSettings,
+          workManagerSettings: workManagerSettings,
+          webSettings: webSettings,
+          initializeBinding: initializeBinding,
+        ).onError<Object>((error, stackTrace) {
+          _bootFuture = null;
+          Error.throwWithStackTrace(error, stackTrace);
+        });
+  }
+
+  static Future<void> _boot({
+    PlayxAppConfigBuilder? appConfigBuilder,
+    PlayxLocaleConfigBuilder? localeConfigBuilder,
+    PlayxThemeConfigBuilder? themeConfigBuilder,
+    PlayxEnvSettingsBuilder? envSettingsBuilder,
+    PlayXAppConfig? appConfig,
+    PlayxLocaleConfig? localeConfig,
+    PlayxThemeConfig? themeConfig,
+    PlayxEnvSettings? envSettings,
+    required PlayxSecurePrefsSettings securePrefsSettings,
+    required PlayxPrefsSettings prefsSettings,
+    required WorkManagerSettings workManagerSettings,
+    required PlayxWebSettings webSettings,
+    required bool initializeBinding,
   }) async {
     if (initializeBinding) {
       WidgetsFlutterBinding.ensureInitialized();
@@ -118,38 +161,83 @@ abstract class Playx {
       setAsDefault: false,
       useColoredFormatter: true,
     );
-    await PlayxCore.bootCore(
-      securePrefsSettings: securePrefsSettings,
-      envSettings: envSettingsInstance,
-      prefsSettings: prefsSettings,
-      workerManagerSettings: workManagerSettings,
-    );
-    logger.i('Core booted ✔');
+    await _runBootStep(logger, 'Core', () async {
+      await PlayxCore.bootCore(
+        securePrefsSettings: securePrefsSettings,
+        envSettings: envSettingsInstance,
+        prefsSettings: prefsSettings,
+        workerManagerSettings: workManagerSettings,
+      );
+    });
 
-    final localeConfigInstance = localeConfigBuilder?.call() ?? localeConfig!;
-    await PlayxLocalization.boot(config: localeConfigInstance);
+    await _runBootStep(logger, 'Localization', () async {
+      final localeConfigInstance = localeConfigBuilder?.call() ?? localeConfig!;
+      await PlayxLocalization.boot(config: localeConfigInstance);
+    });
 
-    final themeConfigInstance = themeConfigBuilder?.call() ?? themeConfig!;
-
-    /// Boot the theme configuration.
-    await PlayxTheme.boot(config: themeConfigInstance);
-    logger.i('Theme booted ✔');
+    await _runBootStep(logger, 'Theme', () async {
+      final themeConfigInstance = themeConfigBuilder?.call() ?? themeConfig!;
+      await PlayxTheme.boot(config: themeConfigInstance);
+    });
 
     final appConfigInstance = appConfigBuilder?.call() ?? appConfig!;
+    await _runBootStep(logger, 'AppConfig', () => appConfigInstance.boot());
 
-    /// Boot the app configuration.
-    await appConfigInstance.boot();
-    logger.i('AppConfig booted ✔');
+    await _runBootStep(logger, 'Web navigation', () async {
+      PlayxNavigation.setupWeb(
+        usePathUrlStrategy: webSettings.usePathUrlStrategy,
+        optionURLReflectsImperativeAPIs:
+            webSettings.optionURLReflectsImperativeAPIs,
+      );
+    });
 
-    /// Set up web navigation settings.
-    PlayxNavigation.setupWeb(
-      usePathUrlStrategy: webSettings.usePathUrlStrategy,
-      optionURLReflectsImperativeAPIs:
-          webSettings.optionURLReflectsImperativeAPIs,
-    );
+    // Boot long-running tasks in the background. Failures are logged and
+    // reported to Sentry, and are also available through [asyncBootFuture].
+    _asyncBootCompleted = false;
+    final asyncBoot = _runAsyncBoot(logger, appConfigInstance);
+    // Mark as handled so an unawaited failure is not an unhandled error.
+    // Callers awaiting [asyncBootFuture] still receive the error.
+    asyncBoot.ignore();
+    _asyncBootFuture = asyncBoot;
+  }
 
-    /// Boot long-running tasks asynchronously.
-    _asyncCompleter.complete(appConfigInstance.asyncBoot());
+  /// Runs a boot step and wraps any failure in a [PlayxBootException].
+  static Future<void> _runBootStep(
+    PlayxBaseLogger logger,
+    String step,
+    FutureOr<void> Function() run,
+  ) async {
+    try {
+      await run();
+      logger.i('$step booted ✔');
+    } catch (error, stackTrace) {
+      logger.e('$step boot failed ✘', error: error, stackTrace: stackTrace);
+      Error.throwWithStackTrace(
+        PlayxBootException(step, error, stackTrace),
+        stackTrace,
+      );
+    }
+  }
+
+  static Future<void> _runAsyncBoot(
+    PlayxBaseLogger logger,
+    PlayXAppConfig config,
+  ) async {
+    try {
+      await config.asyncBoot();
+      _asyncBootCompleted = true;
+      logger.i('AppConfig async boot completed ✔');
+    } catch (error, stackTrace) {
+      logger.e(
+        'AppConfig async boot failed ✘',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      if (Sentry.isEnabled) {
+        await Sentry.captureException(error, stackTrace: stackTrace);
+      }
+      rethrow;
+    }
   }
 
   /// Wraps `runApp` to initialize and set up Playx packages before running the app.
@@ -268,15 +356,19 @@ abstract class Playx {
   }
 
   /// Checks whether the application has finished performing the asynchronous boot operation successfully.
-  static bool isAsyncBootCompleted() {
-    return _asyncCompleter.isCompleted;
-  }
+  ///
+  /// Returns `false` while it is running, if it failed, or before [boot] ran.
+  static bool isAsyncBootCompleted() => _asyncBootCompleted;
 
   /// Returns the future for the asynchronous boot operation.
   ///
   /// This can be used to wait for the asynchronous boot operation to complete.
-  static Future<void> asyncBootFuture() {
-    return _asyncCompleter.future;
+  ///
+  /// If the asynchronous boot failed, the returned future completes with that error.
+  /// Before [boot] has finished it waits for boot first.
+  static Future<void> asyncBootFuture() async {
+    await _bootFuture;
+    await _asyncBootFuture;
   }
 
   /// Disposes of the Playx package, cleaning up resources and freeing memory.
@@ -285,6 +377,9 @@ abstract class Playx {
   @visibleForTesting
   static Future<void> dispose() async {
     await _config?.dispose();
+    _bootFuture = null;
+    _asyncBootFuture = null;
+    _asyncBootCompleted = false;
     await PlayxTheme.dispose();
     await PlayxCore.dispose();
   }
