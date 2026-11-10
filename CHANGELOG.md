@@ -17,7 +17,7 @@
 - `connectivity_plus: ^7.3.2`
 
 ### Fixes
-- Updated the `sentry_flutter` export hide list for Sentry 10 internals.
+- `sentry_flutter` is now re-exported with an explicit `show` list of the public APIs instead of hiding internals by name, so future Sentry releases won't break the export. Import `package:sentry_flutter/sentry_flutter.dart` directly for any API not listed.
 
 ## 2.1.2
 
