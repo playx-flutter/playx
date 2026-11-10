@@ -2,7 +2,7 @@
 
 ## 3.0.0
 
-> Upgrading from 2.x? See the [migration guide](docs/migration-3.0.md).
+> Upgrading from 2.x? See the [migration guide](doc/migration-3.0.md).
 
 ### Breaking
 - Minimum SDK is now Dart `>=3.12.0` and Flutter `>=3.44.0` (required by the updated Playx packages and `sentry_flutter` 10).
@@ -15,11 +15,11 @@
 - `asyncBoot` failures are logged and reported to Sentry. New `Playx.hasAsyncBootFailed()`, `Playx.isAsyncBootFinished()`, `Playx.asyncBootError`, `Playx.asyncBootStackTrace` and `Playx.waitForAsyncBoot()`.
 - `initializeBinding` option on `Playx.boot` and `Playx.runPlayx`. The binding is initialized in the same zone as `runApp`, which matters for Sentry on web.
 - `dart run playx:secure_env`, forwarding to the `playx_core` secure env command.
-- Documentation in [`docs/`](docs/README.md): getting started, booting, app widgets, connection status, exports, testing, a migration guide, and a page for each Playx ecosystem package describing what changed in the version Playx uses.
+- Documentation in [`doc/`](doc/README.md): getting started, booting, app widgets, connection status, exports, testing, a migration guide, and a page for each Playx ecosystem package describing what changed in the version Playx uses.
 - Unit and widget tests (about 95% line coverage).
 
 ### Dependency Updates
-Each package's changes are summarized in [docs/packages](docs/packages/README.md).
+Each package's changes are summarized in [doc/packages](doc/packages/README.md).
 - `playx_core: ^2.0.0` — synchronous `PlayxEnv`, secure env, secure prefs backends, logging settings.
 - `playx_network: ^2.0.0` — streaming/SSE, path parameters, new exception types.
 - `playx_navigation: ^3.0.0` — per-page lifecycle, scopes, controllers, guards, breadcrumbs.
