@@ -1,5 +1,24 @@
 # Changelog
 
+## 3.0.0
+
+### Breaking
+- Minimum SDK is now Dart `>=3.12.0` and Flutter `>=3.44.0` (required by the updated Playx packages and `sentry_flutter` 10).
+
+### Dependency Updates
+- `playx_core: ^2.0.0`
+- `playx_network: ^2.0.0`
+- `playx_navigation: ^3.0.0`
+- `playx_localization: ^1.0.0`
+- `playx_theme: ^2.1.0`
+- `playx_widget: ^0.6.0`
+- `sentry_flutter: ^10.3.0`
+- `internet_connection_checker_plus: ^3.1.2`
+- `connectivity_plus: ^7.3.2`
+
+### Fixes
+- Updated the `sentry_flutter` export hide list for Sentry 10 internals.
+
 ## 2.1.2
 
 - Fix Playx boot initialization inside Sentry's `appRunner` zone.
