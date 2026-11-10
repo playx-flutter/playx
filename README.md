@@ -1,179 +1,120 @@
-
 # Playx
 
 [![pub package](https://img.shields.io/pub/v/playx.svg?color=1284C5)](https://pub.dev/packages/playx)
+[![test](https://github.com/playx-flutter/playx/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/playx-flutter/playx/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 
-Welcome to Playx, where simplicity meets functionality! Playx is an ecosystem designed to streamline your Flutter app development process by offering a plethora of utilities for themes, widgets, networking, and more.
+Playx is an ecosystem for Flutter apps. One package boots preferences, environment, theme,
+localization, navigation, networking and widgets together, and gives you ready-made app widgets that wire
+them up.
+
+> **Playx 3.0** requires Dart `>=3.12.0` and Flutter `>=3.44.0`.
+> Upgrading from 2.x? See the [migration guide](docs/migration-3.0.md).
 
 ## Features
-- **PlayxPrefs**: Efficient key-value pair storage powered by SharedPreferences.
-- **PlayX.runPlayX**: Simplifies app initialization by wrapping runApp and providing injection capabilities.
-- **AppConfig**: Enables hassle-free installation and setup of app dependencies.
-- **AppTheme**: Facilitates the creation and management of app themes with seamless theme switching.
-- **PlayxLocalization**: Effortlessly manage app localization with a straightforward implementation and an array of utilities.
-- **playx_widget**: Offers a collection of custom utility widgets like OptimizedScrollView, ImageViewer, and AppVersion to expedite development.
-- **playx_network**: Enhances Dio with improved error handling and simplified API request handling.
-- **exports**: Conveniently manage package updates for dependencies like Get, async, and more from a single location. Only one import is needed to access all the packages.
 
-## Installation
-To integrate Playx into your project, add the following line to your `pubspec.yaml` file:
+- **`Playx.runPlayx`** — boots everything in order, then runs your app. Works with Sentry and on web.
+- **Clear boot errors** — a failing step throws a `PlayxBootException` naming the step. Boot is idempotent
+  and retryable, and async boot failures are logged and reported.
+- **App widgets** — `PlayxMaterialApp`, `PlayxPlatformApp` and GetX variants that connect theme,
+  localization, navigation, screen sizing and Sentry.
+- **Connection status** — `ConnectionStatusController` for online/offline UI.
+- **One import** — re-exports the whole [Playx ecosystem](docs/packages/README.md) and common packages.
 
-```yaml  
-playx: ^3.0.0  
-```  
+## Install
 
-## Usage
-### 🔥 Create App Configuration:
-Initialize dependencies before calling `runApp` using AppConfig.
+```yaml
+dependencies:
+  playx: ^3.0.0
+```
 
-```dart  
-class AppConfig extends PlayXAppConfig {  
-  @override  
-  Future<void> boot() async {  
-    final ApiClient client = ApiClient(dio);  
-    Get.put<ApiClient>(client);  
-  }  
-}  
-```  
+```dart
+import 'package:playx/playx.dart';
+```
 
-### 🔥 Create Theme Configuration:
-Customize your app's theme settings including themes, colors, and fonts.
+## Quick start
 
-```dart  
-PlayxThemeConfig createThemeConfig() {  
-  return PlayxThemeConfig(  
-    themes: [  
-      // Define your themes here  
-    ],  
-  );  
-}  
-```  
-Check out [`playx_theme`](https://pub.dev/packages/playx_theme) for detailed theme customization.
-
-### 🔥 Create Locale Configuration:
-Configure app locales with settings like supported locales and path to translations.
-
-```dart  
-PlayxLocaleConfig createLocaleConfig() {  
-  return PlayxLocaleConfig(  
-    // Customize your locale settings here  
-  );  
-}  
-```  
-Explore [`playx_localization`](https://pub.dev/packages/playx_localization) for efficient app localization management.
-
-### 🔥 Run App with `PlayX.runPlayX`:
-Initialize dependencies, themes, and locales effortlessly with `PlayX.runPlayX`.
-
-```dart  
-void main() async {  
+```dart
+void main() {
   Playx.runPlayx(
-    appConfigBuilder:()=> AppConfig(),
-    themeConfigBuilder:()=> createThemeConfig(),
-    envSettingsBuilder:()=> const PlayxEnvSettings(
-      fileName: 'assets/env/keys.env',
-    ),
-    localeConfigBuilder:()=> createLocaleConfig(),
     appRunner: () => runApp(const MyApp()),
-    sentryOptions: (options) {  
-      options.dsn = AppConfig.sentryKey;  
-    },  
-  );  
-}  
-```  
+    appConfigBuilder: () => AppConfig(),
+    themeConfigBuilder: createThemeConfig,
+    localeConfigBuilder: createLocaleConfig,
+    envSettingsBuilder: () => const PlayxEnvSettings(fileName: 'assets/env/keys.env'),
+    // sentryOptions: (options) => options.dsn = 'https://...',
+  );
+}
 
-### 🔥Network Requests with `playx_network`:
+class AppConfig extends PlayXAppConfig {
+  @override
+  Future<void> boot() async {
+    Get.put<ApiClient>(ApiClient());
+  }
 
-playx_network is a Wrapper around Dio that can perform api request with better error handling and easily get the result of any api request.
-We can use  `PlayxNetworkClient`  to perform GET, POST, PUT,, and DELETE HTTP methods for retrieving from and sending data to a server.
+  @override
+  Future<void> asyncBoot() async {}
+}
 
-To use it we need to :
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
--   Setup  `PlayxNetworkClient`  an configure it based on your needs. You should create only one instance of this network client to be used for the app depending on your use case.
+  @override
+  Widget build(BuildContext context) => const PlayxMaterialApp(
+    appSettings: PlayxAppSettings(title: 'My app'),
+    navigationSettings: PlayxNavigationSettings(home: HomePage()),
+  );
+}
+```
 
-    ```dart
-    final PlayxNetworkClient _client = PlayxNetworkClient(
-       //you can customize your dio options like base URL, connection time out.
-       dio: Dio(
-         BaseOptions(
-           baseUrl: _baseUrl,
-           connectTimeout: const Duration(seconds: 20),
-           senTimeout: const Duration(seconds: 20),
-         ),
-       ),
-       customHeaders: () async => {
-         'authorization': 'Bearer token'
-       },  
-       errorMapper: (json) {
-         if (json.containsKey('message')) {
-           return json['message'] as String? ;
-         }
-         return null;
-       },
-     );
-    
-    ```
+Full walkthrough: [Getting started](docs/getting-started.md).
 
--   Now we can use the client to perform any GET, POST, PUT, and DELETE HTTP method.
+## Documentation
 
-    For example we will perfrom a  `GET`  request that gets list of cats using this api :  `https://api.thecatapi.com/v1/images/search?limit=10`
+| | |
+| --- | --- |
+| [Getting started](docs/getting-started.md) | Install and create your first Playx app. |
+| [Booting Playx](docs/booting.md) | Boot order, errors, async boot, Sentry and web. |
+| [App widgets](docs/app-widgets.md) | App widgets and all settings classes. |
+| [Connection status](docs/connection-status.md) | `ConnectionStatusController`. |
+| [Exports](docs/exports.md) | What `package:playx/playx.dart` re-exports. |
+| [Testing](docs/testing.md) | Testing apps that use Playx. |
+| [Migration to 3.0](docs/migration-3.0.md) | Breaking changes and fixes. |
+| [Ecosystem](docs/packages/README.md) | Every Playx package and what changed in its latest version. |
 
-    -   First create a model for the data returned from the api. It should contain a from json function that takes dynamic json and converts it to the model.
+## The Playx ecosystem
 
-        ```dart
-        class Cat {
-           String? id;
-           String? url;
-           num? width;
-           num? height;
-        
-          Cat({
-            this.id, 
-            this.url, 
-            this.width, 
-            this.height,});
-        
-          factory  Cat.fromJson(dynamic json) {
-                  id = json['id'];
-                  url = json['url'];
-                 width = json['width'];
-                height = json['height'];
-              }
-        ```
+| Package | Version | What it does |
+| --- | --- | --- |
+| [`playx_core`](https://pub.dev/packages/playx_core) ([guide](docs/packages/playx_core.md)) | 2.0.0 | Preferences, secure storage, env, logging, extensions. |
+| [`playx_theme`](https://pub.dev/packages/playx_theme) ([guide](docs/packages/playx_theme.md)) | 2.1.0 | Multi-theme management and animated switching. |
+| [`playx_localization`](https://pub.dev/packages/playx_localization) ([guide](docs/packages/playx_localization.md)) | 1.0.0 | Locales, translations without `BuildContext`, plurals. |
+| [`playx_navigation`](https://pub.dev/packages/playx_navigation) ([guide](docs/packages/playx_navigation.md)) | 3.0.0 | `go_router` with page lifecycle, scopes and guards. |
+| [`playx_network`](https://pub.dev/packages/playx_network) ([guide](docs/packages/playx_network.md)) | 2.0.0 | Dio wrapper returning typed results. |
+| [`playx_widget`](https://pub.dev/packages/playx_widget) ([guide](docs/packages/playx_widget.md)) | 0.6.0 | Utility widgets and app info. |
 
-    -   Perform the GET request :
+Also see [`playx_version_update`](https://pub.dev/packages/playx_version_update) for update dialogs
+on Android and iOS.
 
-        ```dart
-            //gets list f cats by getting cats endpoint.
-            final result = await _client.getList(catsEndpoint,
-            // pass your own queries.
-            query: {
-              'limit': '10',
-            },
-            // Pass the from json function that was created in the cat model.
-            fromJson: Cat.fromJson);
-        
-        ```
+## Example
 
-    -   Handle The request result :
+A runnable app is in [`example/`](example/).
 
-        ```dart
-          result.when(success: (cats) {
-          //Handles success here as it returns list of cats.
-          }, error: (error) {
-            //handle error here and display the error message.
-            print("Error is : ${error.message}");
-         });
-        
-        ```
+```sh
+cd example && flutter run
+```
 
-        Just like that you can perform any GET, POST, PUT, and DELETE HTTP method and return it's result whether success or failure with better error handling.
+## Contributing
 
+```sh
+flutter pub get
+dart format lib test
+flutter analyze lib test example
+flutter test --coverage      # CI requires 90% coverage
+```
 
-## See Also:
-- [`playx_core`](https://pub.dev/packages/playx_core): Core package of Playx.
-- [`playx_theme`](https://pub.dev/packages/playx_theme): Multi-theme features for Flutter apps.
-- [`playx_widget`](https://pub.dev/packages/playx_widget): Custom utility widgets for faster development.
-- [`playx_localization`](https://pub.dev/packages/playx_localization): Efficient app localization management.
-- [`playx_version_update`](https://pub.dev/packages/playx_version_update): Simplified update dialogs for Android and iOS.
-- [`playx_network`](https://pub.dev/packages/playx_network): Enhanced Dio wrapper for API requests.
+See the [changelog](CHANGELOG.md) for release notes.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

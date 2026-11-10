@@ -12,13 +12,22 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
       - name: Install dependencies
         run: flutter pub get
-      - name: Format code
-        run: dart format --fix .
+
+      - name: Analyze
+        run: flutter analyze lib test
+
+      - name: Test
+        run: flutter test
+
       - name: Publish
         uses: k-paxian/dart-package-publisher@v1.5.1
         with:

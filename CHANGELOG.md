@@ -2,33 +2,43 @@
 
 ## 3.0.0
 
+> Upgrading from 2.x? See the [migration guide](docs/migration-3.0.md).
+
 ### Breaking
 - Minimum SDK is now Dart `>=3.12.0` and Flutter `>=3.44.0` (required by the updated Playx packages and `sentry_flutter` 10).
-
 - Removed the deprecated `app`, `appConfig`, `localeConfig`, `themeConfig` and `envSettings` parameters from `Playx.boot` and `Playx.runPlayx`. Use `appRunner`, `appConfigBuilder`, `localeConfigBuilder`, `themeConfigBuilder` and `envSettingsBuilder`.
 - `appRunner` and the app/locale/theme config builders are now required. `envSettingsBuilder` is optional.
+- `sentry_flutter` is re-exported with an explicit `show` list of public APIs instead of hiding internals by name, so future Sentry releases won't break the export. Import `package:sentry_flutter/sentry_flutter.dart` directly for any API not listed.
 
 ### Added
-- Boot errors are wrapped in `PlayxBootException` with the failing step, `boot` is idempotent, and `asyncBoot` failures are logged and reported to Sentry.
-- `Playx.hasAsyncBootFailed()`, `Playx.isAsyncBootFinished()`, `Playx.asyncBootError`, `Playx.asyncBootStackTrace` and `Playx.waitForAsyncBoot()` to track an async boot that completed or failed.
-- `initializeBinding` option on `Playx.boot` and `Playx.runPlayx`.
+- Boot errors are wrapped in `PlayxBootException` naming the failing step. `Playx.boot` is idempotent and can be retried after a failure.
+- `asyncBoot` failures are logged and reported to Sentry. New `Playx.hasAsyncBootFailed()`, `Playx.isAsyncBootFinished()`, `Playx.asyncBootError`, `Playx.asyncBootStackTrace` and `Playx.waitForAsyncBoot()`.
+- `initializeBinding` option on `Playx.boot` and `Playx.runPlayx`. The binding is initialized in the same zone as `runApp`, which matters for Sentry on web.
+- `dart run playx:secure_env`, forwarding to the `playx_core` secure env command.
+- Documentation in [`docs/`](docs/README.md): getting started, booting, app widgets, connection status, exports, testing, a migration guide, and a page for each Playx ecosystem package describing what changed in the version Playx uses.
+- Unit and widget tests (about 95% line coverage).
 
 ### Dependency Updates
-- `playx_core: ^2.0.0`
-- `playx_network: ^2.0.0`
-- `playx_navigation: ^3.0.0`
-- `playx_localization: ^1.0.0`
-- `playx_theme: ^2.1.0`
-- `playx_widget: ^0.6.0`
+Each package's changes are summarized in [docs/packages](docs/packages/README.md).
+- `playx_core: ^2.0.0` — synchronous `PlayxEnv`, secure env, secure prefs backends, logging settings.
+- `playx_network: ^2.0.0` — streaming/SSE, path parameters, new exception types.
+- `playx_navigation: ^3.0.0` — per-page lifecycle, scopes, controllers, guards, breadcrumbs.
+- `playx_localization: ^1.0.0` — real plurals, id-based persistence, CLI tools.
+- `playx_theme: ^2.1.0` — pluggable storage, `toggleMode`, `ThemeExtension` helpers.
+- `playx_widget: ^0.6.0` — `AppInfoNotifier`, widget fixes, Lucide icon libraries.
 - `sentry_flutter: ^10.3.0`
 - `internet_connection_checker_plus: ^3.1.2`
 - `connectivity_plus: ^7.3.2`
+- `get: ^4.7.3` (was pinned to `4.7.3`)
 
 ### Fixes
 - `PlayxWebSettings` is now exported, so the `webSettings` parameter of `Playx.boot`/`Playx.runPlayx` can be used.
-- `Playx.appConfig` now returns the booted app config (it previously always threw) and `Playx.dispose` disposes it.
+- `Playx.appConfig` returns the booted app config (it previously always threw) and `Playx.dispose` disposes it.
 - `ConnectionStatusController` no longer updates its value after being disposed.
-- `sentry_flutter` is now re-exported with an explicit `show` list of the public APIs instead of hiding internals by name, so future Sentry releases won't break the export. Import `package:sentry_flutter/sentry_flutter.dart` directly for any API not listed.
+
+### CI
+- Test workflow runs on pull requests, checks formatting, analyzes `lib`, `test` and `example`, enforces 90% coverage and runs a publish dry run.
+- Publish workflow analyzes and tests before publishing, and no longer rewrites code with `dart format`.
 
 ## 2.1.2
 

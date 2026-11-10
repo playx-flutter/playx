@@ -1,33 +1,42 @@
 name: test
+
 on:
   push:
-    branches: [main , qa]
+    branches: [main, qa]
+  pull_request:
+    branches: [main, qa]
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
-    defaults:
-      run:
-        working-directory: ./
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1.5.3
+      - uses: actions/checkout@v4
 
-      - name: Install deps
-        run: flutter packages get
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
 
-      - name: Format code
-        run: dart format .
+      - name: Install dependencies
+        run: flutter pub get
 
-      - name: Analyze Code
-        run: flutter analyze lib test example
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed lib test bin
 
-      - name: Test Publish
-        run:  dart pub publish --dry-run
+      - name: Analyze
+        run: flutter analyze lib test bin example
 
       - name: Test
         run: flutter test --coverage
 
-      - name: Check Test Coverage
-        uses: VeryGoodOpenSource/very_good_coverage@v1.2.0
+      - name: Check test coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v3
         with:
-          min_coverage: 89
+          min_coverage: 90
+
+      - name: Publish dry run
+        run: dart pub publish --dry-run
