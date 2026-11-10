@@ -10,7 +10,7 @@ import 'package:playx/src/models/playx_web_settings.dart';
 typedef PlayxAppConfigBuilder = PlayXAppConfig Function();
 typedef PlayxLocaleConfigBuilder = PlayxLocaleConfig Function();
 typedef PlayxThemeConfigBuilder = PlayxThemeConfig Function();
-typedef PlayxEnvSettingsBuilder = PlayxEnvSettings Function()?;
+typedef PlayxEnvSettingsBuilder = PlayxEnvSettings Function();
 typedef PlayxAppRunner = FutureOr<void> Function();
 
 /// The Playx library provides a suite of utilities for app setup, configuration, and management.
@@ -47,42 +47,25 @@ abstract class Playx {
   /// Boots the Playx package by setting up app dependencies, localization, theme, and preferences.
   ///
   /// This method must be called to initialize dependencies before using Playx features.
+  /// Calling it again returns the same boot instead of running it twice.
   ///
-  /// **New Parameters (Preferred)**:
+  /// Parameters:
   /// - [appConfigBuilder]: A builder function returning the app configuration.
   /// - [localeConfigBuilder]: A builder function returning the locale configuration.
   /// - [themeConfigBuilder]: A builder function returning the theme configuration.
   /// - [envSettingsBuilder]: A builder function returning environment settings (optional).
-  ///
-  /// **Deprecated Parameters (Will be Removed in Future Versions)**:
-  /// - [appConfig], [localeConfig], [themeConfig]: Directly passing config objects is now discouraged.
-  /// - [envSettings]: Use [envSettingsBuilder] instead.
-  ///
-  /// Other Parameters:
-  /// - [securePrefs]: Settings for secure preferences.
-  /// - [prefs]: Settings for preferences storage.
-  /// - [workManager]: Settings for background task management.
-  /// - [webConfig]: Settings for web-specific configurations.
+  /// - [securePrefsSettings]: Settings for secure preferences.
+  /// - [prefsSettings]: Settings for preferences storage.
+  /// - [workManagerSettings]: Settings for background task management.
+  /// - [webSettings]: Settings for web-specific configurations.
   /// - [initializeBinding]: Whether to call `WidgetsFlutterBinding.ensureInitialized()`
   ///   before booting (default: `true`). Set to `false` if the binding is already
   ///   initialized by the caller (for example in the same zone as `runApp` on web).
   static Future<void> boot({
-    // New recommended function-based parameters
-    PlayxAppConfigBuilder? appConfigBuilder,
-    PlayxLocaleConfigBuilder? localeConfigBuilder,
-    PlayxThemeConfigBuilder? themeConfigBuilder,
+    required PlayxAppConfigBuilder appConfigBuilder,
+    required PlayxLocaleConfigBuilder localeConfigBuilder,
+    required PlayxThemeConfigBuilder themeConfigBuilder,
     PlayxEnvSettingsBuilder? envSettingsBuilder,
-
-    // Deprecated parameters
-    @Deprecated('Use appConfigBuilder instead.') PlayXAppConfig? appConfig,
-    @Deprecated('Use localeConfigBuilder instead.')
-    PlayxLocaleConfig? localeConfig,
-    @Deprecated('Use themeConfigBuilder instead.')
-    PlayxThemeConfig? themeConfig,
-    @Deprecated('Use envSettingsBuilder instead.')
-    PlayxEnvSettings? envSettings,
-
-    // Other parameters (unchanged)
     PlayxSecurePrefsSettings securePrefsSettings =
         const PlayxSecurePrefsSettings(),
     PlayxPrefsSettings prefsSettings = const PlayxPrefsSettings(),
@@ -98,10 +81,6 @@ abstract class Playx {
           localeConfigBuilder: localeConfigBuilder,
           themeConfigBuilder: themeConfigBuilder,
           envSettingsBuilder: envSettingsBuilder,
-          appConfig: appConfig,
-          localeConfig: localeConfig,
-          themeConfig: themeConfig,
-          envSettings: envSettings,
           securePrefsSettings: securePrefsSettings,
           prefsSettings: prefsSettings,
           workManagerSettings: workManagerSettings,
@@ -114,14 +93,10 @@ abstract class Playx {
   }
 
   static Future<void> _boot({
-    PlayxAppConfigBuilder? appConfigBuilder,
-    PlayxLocaleConfigBuilder? localeConfigBuilder,
-    PlayxThemeConfigBuilder? themeConfigBuilder,
+    required PlayxAppConfigBuilder appConfigBuilder,
+    required PlayxLocaleConfigBuilder localeConfigBuilder,
+    required PlayxThemeConfigBuilder themeConfigBuilder,
     PlayxEnvSettingsBuilder? envSettingsBuilder,
-    PlayXAppConfig? appConfig,
-    PlayxLocaleConfig? localeConfig,
-    PlayxThemeConfig? themeConfig,
-    PlayxEnvSettings? envSettings,
     required PlayxSecurePrefsSettings securePrefsSettings,
     required PlayxPrefsSettings prefsSettings,
     required WorkManagerSettings workManagerSettings,
@@ -131,31 +106,7 @@ abstract class Playx {
     if (initializeBinding) {
       WidgetsFlutterBinding.ensureInitialized();
     }
-    assert(
-      (appConfigBuilder != null && appConfig == null) ||
-          (appConfigBuilder == null && appConfig != null) ||
-          (appConfigBuilder == null && appConfig == null),
-      'Use either appConfigBuilder or appConfig, not both.',
-    );
-    assert(
-      (localeConfigBuilder != null && localeConfig == null) ||
-          (localeConfigBuilder == null && localeConfig != null) ||
-          (localeConfigBuilder == null && localeConfig == null),
-      'Use either localeConfigBuilder or localeConfig, not both.',
-    );
-    assert(
-      (themeConfigBuilder != null && themeConfig == null) ||
-          (themeConfigBuilder == null && themeConfig != null) ||
-          (themeConfigBuilder == null && themeConfig == null),
-      'Use either themeConfigBuilder or themeConfig, not both.',
-    );
-    assert(
-      (envSettingsBuilder != null && envSettings == null) ||
-          (envSettingsBuilder == null && envSettings != null),
-      'Use either envSettingsBuilder or envSettings, not both.',
-    );
 
-    final envSettingsInstance = envSettingsBuilder?.call() ?? envSettings;
     final logger = PlayxLogger.initLogger(
       name: 'playx',
       setAsDefault: false,
@@ -164,23 +115,21 @@ abstract class Playx {
     await _runBootStep(logger, 'Core', () async {
       await PlayxCore.bootCore(
         securePrefsSettings: securePrefsSettings,
-        envSettings: envSettingsInstance,
+        envSettings: envSettingsBuilder?.call(),
         prefsSettings: prefsSettings,
         workerManagerSettings: workManagerSettings,
       );
     });
 
     await _runBootStep(logger, 'Localization', () async {
-      final localeConfigInstance = localeConfigBuilder?.call() ?? localeConfig!;
-      await PlayxLocalization.boot(config: localeConfigInstance);
+      await PlayxLocalization.boot(config: localeConfigBuilder());
     });
 
     await _runBootStep(logger, 'Theme', () async {
-      final themeConfigInstance = themeConfigBuilder?.call() ?? themeConfig!;
-      await PlayxTheme.boot(config: themeConfigInstance);
+      await PlayxTheme.boot(config: themeConfigBuilder());
     });
 
-    final appConfigInstance = appConfigBuilder?.call() ?? appConfig!;
+    final appConfigInstance = appConfigBuilder();
     await _runBootStep(logger, 'AppConfig', () => appConfigInstance.boot());
 
     await _runBootStep(logger, 'Web navigation', () async {
@@ -259,10 +208,10 @@ abstract class Playx {
   ///   would put the binding and `runApp` in different zones, which breaks on web.
   /// - Without Sentry, it is initialized right before booting.
   static Future<void> runPlayx({
-    PlayxAppRunner? appRunner,
-    PlayxAppConfigBuilder? appConfigBuilder,
-    PlayxLocaleConfigBuilder? localeConfigBuilder,
-    PlayxThemeConfigBuilder? themeConfigBuilder,
+    required PlayxAppRunner appRunner,
+    required PlayxAppConfigBuilder appConfigBuilder,
+    required PlayxLocaleConfigBuilder localeConfigBuilder,
+    required PlayxThemeConfigBuilder themeConfigBuilder,
     PlayxEnvSettingsBuilder? envSettingsBuilder,
     PlayxSecurePrefsSettings securePrefsSettings =
         const PlayxSecurePrefsSettings(),
@@ -271,52 +220,9 @@ abstract class Playx {
     FlutterOptionsConfiguration? sentryOptions,
     PlayxWebSettings webSettings = const PlayxWebSettings(),
     bool initializeBinding = true,
-    // Deprecated parameters
-    @Deprecated('Use appRunner instead.') Widget? app,
-    @Deprecated('Use appConfigBuilder instead.') PlayXAppConfig? appConfig,
-    @Deprecated('Use localeConfigBuilder instead.')
-    PlayxLocaleConfig? localeConfig,
-    @Deprecated('Use themeConfigBuilder instead.')
-    PlayxThemeConfig? themeConfig,
-    @Deprecated('Use envSettingsBuilder instead.')
-    PlayxEnvSettings? envSettings,
   }) async {
-    assert(
-      (appConfigBuilder != null && appConfig == null) ||
-          (appConfigBuilder == null && appConfig != null) ||
-          (appConfigBuilder == null && appConfig == null),
-      'Use either appConfigBuilder or appConfig, not both.',
-    );
-    assert(
-      (localeConfigBuilder != null && localeConfig == null) ||
-          (localeConfigBuilder == null && localeConfig != null) ||
-          (localeConfigBuilder == null && localeConfig == null),
-      'Use either localeConfigBuilder or localeConfig, not both.',
-    );
-    assert(
-      (themeConfigBuilder != null && themeConfig == null) ||
-          (themeConfigBuilder == null && themeConfig != null) ||
-          (themeConfigBuilder == null && themeConfig == null),
-      'Use either themeConfigBuilder or themeConfig, not both.',
-    );
-    assert(
-      (envSettingsBuilder != null && envSettings == null) ||
-          (envSettingsBuilder == null && envSettings != null),
-      'Use either envSettingsBuilder or envSettings, not both.',
-    );
-    assert(
-      (appRunner != null && app == null) || (appRunner == null && app != null),
-      'Use either appRunner or app, not both.',
-    );
-
-    final resolvedAppRunner = appRunner ?? () => runApp(app!);
-
     Future<void> bootAndRun() async {
       await boot(
-        appConfig: appConfig,
-        themeConfig: themeConfig,
-        envSettings: envSettings,
-        localeConfig: localeConfig,
         appConfigBuilder: appConfigBuilder,
         localeConfigBuilder: localeConfigBuilder,
         themeConfigBuilder: themeConfigBuilder,
@@ -327,7 +233,7 @@ abstract class Playx {
         webSettings: webSettings,
         initializeBinding: initializeBinding,
       );
-      await Future<void>.sync(resolvedAppRunner);
+      await Future<void>.sync(appRunner);
     }
 
     if (sentryOptions != null) {

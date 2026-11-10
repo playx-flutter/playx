@@ -5,6 +5,9 @@
 ### Breaking
 - Minimum SDK is now Dart `>=3.12.0` and Flutter `>=3.44.0` (required by the updated Playx packages and `sentry_flutter` 10).
 
+- Removed the deprecated `app`, `appConfig`, `localeConfig`, `themeConfig` and `envSettings` parameters from `Playx.boot` and `Playx.runPlayx`. Use `appRunner`, `appConfigBuilder`, `localeConfigBuilder`, `themeConfigBuilder` and `envSettingsBuilder`.
+- `appRunner` and the app/locale/theme config builders are now required. `envSettingsBuilder` is optional.
+
 ### Dependency Updates
 - `playx_core: ^2.0.0`
 - `playx_network: ^2.0.0`

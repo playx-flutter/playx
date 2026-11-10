@@ -19,7 +19,7 @@ Welcome to Playx, where simplicity meets functionality! Playx is an ecosystem de
 To integrate Playx into your project, add the following line to your `pubspec.yaml` file:
 
 ```yaml  
-playx: ^2.0.0  
+playx: ^3.0.0  
 ```  
 
 ## Usage
@@ -74,7 +74,7 @@ void main() async {
       fileName: 'assets/env/keys.env',
     ),
     localeConfigBuilder:()=> createLocaleConfig(),
-    app: const MyApp(),  
+    appRunner: () => runApp(const MyApp()),
     sentryOptions: (options) {  
       options.dsn = AppConfig.sentryKey;  
     },  
