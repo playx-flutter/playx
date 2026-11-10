@@ -28,6 +28,8 @@ abstract class Playx {
   /// The future of the asynchronous boot, set once [boot] finishes.
   static Future<void>? _asyncBootFuture;
   static bool _asyncBootCompleted = false;
+  static Object? _asyncBootError;
+  static StackTrace? _asyncBootStackTrace;
 
   /// The current app configuration.
   static PlayXAppConfig? _config;
@@ -143,6 +145,8 @@ abstract class Playx {
     // Boot long-running tasks in the background. Failures are logged and
     // reported to Sentry, and are also available through [asyncBootFuture].
     _asyncBootCompleted = false;
+    _asyncBootError = null;
+    _asyncBootStackTrace = null;
     final asyncBoot = _runAsyncBoot(logger, appConfigInstance);
     // Mark as handled so an unawaited failure is not an unhandled error.
     // Callers awaiting [asyncBootFuture] still receive the error.
@@ -177,6 +181,8 @@ abstract class Playx {
       _asyncBootCompleted = true;
       logger.i('AppConfig async boot completed ✔');
     } catch (error, stackTrace) {
+      _asyncBootError = error;
+      _asyncBootStackTrace = stackTrace;
       logger.e(
         'AppConfig async boot failed ✘',
         error: error,
@@ -245,10 +251,42 @@ abstract class Playx {
     }
   }
 
-  /// Checks whether the application has finished performing the asynchronous boot operation successfully.
+  /// Checks whether the asynchronous boot operation finished successfully.
   ///
   /// Returns `false` while it is running, if it failed, or before [boot] ran.
+  /// Use [hasAsyncBootFailed] or [isAsyncBootFinished] to tell these apart.
   static bool isAsyncBootCompleted() => _asyncBootCompleted;
+
+  /// Checks whether the asynchronous boot operation failed.
+  ///
+  /// The error is available through [asyncBootError].
+  static bool hasAsyncBootFailed() => _asyncBootError != null;
+
+  /// Checks whether the asynchronous boot operation is done, whether it
+  /// succeeded ([isAsyncBootCompleted]) or failed ([hasAsyncBootFailed]).
+  static bool isAsyncBootFinished() =>
+      _asyncBootCompleted || hasAsyncBootFailed();
+
+  /// The error thrown by the asynchronous boot operation, or `null` if it
+  /// has not failed.
+  static Object? get asyncBootError => _asyncBootError;
+
+  /// The stack trace of [asyncBootError], or `null` if it has not failed.
+  static StackTrace? get asyncBootStackTrace => _asyncBootStackTrace;
+
+  /// Waits for the asynchronous boot operation to finish without throwing.
+  ///
+  /// Returns `true` if it succeeded and `false` if it failed; the error is
+  /// then available through [asyncBootError]. Use [asyncBootFuture] if you
+  /// prefer to receive the error as an exception.
+  static Future<bool> waitForAsyncBoot() async {
+    try {
+      await asyncBootFuture();
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
 
   /// Returns the future for the asynchronous boot operation.
   ///
@@ -270,6 +308,8 @@ abstract class Playx {
     _bootFuture = null;
     _asyncBootFuture = null;
     _asyncBootCompleted = false;
+    _asyncBootError = null;
+    _asyncBootStackTrace = null;
     await PlayxTheme.dispose();
     await PlayxCore.dispose();
   }
