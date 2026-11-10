@@ -52,6 +52,7 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
   final ConnectionCheckType checkType;
 
   bool _isCheckingEnabled;
+  bool _isDisposed = false;
 
   /// Whether connection monitoring is currently active.
   bool get isCheckingEnabled => _isCheckingEnabled;
@@ -222,11 +223,13 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
         value = ConnectionStatus.connectionRestored;
         await Future.delayed(backOnlineDelay);
       }
+      // The controller may have been disposed during the delay.
+      if (_isDisposed) return;
       // Ensure we haven't gone offline during the delay.
       if (value != ConnectionStatus.disconnected) {
         value = ConnectionStatus.connected;
       }
-    } else {
+    } else if (!_isDisposed) {
       value = ConnectionStatus.disconnected;
     }
   }
@@ -242,6 +245,7 @@ class ConnectionStatusController extends ValueNotifier<ConnectionStatus>
 
   @override
   void dispose() {
+    _isDisposed = true;
     WidgetsBinding.instance.removeObserver(this);
     stopListeningToConnectionStatus();
     super.dispose();

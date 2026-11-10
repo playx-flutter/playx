@@ -25,6 +25,9 @@
 - `connectivity_plus: ^7.3.2`
 
 ### Fixes
+- `PlayxWebSettings` is now exported, so the `webSettings` parameter of `Playx.boot`/`Playx.runPlayx` can be used.
+- `Playx.appConfig` now returns the booted app config (it previously always threw) and `Playx.dispose` disposes it.
+- `ConnectionStatusController` no longer updates its value after being disposed.
 - `sentry_flutter` is now re-exported with an explicit `show` list of the public APIs instead of hiding internals by name, so future Sentry releases won't break the export. Import `package:sentry_flutter/sentry_flutter.dart` directly for any API not listed.
 
 ## 2.1.2

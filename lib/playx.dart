@@ -92,6 +92,7 @@ export 'src/models/playx_navigation_settings.dart';
 export 'src/models/playx_platform_settings.dart';
 export 'src/models/playx_screen_settings.dart';
 export 'src/models/playx_theme_settings.dart';
+export 'src/models/playx_web_settings.dart';
 export 'src/playx.dart';
 export 'src/utils/is_equal_validation.dart';
 export 'src/widgets/getx/get_platform_app.dart';

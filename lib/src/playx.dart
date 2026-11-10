@@ -4,7 +4,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:playx/playx.dart';
-import 'package:playx/src/models/playx_web_settings.dart';
 
 /// Typedefs for configuration builders
 typedef PlayxAppConfigBuilder = PlayXAppConfig Function();
@@ -132,6 +131,7 @@ abstract class Playx {
     });
 
     final appConfigInstance = appConfigBuilder();
+    _config = appConfigInstance;
     await _runBootStep(logger, 'AppConfig', () => appConfigInstance.boot());
 
     await _runBootStep(logger, 'Web navigation', () async {
@@ -305,6 +305,7 @@ abstract class Playx {
   @visibleForTesting
   static Future<void> dispose() async {
     await _config?.dispose();
+    _config = null;
     _bootFuture = null;
     _asyncBootFuture = null;
     _asyncBootCompleted = false;
