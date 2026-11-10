@@ -58,6 +58,9 @@ abstract class Playx {
   /// - [prefs]: Settings for preferences storage.
   /// - [workManager]: Settings for background task management.
   /// - [webConfig]: Settings for web-specific configurations.
+  /// - [initializeBinding]: Whether to call `WidgetsFlutterBinding.ensureInitialized()`
+  ///   before booting (default: `true`). Set to `false` if the binding is already
+  ///   initialized by the caller (for example in the same zone as `runApp` on web).
   static Future<void> boot({
     // New recommended function-based parameters
     PlayxAppConfigBuilder? appConfigBuilder,
@@ -80,8 +83,11 @@ abstract class Playx {
     PlayxPrefsSettings prefsSettings = const PlayxPrefsSettings(),
     WorkManagerSettings workManagerSettings = const WorkManagerSettings(),
     PlayxWebSettings webSettings = const PlayxWebSettings(),
+    bool initializeBinding = true,
   }) async {
-    WidgetsFlutterBinding.ensureInitialized();
+    if (initializeBinding) {
+      WidgetsFlutterBinding.ensureInitialized();
+    }
     assert(
       (appConfigBuilder != null && appConfig == null) ||
           (appConfigBuilder == null && appConfig != null) ||
@@ -157,6 +163,13 @@ abstract class Playx {
   /// [workManagerSettings]: Settings for WorkManager (default: [WorkManagerSettings]).
   /// [envSettingsBuilder]: A function that returns optional environment settings.
   /// [sentryOptions]: Optional Sentry configuration for crash reporting.
+  /// [initializeBinding]: Whether to initialize `WidgetsFlutterBinding` (default: `true`).
+  ///
+  /// The binding is always initialized in the same zone that later calls `runApp`:
+  /// - With Sentry, it is initialized inside Sentry's `appRunner` (Sentry runs the
+  ///   app in a guarded zone), never before `SentryFlutter.init`. Calling it earlier
+  ///   would put the binding and `runApp` in different zones, which breaks on web.
+  /// - Without Sentry, it is initialized right before booting.
   static Future<void> runPlayx({
     PlayxAppRunner? appRunner,
     PlayxAppConfigBuilder? appConfigBuilder,
@@ -169,6 +182,7 @@ abstract class Playx {
     WorkManagerSettings workManagerSettings = const WorkManagerSettings(),
     FlutterOptionsConfiguration? sentryOptions,
     PlayxWebSettings webSettings = const PlayxWebSettings(),
+    bool initializeBinding = true,
     // Deprecated parameters
     @Deprecated('Use appRunner instead.') Widget? app,
     @Deprecated('Use appConfigBuilder instead.') PlayXAppConfig? appConfig,
@@ -203,8 +217,7 @@ abstract class Playx {
       'Use either envSettingsBuilder or envSettings, not both.',
     );
     assert(
-      (appRunner != null && app == null) ||
-          (appRunner == null && app != null),
+      (appRunner != null && app == null) || (appRunner == null && app != null),
       'Use either appRunner or app, not both.',
     );
 
@@ -229,6 +242,7 @@ abstract class Playx {
             prefsSettings: prefsSettings,
             workManagerSettings: workManagerSettings,
             webSettings: webSettings,
+            initializeBinding: initializeBinding,
           );
           await Future<void>.sync(resolvedAppRunner);
         },
@@ -247,6 +261,7 @@ abstract class Playx {
         prefsSettings: prefsSettings,
         workManagerSettings: workManagerSettings,
         webSettings: webSettings,
+        initializeBinding: initializeBinding,
       );
       await Future<void>.sync(resolvedAppRunner);
     }
