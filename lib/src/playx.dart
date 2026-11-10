@@ -311,31 +311,7 @@ abstract class Playx {
 
     final resolvedAppRunner = appRunner ?? () => runApp(app!);
 
-    if (sentryOptions != null) {
-      await SentryFlutter.init(
-        sentryOptions,
-        // Boot Playx inside Sentry's app runner so binding initialization and
-        // runApp execute in the same zone, especially on Flutter web.
-        appRunner: () async {
-          await boot(
-            appConfig: appConfig,
-            themeConfig: themeConfig,
-            envSettings: envSettings,
-            localeConfig: localeConfig,
-            appConfigBuilder: appConfigBuilder,
-            localeConfigBuilder: localeConfigBuilder,
-            themeConfigBuilder: themeConfigBuilder,
-            envSettingsBuilder: envSettingsBuilder,
-            securePrefsSettings: securePrefsSettings,
-            prefsSettings: prefsSettings,
-            workManagerSettings: workManagerSettings,
-            webSettings: webSettings,
-            initializeBinding: initializeBinding,
-          );
-          await Future<void>.sync(resolvedAppRunner);
-        },
-      );
-    } else {
+    Future<void> bootAndRun() async {
       await boot(
         appConfig: appConfig,
         themeConfig: themeConfig,
@@ -352,6 +328,14 @@ abstract class Playx {
         initializeBinding: initializeBinding,
       );
       await Future<void>.sync(resolvedAppRunner);
+    }
+
+    if (sentryOptions != null) {
+      // Boot Playx inside Sentry's app runner so binding initialization and
+      // runApp execute in the same zone, especially on Flutter web.
+      await SentryFlutter.init(sentryOptions, appRunner: bootAndRun);
+    } else {
+      await bootAndRun();
     }
   }
 
