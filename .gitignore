@@ -33,3 +33,6 @@ build/
 
 # Coverage
 coverage/
+
+# Generated documentation site
+site/

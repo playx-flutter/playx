@@ -17,7 +17,7 @@ with one call and gives you ready-made app widgets that wire everything together
 | [Connection status](connection-status.md) | `ConnectionStatusController` for online/offline UI. |
 | [Exports](exports.md) | Everything `package:playx/playx.dart` re-exports. |
 | [Testing](testing.md) | Testing apps that use Playx, and how this package is tested. |
-| [Migration to 3.0](migration-3.0.md) | Breaking changes from 2.x and how to fix them. |
+| [Migration guides](migrations.md) | Playx 3.0 and every ecosystem package (core, theme, localization, navigation, network, widget). |
 
 ## The Playx ecosystem
 
@@ -35,3 +35,17 @@ what it does, a quick example, and **what changed in the version Playx 3.0 uses*
 
 See the [ecosystem overview](packages/README.md) for how the pieces fit together and a
 summary of what changed in each package.
+
+Each package's own guides are included in this site, pinned to the version Playx 3.0 uses:
+
+| Package | Guides |
+| --- | --- |
+| `playx_core` | [Preferences, secure storage, env, logging, extensions](packages/playx_core/index.md) |
+| `playx_theme` | [Theme modes, animations, colors, persistence](packages/playx_theme/index.md) |
+| `playx_localization` | [Translation, plurals, switching locales, CLI tools](packages/playx_localization/index.md) |
+| `playx_navigation` | [Routes, bindings, scopes, guards, breadcrumbs, web](packages/playx_navigation/index.md) |
+| `playx_network` | [Requests, results, errors, streaming, cancellation](packages/playx_network/index.md) |
+| `playx_widget` | [Widgets and app info](packages/playx_widget/widgets.md) |
+
+The site is published at <https://playx-flutter.github.io/playx/>. The API reference is on
+[pub.dev](https://pub.dev/documentation/playx/latest/).

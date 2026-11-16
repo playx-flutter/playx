@@ -71,6 +71,9 @@ Full walkthrough: [Getting started](doc/getting-started.md).
 
 ## Documentation
 
+The documentation site is at **<https://playx-flutter.github.io/playx/>**. It also includes the guides of every
+Playx package and migration guides for all of them.
+
 | | |
 | --- | --- |
 | [Getting started](doc/getting-started.md) | Install and create your first Playx app. |
@@ -79,7 +82,7 @@ Full walkthrough: [Getting started](doc/getting-started.md).
 | [Connection status](doc/connection-status.md) | `ConnectionStatusController`. |
 | [Exports](doc/exports.md) | What `package:playx/playx.dart` re-exports. |
 | [Testing](doc/testing.md) | Testing apps that use Playx. |
-| [Migration to 3.0](doc/migration-3.0.md) | Breaking changes and fixes. |
+| [Migration guides](doc/migrations.md) | Playx 3.0 and every ecosystem package. |
 | [Ecosystem](doc/packages/README.md) | Every Playx package and what changed in its latest version. |
 
 ## The Playx ecosystem
@@ -112,6 +115,16 @@ dart format lib test
 flutter analyze lib test example
 flutter test --coverage      # CI requires 90% coverage
 ```
+
+Preview the documentation site locally:
+
+```sh
+pip install -r requirements-docs.txt
+mkdocs serve
+```
+
+The guides of the other Playx packages (in `doc/packages/<name>/`) are imported with
+`python3 tool/sync_package_docs.py --help`. Update them when a package version changes.
 
 See the [changelog](CHANGELOG.md) for release notes.
 

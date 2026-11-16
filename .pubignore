@@ -1,0 +1,7 @@
+# Documentation site sources; the site is published to GitHub Pages, not pub.dev.
+mkdocs.yml
+requirements-docs.txt
+tool/
+doc/stylesheets/
+# Guides imported from the other Playx packages (they ship their own docs).
+doc/packages/*/
