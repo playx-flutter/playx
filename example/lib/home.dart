@@ -219,8 +219,8 @@ class _HomeState extends State<Home> {
 
   //Shows how to get keys from environment variables.
   Future<void> getTextFromEnv() async {
-    final apiKey = await PlayxEnv.getString('api_key');
-    final isAvailable = await PlayxEnv.maybeGetBool('is_available');
+    final apiKey = PlayxEnv.getString('api_key');
+    final isAvailable = PlayxEnv.maybeGetBool('is_available');
     setState(() {
       _envText = 'Env Text:\n$apiKey\n\nAvailable: $isAvailable';
     });
