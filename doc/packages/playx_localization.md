@@ -1,5 +1,7 @@
 # playx_localization
 
+> **Guides:** [Package guide](playx_localization/index.md) · [Migration](playx_localization/migration.md) · [All migration guides](../migrations.md)
+
 [pub.dev](https://pub.dev/packages/playx_localization) · [Docs](https://playx-flutter.github.io/playx_localization/) · Used by Playx 3.0: **1.0.0** (2.x used 0.4.0)
 
 Manage locales, **translate without a `BuildContext`**, handle plurals the way each language

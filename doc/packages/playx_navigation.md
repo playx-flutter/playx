@@ -1,5 +1,7 @@
 # playx_navigation
 
+> **Guides:** [Package guide](playx_navigation/index.md) · [Migration](playx_navigation/migration.md) · [All migration guides](../migrations.md)
+
 [pub.dev](https://pub.dev/packages/playx_navigation) · [Docs](https://playx-flutter.github.io/playx_navigation/) · Used by Playx 3.0: **3.0.0** (2.x used 2.1.0)
 
 Navigation built on `go_router`. It keeps everything `go_router` gives you and adds a reliable

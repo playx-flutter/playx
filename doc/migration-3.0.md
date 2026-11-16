@@ -88,4 +88,4 @@ These affect code that uses the packages directly. Details are in each package p
 - `Playx.appConfig` returns the booted config (it threw in 2.x).
 - `dart run playx:secure_env` command.
 
-See the [changelog](../CHANGELOG.md) for the complete list.
+See the [changelog](https://github.com/playx-flutter/playx/blob/main/CHANGELOG.md) for the complete list.

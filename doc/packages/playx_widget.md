@@ -1,5 +1,7 @@
 # playx_widget
 
+> **Guides:** [Package guide](playx_widget/widgets.md) · [Migration](playx_widget/migration.md) · [All migration guides](../migrations.md)
+
 [pub.dev](https://pub.dev/packages/playx_widget) · [API docs](https://playx-flutter.github.io/playx_widget/) · Used by Playx 3.0: **0.6.0** (2.x used 0.5.0)
 
 Utility widgets that make everyday Flutter development faster. It also re-exports

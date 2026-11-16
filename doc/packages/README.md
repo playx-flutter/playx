@@ -42,13 +42,18 @@ keeps a lower floor (Dart 3.6 / Flutter 3.27). The highest floor decides what `p
 | `queen_validators` | ^1.0.1 | Form validation. |
 | `async` | ^2.13.1 | Async utilities. |
 
-## Documentation sites
+## Documentation
 
-| Package | Docs |
-| --- | --- |
-| `playx_core` | [`doc/`](https://github.com/playx-flutter/playx_core/tree/main/doc) in the repository |
-| `playx_theme` | [pub.dev](https://pub.dev/packages/playx_theme) |
-| `playx_localization` | <https://playx-flutter.github.io/playx_localization/> |
-| `playx_navigation` | <https://playx-flutter.github.io/playx_navigation/> |
-| `playx_network` | <https://playx-flutter.github.io/playx_network/> |
-| `playx_widget` | <https://playx-flutter.github.io/playx_widget/> |
+The guides of every package are included in this site, pinned to the versions above. They are kept
+in sync with `tool/sync_package_docs.py`. Each package also has its own site:
+
+| Package | In this site | Package site |
+| --- | --- | --- |
+| `playx_core` | [Guides](playx_core/index.md) | [Repository docs](https://github.com/playx-flutter/playx_core/tree/main/doc) |
+| `playx_theme` | [Guides](playx_theme/index.md) | <https://playx-flutter.github.io/playx_theme/> |
+| `playx_localization` | [Guides](playx_localization/index.md) | <https://playx-flutter.github.io/playx_localization/> |
+| `playx_navigation` | [Guides](playx_navigation/index.md) | <https://playx-flutter.github.io/playx_navigation/> |
+| `playx_network` | [Guides](playx_network/index.md) | <https://playx-flutter.github.io/playx_network/> |
+| `playx_widget` | [Guides](playx_widget/widgets.md) | <https://playx-flutter.github.io/playx_widget/> |
+
+Migration guides for all of them: [Migration guides](../migrations.md).
