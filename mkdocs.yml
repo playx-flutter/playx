@@ -1,0 +1,159 @@
+# Documentation site, published to GitHub Pages by .github/workflows/docs.yml.
+# Preview locally:  pip install -r requirements-docs.txt && mkdocs serve
+site_name: Playx
+site_description: Playx boots the Playx ecosystem (preferences, theme, localization, navigation, networking and widgets) and gives you ready-made Flutter app widgets.
+site_url: https://playx-flutter.github.io/playx/
+repo_url: https://github.com/playx-flutter/playx
+repo_name: playx-flutter/playx
+edit_uri: edit/main/doc/
+
+docs_dir: doc
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.action.edit
+    - toc.follow
+
+extra_css:
+  - stylesheets/playx.css
+
+nav:
+  - Home: README.md
+  - Playx:
+      - Getting started: getting-started.md
+      - Booting Playx: booting.md
+      - App widgets: app-widgets.md
+      - Connection status: connection-status.md
+      - Exports: exports.md
+      - Testing: testing.md
+  - Migration:
+      - Overview: migrations.md
+      - Playx 2.x to 3.0: migration-3.0.md
+      - playx_core 2.0: packages/playx_core/migration-2.0.md
+      - playx_theme: packages/playx_theme/migration.md
+      - playx_localization 1.0: packages/playx_localization/migration.md
+      - playx_navigation 3.0: packages/playx_navigation/migration.md
+      - playx_network 2.0: packages/playx_network/migration.md
+      - playx_widget 0.6: packages/playx_widget/migration.md
+  - Ecosystem:
+      - Overview: packages/README.md
+      - playx_core:
+          - What changed: packages/playx_core.md
+          - Package guide: packages/playx_core/index.md
+          - Getting started: packages/playx_core/getting-started.md
+          - Preferences: packages/playx_core/preferences.md
+          - Secure preferences: packages/playx_core/secure-prefs.md
+          - Environment configuration: packages/playx_core/env.md
+          - Secure env: packages/playx_core/secure-env.md
+          - Extensions: packages/playx_core/extensions.md
+          - Utilities: packages/playx_core/utilities.md
+          - Logging: packages/playx_core/logging.md
+          - Testing: packages/playx_core/testing.md
+      - playx_theme:
+          - What changed: packages/playx_theme.md
+          - Package guide: packages/playx_theme/index.md
+          - Getting started: packages/playx_theme/getting-started.md
+          - Theme modes: packages/playx_theme/theme-modes.md
+          - Animations: packages/playx_theme/animations.md
+          - Custom colors: packages/playx_theme/custom-colors.md
+          - Persistence: packages/playx_theme/persistence.md
+      - playx_localization:
+          - What changed: packages/playx_localization.md
+          - Package guide: packages/playx_localization/index.md
+          - Getting started: packages/playx_localization/getting-started.md
+          - Configuration: packages/playx_localization/configuration.md
+          - Translation files: packages/playx_localization/translation-files.md
+          - Translating text: packages/playx_localization/translating-text.md
+          - Plurals: packages/playx_localization/plurals.md
+          - Switching locales: packages/playx_localization/switching-locales.md
+          - Persistence: packages/playx_localization/persistence.md
+          - Package translations: packages/playx_localization/package-translations.md
+          - Extensions: packages/playx_localization/extensions.md
+          - Command line tools: packages/playx_localization/command-line-tools.md
+          - Testing: packages/playx_localization/testing.md
+      - playx_navigation:
+          - What changed: packages/playx_navigation.md
+          - Package guide: packages/playx_navigation/index.md
+          - Getting started: packages/playx_navigation/getting-started.md
+          - Choosing an approach: packages/playx_navigation/choosing-an-approach.md
+          - Routes: packages/playx_navigation/routes.md
+          - Bindings: packages/playx_navigation/bindings.md
+          - Controllers and views: packages/playx_navigation/controllers-and-views.md
+          - Scopes: packages/playx_navigation/scopes.md
+          - Guards and redirects: packages/playx_navigation/guards-and-redirects.md
+          - Error handling: packages/playx_navigation/error-handling.md
+          - Page configuration: packages/playx_navigation/page-configuration.md
+          - Navigation API: packages/playx_navigation/navigation-api.md
+          - Breadcrumbs: packages/playx_navigation/breadcrumbs.md
+          - Web: packages/playx_navigation/web.md
+          - State management interop: packages/playx_navigation/state-management-interop.md
+          - Testing: packages/playx_navigation/testing.md
+          - Troubleshooting: packages/playx_navigation/troubleshooting.md
+      - playx_network:
+          - What changed: packages/playx_network.md
+          - Package guide: packages/playx_network/index.md
+          - Getting started: packages/playx_network/getting-started.md
+          - Configuration: packages/playx_network/configuration.md
+          - Requests: packages/playx_network/guides/requests.md
+          - Results: packages/playx_network/guides/results.md
+          - Errors: packages/playx_network/guides/errors.md
+          - Connection failures: packages/playx_network/guides/connection-failures.md
+          - Streaming and SSE: packages/playx_network/guides/streaming.md
+          - Cancellation: packages/playx_network/guides/cancellation.md
+          - Logging: packages/playx_network/guides/logging.md
+          - Testing: packages/playx_network/guides/testing.md
+      - playx_widget:
+          - What changed: packages/playx_widget.md
+          - Getting started: packages/playx_widget/getting-started.md
+          - Widgets: packages/playx_widget/widgets.md
+          - App info: packages/playx_widget/app-info.md
+  - API reference: https://pub.dev/documentation/playx/latest/
+  - Changelog: https://pub.dev/packages/playx/changelog
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+# Broken links and anchors are reported (and fail `mkdocs build --strict`).
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn

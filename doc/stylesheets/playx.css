@@ -1,0 +1,32 @@
+:root {
+  --md-primary-fg-color: #1284c5;
+  --md-primary-fg-color--light: #4aa8dc;
+  --md-primary-fg-color--dark: #0c6296;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #0f6fa8;
+  --md-hue: 210;
+}
+
+/* Landing page hero used by the imported playx_network guide */
+.hero {
+  text-align: center;
+  padding: 1.5rem 0 0.5rem;
+}
+
+.hero img {
+  width: 96px;
+  height: 96px;
+}
+
+.hero .tagline {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  max-width: 36rem;
+  margin: 0 auto 1.25rem;
+}
+
+.hero .md-button {
+  margin: 0.2rem;
+}

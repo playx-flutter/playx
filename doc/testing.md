@@ -50,7 +50,7 @@ flutter pub get
 flutter test --coverage
 ```
 
-Tests live in [`test/`](../test):
+Tests live in [`test/`](https://github.com/playx-flutter/playx/tree/main/test):
 
 | File | Covers |
 | --- | --- |
@@ -60,4 +60,4 @@ Tests live in [`test/`](../test):
 | `connection_status_controller_test.dart` | Statuses, check types, lifecycle, dispose. |
 | `models_test.dart`, `validators_test.dart` | Settings classes and validators. |
 
-CI enforces **90%** line coverage (see [`.github/workflows/test.yml`](../.github/workflows/test.yml)).
+CI enforces **90%** line coverage (see [`.github/workflows/test.yml`](https://github.com/playx-flutter/playx/blob/main/.github/workflows/test.yml)).

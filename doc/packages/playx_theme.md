@@ -1,5 +1,7 @@
 # playx_theme
 
+> **Guides:** [Package guide](playx_theme/index.md) · [Migration](playx_theme/migration.md) · [All migration guides](../migrations.md)
+
 [pub.dev](https://pub.dev/packages/playx_theme) · Used by Playx 3.0: **2.1.0** (2.x used 2.0.0)
 
 Manage multiple app themes, switch between them with animations, define custom colors per

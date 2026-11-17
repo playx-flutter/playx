@@ -1,5 +1,7 @@
 # playx_core
 
+> **Guides:** [Package guide](playx_core/index.md) · [Migration](playx_core/migration-2.0.md) · [All migration guides](../migrations.md)
+
 [pub.dev](https://pub.dev/packages/playx_core) · [Repository docs](https://github.com/playx-flutter/playx_core/tree/main/doc) · Used by Playx 3.0: **2.0.0** (2.x used 1.0.0)
 
 The foundation of the ecosystem. It provides:

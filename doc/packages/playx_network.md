@@ -1,5 +1,7 @@
 # playx_network
 
+> **Guides:** [Package guide](playx_network/index.md) · [Migration](playx_network/migration.md) · [All migration guides](../migrations.md)
+
 [pub.dev](https://pub.dev/packages/playx_network) · [Docs](https://playx-flutter.github.io/playx_network/) · Used by Playx 3.0: **2.0.0** (2.x used 1.0.0)
 
 A Dio wrapper that turns every request into a typed `NetworkResult`, names errors so you can act
